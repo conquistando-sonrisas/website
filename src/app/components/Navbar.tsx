@@ -31,7 +31,13 @@ export default function Navbar() {
       </AppBar>
       <nav>
         <Drawer
+          anchor='right'
           open={openDrawer}
+          PaperProps={{
+            sx: {
+              backgroundColor: '#eef6fb'
+            }
+          }}
           ModalProps={{
             keepMounted: true
           }}
@@ -42,12 +48,12 @@ export default function Navbar() {
             }
           }}
           onClose={() => setOpenDrawer(false)}>
-          <Box sx={{ width: 250, p: 1 }}>
-            <Box display='flex' alignItems='flex-start'>
-              <ConquiImageLink />
+          <Box sx={{ width: 250, p: 1, }}>
+            <Box display='flex'>
               <IconButton onClick={() => setOpenDrawer(false)} sx={{ ml: 'auto' }}>
                 <CloseIcon sx={{ fontSize: 40 }} />
               </IconButton>
+
             </Box>
             <List>
               {
@@ -66,7 +72,7 @@ export default function Navbar() {
             </List>
           </Box >
         </Drawer >
-      </nav>
+      </nav >
       <div style={{ minHeight: '98px' }} />
     </>
   )
