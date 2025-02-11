@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import { Roboto } from 'next/font/google'
 import theme from "./theme";
 import AppThemeProvider from "./components/ThemeProvider";
+import { CssBaseline, GlobalStyles } from "@mui/material";
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700', '900'],
@@ -27,9 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.variable}>
+      <body className={roboto.className}>
         <AppRouterCacheProvider>
           <AppThemeProvider theme={theme}>
+            <CssBaseline />
+            <GlobalStyles styles={{body: {
+              backgroundColor: '#eef6fb'
+            }}} />
             <Navbar />
             {children}
             <Footer />
