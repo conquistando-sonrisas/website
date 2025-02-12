@@ -1,17 +1,24 @@
 'use client'
-import { AppBar, Box, Button, Drawer, IconButton, List, ListItem, ListItemText, Link as MuiLink, Toolbar, useScrollTrigger } from "@mui/material";
+import { AppBar, Box, Button, Drawer, Fade, IconButton, List, ListItem, ListItemText, Link as MuiLink, Toolbar, useScrollTrigger } from "@mui/material";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 export default function Navbar() {
   const trigger = useScrollTrigger({ threshold: 100, disableHysteresis: true })
   const [openDrawer, setOpenDrawer] = useState(false);
 
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  };
   return (
     <>
       <AppBar elevation={trigger ? 2 : 0} component='nav' sx={{ py: 1, backgroundColor: '#eef6fb', color: '#0b2332' }}>
@@ -74,15 +81,34 @@ export default function Navbar() {
         </Drawer >
       </nav >
       <div style={{ minHeight: '98px' }} />
+      <Fade in={trigger} onClick={goToTop}>
+        <IconButton
+          sx={{
+            color: 'whitesmoke',
+            backgroundColor: '#485889',
+            border: '1px solid #485889',
+            position: 'fixed',
+            bottom: 10,
+            right: 10,
+            zIndex: 1,
+            ':hover': {
+              backgroundColor: '#485889'
+            }
+          }}>
+          <KeyboardArrowUpIcon sx={{ fontSize: 40 }} />
+        </IconButton>
+      </Fade>
     </>
   )
 }
 
 const ConquiImageLink = () => {
   return (<Link href='/'>
-    <Image src='conqui.svg' alt='Conquistando Sonrisas logo' width={75} height={75} style={{
-      userSelect: 'none',
-    }} />
+    <Image
+      src='conqui.svg' alt='Logo de Conquistando Sonrisas' width={75} height={75}
+      style={{
+        userSelect: 'none',
+      }} />
   </Link>);
 }
 
