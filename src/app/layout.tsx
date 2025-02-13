@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { Roboto } from 'next/font/google'
+import { Lexend } from "next/font/google";
 import theme from "./theme";
 import AppThemeProvider from "./components/ThemeProvider";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 
-const roboto = Roboto({
+const lexend = Lexend({
   weight: ['300', '400', '500', '700', '900'],
   subsets: ['latin'],
   display: 'swap',
@@ -28,13 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={lexend.className}>
         <AppRouterCacheProvider>
           <AppThemeProvider theme={theme}>
             <CssBaseline />
-            <GlobalStyles styles={{body: {
-              backgroundColor: '#eef6fb'
-            }}} />
+            <GlobalStyles styles={{
+              body: {
+                backgroundColor: '#eef6fb'
+              }
+            }} />
             <Navbar />
             {children}
             <Footer />
