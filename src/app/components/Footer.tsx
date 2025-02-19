@@ -46,10 +46,7 @@ export default function Footer() {
             links={[{
               label: 'Contacto',
               href: '/contacto',
-            }, {
-              label: '¿Cómo ayudar?',
-              href: '/como-ayudar'
-            }, {
+            },  {
               label: 'Preguntas frecuentes',
               href: '/faq'
             }]}

@@ -86,7 +86,6 @@ export default function Navbar() {
           sx={{
             color: 'whitesmoke',
             backgroundColor: '#485889',
-            border: '1px solid #485889',
             position: 'fixed',
             bottom: 10,
             right: 10,
