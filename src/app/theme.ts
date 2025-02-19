@@ -20,6 +20,12 @@ const theme = createTheme({
       light: '#ecca5e',
       dark: '#a28425',
       contrastText: getContrastRatio('#e8bd36', '#000') > 4.5 ? '#000' : 'fff'
+    },
+    customGray: {
+      main: '#71788e',
+      light: '#8e93a4',
+      dark: '#5b6071',
+      contrastText: '#0b2332'
     }
   },
   typography: {

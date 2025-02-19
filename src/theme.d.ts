@@ -5,12 +5,14 @@ declare module '@mui/material/styles' {
     conquiDarkBlue: Palette['primary'];
     conquiLightBlue: Palette['primary'];
     conquiYellow: Palette['primary'];
+    customGray: Palette['primary']; 
   }
 
   interface PaletteOptions {
     conquiDarkBlue?: Palette['primary'];
     conquiLightBlue?: PaletteOptions['primary'];
     conquiYellow?: Palette['primary'];
+    customGray?: Palette['primary'];
   }
 }
 
@@ -19,6 +21,15 @@ declare module '@mui/material/Button' {
     conquiDarkBlue: true;
     conquiLightBlue: true;
     conquiYellow: true;
+  }
+}
+
+declare module '@mui/material/IconButton' {
+  interface IconButtonPropsColorOverrides {
+    conquiDarkBlue: true;
+    conquiLightBlue: true;
+    conquiYellow: true;
+    customGray: true;
   }
 }
 
