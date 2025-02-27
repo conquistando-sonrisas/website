@@ -30,7 +30,7 @@ export default function Navbar() {
             }
           </Box>
           <DonateButton />
-          <IconButton sx={{ display: { xs: 'flex', md: 'none' }, ml: 2 }} onClick={() => setOpenDrawer(true)}>
+          <IconButton disableRipple sx={{ display: { xs: 'flex', md: 'none' }, ml: 2 }} onClick={() => setOpenDrawer(true)}>
             <MenuIcon sx={{ fontSize: 40 }} />
           </IconButton>
 
@@ -57,7 +57,7 @@ export default function Navbar() {
           onClose={() => setOpenDrawer(false)}>
           <Box sx={{ width: 250, p: 1, }}>
             <Box display='flex'>
-              <IconButton onClick={() => setOpenDrawer(false)} sx={{ ml: 'auto' }}>
+              <IconButton disableRipple onClick={() => setOpenDrawer(false)} sx={{ ml: 'auto' }}>
                 <CloseIcon sx={{ fontSize: 40 }} />
               </IconButton>
 
@@ -89,7 +89,7 @@ export default function Navbar() {
             position: 'fixed',
             bottom: 10,
             right: 10,
-            zIndex: 1,
+            zIndex: 5,
             ':hover': {
               backgroundColor: '#485889'
             }
@@ -124,7 +124,6 @@ const DonateButton = () => {
         fontSize: 18,
         borderRadius: 10,
         marginLeft: 'auto',
-        textTransform: 'none',
         ':hover': {
           backgroundColor: '#e8b419'
         }
