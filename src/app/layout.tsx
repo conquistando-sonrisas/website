@@ -34,7 +34,7 @@ export default function RootLayout({
             <CssBaseline />
             <GlobalStyles styles={{
               body: {
-                backgroundColor: '#eef6fb'
+                backgroundColor: '#f1f7fc'
               }
             }} />
             <Navbar />
