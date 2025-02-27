@@ -41,13 +41,13 @@ export default function Apoyos(props: { apoyos: Array<Apoyo>, impacto: ImpactoSu
         variant="elevation"
         py={{ xs: 2 }}
         px={{ md: 4, xs: 2 }}>
-        <Typography mb={2} fontSize={30} color='conquiLightBlue.dark' fontWeight={900} textAlign='center'>
+        <Typography mb={2} fontSize={30} color='conquiDarkBlue.dark' fontWeight={900} textAlign='center'>
           En el <Typography fontSize='inherit' fontWeight='inherit' component='span' color='conquiDarkBlue'>{props.impacto.anio}</Typography> apoyamos a <br />
           más de <Typography fontSize='inherit' fontWeight='inherit' component='span' color='conquiDarkBlue'>{props.impacto.beneficiados}</Typography> niños
         </Typography>
         <Button endIcon={<ArrowForward />} variant="contained" sx={{
           borderRadius: '25px'
-        }} color="conquiLightBlue">Ver más</Button>
+        }} color="conquiDarkBlue">Ver más</Button>
       </Grid2>
     </Grid2 >
   )
@@ -82,7 +82,7 @@ const ApoyosCarousel = (props: { apoyos: Array<Apoyo> }) => {
     <Box display='flex' flexDirection='column' height='100%' position='relative'>
       {apoyo && (
         <Box overflow='scroll' flex={1}>
-          <span style={{ fontSize: 100, color: '#5f869f', userSelect: 'none' }} className='material-symbols-rounded'>{apoyo.icono}</span>
+          <Box component='span' sx={{ fontSize: 100, color: 'conquiDarkBlue.dark', userSelect: 'none' }} className='material-symbols-rounded'>{apoyo.icono}</Box>
           <Typography style={{ lineClamp: 3 }} fontSize={26} color='conquiDarkBlue.dark' height='fit-content' fontWeight={600} mt={1}>{apoyo.nombre}</Typography>
           <Typography height='100px' maxHeight='100px' overflow='scroll'>{apoyo.descripcion}</Typography>
         </Box>
