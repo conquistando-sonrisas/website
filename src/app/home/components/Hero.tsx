@@ -11,9 +11,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ReactNode, SyntheticEvent, useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { TabContext, TabPanel } from "@mui/lab";
+import localFont from 'next/font/local'
 
 
-const HeroSection = () => {
+const mikHaloo = localFont({
+  src: '../../Mikhaloo.ttf',
+  display: 'swap'
+})
+
+
+const HeroSection = (props: { conquiKidSrc: string }) => {
   return (
     <Grid2 component='section' container height='75vh' sx={{
       background: 'linear-gradient(145deg, rgba(136,147,228,1) 0%, rgba(136,192,228,1) 100%)',
@@ -26,25 +33,26 @@ const HeroSection = () => {
         alignItems="center"
         size={{ xs: 12, md: 7 }} sx={{ position: 'relative', height: 'inherit' }}>
         <Image
-          src={conquiKid}
+          src={props.conquiKidSrc}
           height={0}
           width={0}
           layout="fill"
           style={{ objectFit: 'cover' }}
-          alt="girl smiling with flower on her head"
+          alt=""
         />
         <Typography
           textAlign='center'
+          fontWeight={600}
           sx={{
-            backgroundColor: '#eef6fb',
+            backgroundColor: 'conquiYellow.light',
             color: '#210439',
             position: 'absolute',
-            bottom: 50,
-            p: 2,
+            bottom: 30,
+            px: 2,
             mx: 3,
             borderRadius: 3,
             fontSize: { xs: 30, sm: 40, lg: 50 },
-          }}>Porque una <span style={{ fontWeight: 900 }}>sonrisa</span> lo puede todo</Typography>
+          }}>Porque una <span className={mikHaloo.className} style={{ fontSize: '.7em' }}>sonrisa</span> lo puede todo</Typography>
       </Grid2>
       <Grid2
         display={{ xs: 'none', md: 'flex' }}
@@ -87,9 +95,8 @@ const DonacionForm = () => {
     donation = parseFloat(monthlyDonationValue);
   }
 
-
   return (
-    <Box component={Paper} px={3} py={5} sx={{ width: '400px', backgroundColor: '#eef6fb' }}>
+    <Box component={Paper} px={3} py={5} sx={{ width: '400px', backgroundColor: '#f1f7fc' }}>
       <Typography
         display='flex'
         fontSize={26}
@@ -129,7 +136,7 @@ const DonacionForm = () => {
             />
           </TabPanel>
           <TabPanel value='monthly' sx={{ p: 0, m: 0 }}>
-          <CantidadDonacionGroup
+            <CantidadDonacionGroup
               name='monthly'
               disabled={!!customAmount}
               onChange={(newValue) => setMonthlyDonationValue(newValue)}
@@ -170,7 +177,6 @@ const DonacionForm = () => {
             color: '#210439',
             fontSize: 18,
             borderRadius: 10,
-            textTransform: 'none',
             ':hover': {
               backgroundColor: '#e8b419'
             }
