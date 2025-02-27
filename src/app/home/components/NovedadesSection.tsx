@@ -12,15 +12,15 @@ export default async function NovedadesSection() {
   return (
     <Box component='section' display='flex' flexDirection='column'>
       <SectionTitle>Novedades</SectionTitle>
-      <Typography>Entérate de las últimas actualizaciones de Conqui</Typography>
-      <NovedadesMasonry noticias={novedades.data} />
+      <Typography>Actualizaciones más recientes de Conqui</Typography>
+      <NovedadesMasonry novedades={novedades.data} />
       <Button
         endIcon={<ArrowForward />}
         variant="contained"
         sx={{
           borderRadius: '25px',
-          mt: '-20px',
+          mt: { xs: 0, md: '-20px' },
           alignSelf: 'center'
-        }} color="conquiDarkBlue">Ver más</Button>
+        }} color="conquiDarkBlue" size='large'>Ver más</Button>
     </Box>)
 }
