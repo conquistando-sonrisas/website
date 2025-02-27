@@ -9,8 +9,8 @@ import { ReactNode } from "react";
 
 export default function Footer() {
   return (
-    <Box component='footer' sx={{ backgroundColor: 'conquiDarkBlue.main', color: '#eef6fbd9' }}>
-      <Container sx={{ pt: 1.5 }}>
+    <Box component='footer' sx={{ backgroundColor: 'conquiDarkBlue.main', color: '#eef6fbd9', pt: 6 }}>
+      <Container>
         <Stack
           divider={<Divider
             sx={{
@@ -46,10 +46,16 @@ export default function Footer() {
             links={[{
               label: 'Contacto',
               href: '/contacto',
-            },  {
+            },
+            {
               label: 'Preguntas frecuentes',
               href: '/faq'
-            }]}
+            },
+            {
+              label: 'Novedades',
+              href: '/novedades',
+            }
+            ]}
           />
           <LinksSection
             titleSection='Legal'
@@ -93,7 +99,8 @@ export default function Footer() {
         variant='body2'
         sx={{
           color: 'inherit',
-          py: 1
+          pt: 1,
+          pb: 3
         }}
       >
         &copy; {(new Date()).getFullYear()} Conquistando Sonrisas A.C.
