@@ -1,23 +1,35 @@
-import { Box, Container, Grid2, Paper, Typography } from "@mui/material";
-import Image from "next/image";
+import { Box, Container, Grid2, Stack, Typography, } from "@mui/material";
 import HeroSection from "./home/components/Hero";
-import ApoyosCard from "./home/components/Apoyos";
-import NoticiasMasonrySection from "./home/components/Noticias";
+import Apoyos from "./home/components/ApoyosSection";
 import BecomeAVoluntario from "./home/components/Voluntario";
-import UpcomingEvent from "./home/components/UpcomingEvent";
+import NosotrosSection from "./home/components/NosotrosSection";
+import SectionTitle from "./components/SectionTitle";
+import NovedadesSection from "./home/components/NovedadesSection";
+import { HomeSinglePage } from "./app";
+import TestimoniosSection from "./home/components/TestimoniosSection";
 
-export default function Home() {
+export default async function Home() {
+  const inicioReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/home?populate=*`)
+  const inicio = await inicioReq.json() as HomeSinglePage;
+
+
   return (
     <main>
-      <HeroSection />
-      <Container maxWidth='xl'>
-      <Typography my={2} variant="h5" fontSize={30} color="conquiDarkBlue.dark" fontWeight={700}>Pŕoximo evento</Typography>
-        <UpcomingEvent />
-        <Box my={2}></Box>
-        <Typography my={2} variant="h5" fontSize={30} color="conquiDarkBlue.dark" fontWeight={700}>Apoyos</Typography>
-        <ApoyosCard />
-        <Typography my={2} variant="h5" fontSize={30} color="conquiDarkBlue.dark" fontWeight={700}>Noticias</Typography>
-        <NoticiasMasonrySection />
+      <HeroSection conquiKidSrc={inicio.data.ConquiKid.url} />
+      <Container component={Stack} rowGap={5} maxWidth='xl' sx={{ py: 3, mt: { md: 2 } }}>
+        <NosotrosSection nosotrosImagenSrc={inicio.data.NosotrosImagen.url} NosotrosDescripcion={inicio.data.NosotrosDescripcion} />
+        <section>
+          <SectionTitle>¿Qué apoyos tenemos?</SectionTitle>
+          <Apoyos />
+        </section>
+      </Container>
+
+      <Box component='section' sx={{ my: 3, backgroundColor: '#f9f3f5' }}>
+        <TestimoniosSection />
+      </Box>
+
+      <Container component={Stack} rowGap={5} maxWidth='xl'>
+        <NovedadesSection />
       </Container>
       <BecomeAVoluntario />
     </main>
