@@ -42,3 +42,12 @@ export interface HomeSinglePage {
     NosotrosImagen: Media
   }
 }
+
+
+export interface Testimonio {
+  readonly documentId: string;
+  beneficiarioNombre: string;
+  mensaje: string;
+  publishedAt: string;
+  fotografia: Media;
+} 
