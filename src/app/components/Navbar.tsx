@@ -119,7 +119,7 @@ const DonateButton = () => {
       variant="contained"
       startIcon={<FavoriteIcon />}
       sx={{
-        backgroundColor: '#f2c736',
+        backgroundColor: 'conquiYellow.main',
         color: '#210439',
         fontSize: 18,
         borderRadius: 10,

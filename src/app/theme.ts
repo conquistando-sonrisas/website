@@ -16,7 +16,7 @@ const theme = createTheme({
       contrastText: '#fff'
     },
     conquiYellow: {
-      main: '#e8bd36',
+      main: '#fac513',
       light: '#ecca5e',
       dark: '#a28425',
       contrastText: getContrastRatio('#e8bd36', '#000') > 4.5 ? '#000' : 'fff'

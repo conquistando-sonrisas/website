@@ -12,7 +12,7 @@ export default async function NovedadesSection() {
   return (
     <Box component='section' display='flex' flexDirection='column'>
       <SectionTitle>Novedades</SectionTitle>
-      <Typography>Actualizaciones más recientes de Conqui</Typography>
+      <Typography>Actualizaciones más recientes en Conqui</Typography>
       <NovedadesMasonry novedades={novedades.data} />
       <Button
         endIcon={<ArrowForward />}
