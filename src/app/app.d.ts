@@ -59,3 +59,14 @@ export interface PreguntaFrecuente {
   respuesta: string;
   publishedAt: string;
 }
+
+
+export interface NosotrosPage {
+  id: number;
+  documentId: string;
+  descripcion: string;
+  filosofia: string;
+  mision: string;
+  vision: string;
+  valores: string;
+}
