@@ -49,7 +49,7 @@ export default function Footer() {
             },
             {
               label: 'Preguntas frecuentes',
-              href: '/faq'
+              href: '/preguntas-frecuentes'
             },
             {
               label: 'Novedades',

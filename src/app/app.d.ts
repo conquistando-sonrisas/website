@@ -51,3 +51,11 @@ export interface Testimonio {
   publishedAt: string;
   fotografia: Media;
 } 
+
+
+export interface PreguntaFrecuente {
+  readonly documentId: string;
+  pregunta: string;
+  respuesta: string;
+  publishedAt: string;
+}
