@@ -50,7 +50,7 @@ export interface Testimonio {
   mensaje: string;
   publishedAt: string;
   fotografia: Media;
-} 
+}
 
 
 export interface PreguntaFrecuente {
@@ -69,4 +69,33 @@ export interface NosotrosPage {
   mision: string;
   vision: string;
   valores: string;
+}
+
+
+export interface ImpactoApoyo {
+  id: number;
+  documentId: string;
+  anio: number;
+  monto: number;
+  apoyo: Apoyo;
+}
+
+export interface Apoyo {
+  id: number;
+  documentId: string;
+  nombre: string;
+  descripcion: string;
+  icono: string;
+  publishedAt: string;
+}
+
+
+export interface ImpactoGeneral {
+  id: number;
+  documentId: string;
+  anio: number;
+  apoyosOtorgados: number;
+  beneficiados: number;
+  informeAnual: Media | null;
+  publishedAt: string;
 }

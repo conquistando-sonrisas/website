@@ -3,6 +3,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ArrowForward } from "@mui/icons-material";
 import { useCallback, useState } from "react";
+import Link from "next/link";
 import ApoyosList from "./ApoyosList";
 
 export interface Apoyo {
@@ -50,9 +51,13 @@ export default async function Apoyos() {
           En el <Typography fontSize='inherit' fontWeight='inherit' component='span' color='conquiDarkBlue'>{impacto.anio}</Typography> apoyamos a <br />
           más de <Typography fontSize='inherit' fontWeight='inherit' component='span' color='conquiDarkBlue'>{impacto.beneficiados}</Typography> niños
         </Typography>
-        <Button endIcon={<ArrowForward />} variant="contained" sx={{
-          borderRadius: '25px'
-        }} color="conquiDarkBlue">Ver más</Button>
+        <Button
+          LinkComponent={Link}
+          href="/transparencia"
+          endIcon={<ArrowForward />} variant="contained" sx={{
+            borderRadius: '25px'
+          }}
+          color="conquiDarkBlue">Ver más</Button>
       </Grid2>
     </Grid2 >
   )
