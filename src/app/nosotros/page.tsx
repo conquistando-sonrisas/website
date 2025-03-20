@@ -19,7 +19,7 @@ export default async function Nosotros() {
 
                 <SectionTitle sx={{ mt: 5, textTransform: 'uppercase' }}>filosofia</SectionTitle>
                 <Box sx={{ backgroundColor: 'conquiLightBlue.main', py: 4, px: 8, borderRadius: 12, mt: 3, mb: 6 }}>
-                    <Typography textAlign='center'>
+                    <Typography textAlign='center' fontSize='1.1rem'>
                         {nosotros.filosofia}
                     </Typography>
                 </Box>
@@ -71,12 +71,13 @@ const NosotrosCardSection = (props: { title: string, content: string, cardBackgr
                 fontWeight={600}
                 sx={{
                     backgroundColor: props.titleBackgroundColor,
-                    maxWidth: '100px',
+                    maxWidth: 'fit-content',
                     p: 2,
                     borderRadius: 10,
                     mb: -3,
                     mr: 4,
-                    zIndex: 10
+                    zIndex: 10,
+                    textAlign: 'center'
                 }}
                 textTransform='uppercase'>{props.title}
             </Typography>

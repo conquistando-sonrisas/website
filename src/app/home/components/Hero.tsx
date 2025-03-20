@@ -44,13 +44,13 @@ const HeroSection = (props: { conquiKidSrc: string }) => {
           textAlign='center'
           fontWeight={600}
           sx={{
-            backgroundColor: 'conquiYellow.light',
-            color: '#210439',
+            backgroundColor: '#f1f7fc',
+            color: 'conquiDarkBlue.light',
             position: 'absolute',
             bottom: 30,
-            px: 2,
+            p: 2,
             mx: 3,
-            borderRadius: 3,
+            borderRadius: { xs: 5, md: 15 },
             fontSize: { xs: 30, sm: 40, lg: 50 },
           }}>Porque una <span className={mikHaloo.className} style={{ fontSize: '.7em' }}>sonrisa</span> lo puede todo</Typography>
       </Grid2>
