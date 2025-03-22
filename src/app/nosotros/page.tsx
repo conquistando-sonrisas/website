@@ -18,7 +18,7 @@ export default async function Nosotros() {
             <Container>
 
                 <SectionTitle sx={{ mt: 5, textTransform: 'uppercase' }}>filosofia</SectionTitle>
-                <Box sx={{ backgroundColor: 'conquiLightBlue.main', py: 4, px: 8, borderRadius: 12, mt: 3, mb: 6 }}>
+                <Box sx={{ backgroundColor: 'conquiLightBlue.main', py: 4, px: { xs: 4, md: 8 }, borderRadius: 12, mt: 3, mb: 6 }}>
                     <Typography textAlign='center' fontSize='1.1rem'>
                         {nosotros.filosofia}
                     </Typography>

@@ -38,7 +38,7 @@ export default async function TransparenciaPage() {
   }
 
   const sortedImpactos = impactosArr.sort((a, b) => b.anio - a.anio)
-
+  
   return (
     <main>
       <Hero
@@ -70,8 +70,8 @@ export default async function TransparenciaPage() {
                         }
                       </Box>
                       {
-                        item.anual.informeAnual !== null && (
-                          <Link href={item.anual.informeAnual.url} target='_blank'>Informe anual</Link>
+                        (item.anual.informeAnual as any) !== null && (
+                          <Link href={item.anual.informeAnual?.url} target='_blank'>Informe anual</Link>
                         )
                       }
                     </Grid2>

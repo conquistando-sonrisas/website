@@ -32,7 +32,7 @@ export default function NovedadesMasonry(props: { novedades: Array<{ titulo: str
       </Masonry>
       <Box display={{ xs: 'block', md: 'none' }}>
         <Stack direction='column' rowGap={3} my={3}>
-          {(props.novedades.slice(0, 3).map(novedad => (
+          {(props.novedades.map(novedad => (
             <NovedadCard height={300} key={novedad.documentId} novedad={novedad} />
           )))}
         </Stack>

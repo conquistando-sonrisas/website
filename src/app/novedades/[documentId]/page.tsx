@@ -97,7 +97,10 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
 
 
 // TODO: handle errors
-export async function generateMetadata({ params, parent }: { params: PageParams, parent: ResolvingMetadata }): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: PageParams },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const { documentId } = await params;
 
   const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?fields[0]=titulo`);
