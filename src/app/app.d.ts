@@ -99,3 +99,23 @@ export interface ImpactoGeneral {
   informeAnual: Media | null;
   publishedAt: string;
 }
+
+export interface Autor {
+  id: number;
+  documentId: string;
+  firstname: string,
+  lastname: string;
+
+}
+
+export interface Novedad {
+  id: number;
+  documentId: string;
+  titulo: string;
+  cover: Media;
+  publishedAt: string;
+  tipo: string;
+  contenido: string;
+  createdBy: Autor;
+  updatedBy: Autor;
+}
