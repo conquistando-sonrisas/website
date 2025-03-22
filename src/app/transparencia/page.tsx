@@ -2,13 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, L
 import Hero from "../components/Hero";
 import { ImpactoApoyo, ImpactoGeneral } from "../app";
 
-import { Lexend } from "next/font/google";
-const lexend = Lexend({
-  weight: ['300', '400', '500', '700', '900'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto'
-})
+
 
 export default async function TransparenciaPage() {
   const impactos = new Map();
@@ -57,7 +51,7 @@ export default async function TransparenciaPage() {
             sortedImpactos.map((item, itemIdx) => (
               <Accordion key={item.anio} defaultExpanded={itemIdx == 0}>
                 <AccordionSummary>
-                  <Typography style={lexend.style} variant="h5" fontWeight={600} fontSize='2.2em'>
+                  <Typography variant="h5" fontWeight={600} fontSize='2.2em'>
                     {item.anio}
                   </Typography>
                 </AccordionSummary>

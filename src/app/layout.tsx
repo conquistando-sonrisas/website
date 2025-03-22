@@ -13,7 +13,6 @@ const lexend = Lexend({
   weight: ['300', '400', '500', '700', '900'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-roboto'
 })
 
 export const metadata: Metadata = {

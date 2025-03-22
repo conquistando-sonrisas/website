@@ -29,7 +29,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: 'var(--font-roboto)',
+    fontFamily: ['Lexend', 'sans-serif'].join(','),
     allVariants: {
       color: '#151633'
     }, 

@@ -3,14 +3,6 @@ import SectionTitle from "../components/SectionTitle";
 import { ExpandMore } from "@mui/icons-material";
 import { PreguntaFrecuente } from "../app";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Lexend } from "next/font/google";
-
-const lexend = Lexend({
-  weight: ['300', '400', '600', '500', '700', '900'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto'
-})
 
 export default async function PreguntasFrecuentesPage() {
   const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/faqs`)
@@ -25,7 +17,7 @@ export default async function PreguntasFrecuentesPage() {
             <AccordionSummary
               expandIcon={<ExpandMore />}
             >
-              <Typography style={lexend.style} variant="h5">{frecuente.pregunta}</Typography>
+              <Typography variant="h5">{frecuente.pregunta}</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ px: 4 }}>
               <MDXRemote source={frecuente.respuesta} />
