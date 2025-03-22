@@ -104,7 +104,7 @@ export default function Navbar() {
 const ConquiImageLink = () => {
   return (<Link href='/'>
     <Image
-      src='conqui.svg' alt='Logo de Conquistando Sonrisas' width={75} height={75}
+      src='/conqui.svg' alt='Logo de Conquistando Sonrisas' width={75} height={75}
       style={{
         userSelect: 'none',
       }} />

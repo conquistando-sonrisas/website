@@ -32,7 +32,7 @@ export default function Footer() {
         >
           <Box alignSelf='center'>
             <Image
-              src='conqui.svg'
+              src='/conqui.svg'
               height={150}
               width={150}
               alt='Conquistando Sonrisas logo'
