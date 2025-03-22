@@ -5,6 +5,7 @@ import Image from "next/image";
 import voluntarios from '../../../../public/voluntarios.jpg'
 import SectionTitle from "@/app/components/SectionTitle";
 import { ArrowForward } from "@mui/icons-material";
+import Link from "next/link";
 
 export default function NosotrosSection(props: { nosotrosImagenSrc: string, NosotrosDescripcion: string }) {
 
@@ -28,9 +29,14 @@ export default function NosotrosSection(props: { nosotrosImagenSrc: string, Noso
       <Typography mb={2}>
         {props.NosotrosDescripcion}
       </Typography>
-      <Button endIcon={<ArrowForward />} variant="contained" sx={{
-        borderRadius: '25px'
-      }} color="conquiDarkBlue">Ver más</Button>
+      <Button
+        LinkComponent={Link}
+        href="/nosotros"
+        endIcon={<ArrowForward />}
+        variant="contained"
+        sx={{
+          borderRadius: '25px'
+        }} color="conquiDarkBlue">Ver más</Button>
     </Grid2>
   </Grid2>)
 }

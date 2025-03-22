@@ -2,12 +2,11 @@
 
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Masonry from '@mui/lab/Masonry';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const heights = [380, 250, 380, 270, 400, 270];
 
@@ -96,11 +95,10 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
 }
 
 const GoToButton = (props: { documentId: string }) => {
-  const navigation = useRouter();
-
   return (
     <Button
-      onClick={() => navigation.push(`/noticias/${props.documentId}`)}
+      LinkComponent={Link}
+      href={`/novedades/${props.documentId}`}
       endIcon={<ArrowForwardIcon />}
       variant="contained"
       color="conquiLightBlue"
