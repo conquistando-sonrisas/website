@@ -89,7 +89,7 @@ export default function Navbar() {
             position: 'fixed',
             bottom: 10,
             right: 10,
-            zIndex: 5,
+            zIndex: 100,
             ':hover': {
               backgroundColor: '#485889'
             }
