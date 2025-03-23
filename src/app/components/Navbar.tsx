@@ -116,7 +116,9 @@ const DonateButton = () => {
   return (
     <Button
       size="large"
+      LinkComponent={Link}
       variant="contained"
+      href="/donar"
       startIcon={<FavoriteIcon />}
       sx={{
         backgroundColor: 'conquiYellow.main',
@@ -137,9 +139,6 @@ const DonateButton = () => {
 const navItems = [{
   label: 'Nosotros',
   href: '/nosotros'
-}, {
-  label: '¿Qué hacemos?',
-  href: '/que-hacemos'
 }, {
   label: 'Eventos',
   href: '/eventos',
