@@ -2,6 +2,7 @@ import { Box, Grid2 } from "@mui/material";
 import TestimoniosCarousel from "./TestimoniosCarousel";
 import SectionTitle from "@/app/components/SectionTitle";
 import { ReactNode } from "react";
+import HighlightText from "@/app/components/HighlightText";
 
 
 export default async function TestimoniosSection() {
@@ -24,11 +25,4 @@ export default async function TestimoniosSection() {
       </Grid2>
     </Grid2>
   )
-}
-
-const HighlightText = (props: { children: ReactNode }) => {
-  return <Box component='span' sx={{ backgroundColor: 'conquiYellow.main', borderRadius: 10, }}>
-    {props.children}
-  </Box>
-
 }
