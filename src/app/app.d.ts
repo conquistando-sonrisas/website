@@ -119,3 +119,22 @@ export interface Novedad {
   createdBy: Autor;
   updatedBy: Autor;
 }
+
+
+export interface Equipo {
+  id: number;
+  documentId: string;
+  nombre: string;
+  descripcion: string;
+  logo: Media;
+  publishedAt: string;
+}
+
+
+export interface Actividad {
+  id: number;
+  documentId: string;
+  actividad: string;
+  publishedAt: string;
+  foto: Media;
+}
