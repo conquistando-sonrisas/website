@@ -48,7 +48,7 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
             py: 3
           }}>
             <div style={{ textAlign: 'center' }}>
-              <Typography variant="h1" fontSize='2.2em' fontWeight={500}>{novedad.titulo}</Typography>
+              <Typography variant="h1" fontSize='2.2em' px={1} fontWeight={500}>{novedad.titulo}</Typography>
               <Typography mt={1}>{novedad.createdBy.firstname} {novedad.createdBy.lastname} • {
                 new Date(novedad.publishedAt).toLocaleDateString('es-MX', {
                   day: '2-digit',
