@@ -1,6 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, Link, Typography } from "@mui/material";
 import Hero from "../components/Hero";
 import { ImpactoApoyo, ImpactoGeneral } from "../app";
+import { ExpandMore } from "@mui/icons-material";
 
 
 
@@ -38,7 +39,7 @@ export default async function TransparenciaPage() {
   }
 
   const sortedImpactos = impactosArr.sort((a, b) => b.anio - a.anio)
-  
+
   return (
     <main>
       <Hero
@@ -50,7 +51,9 @@ export default async function TransparenciaPage() {
           {
             sortedImpactos.map((item, itemIdx) => (
               <Accordion key={item.anio} defaultExpanded={itemIdx == 0}>
-                <AccordionSummary>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                >
                   <Typography variant="h5" fontWeight={600} fontSize='2.2em'>
                     {item.anio}
                   </Typography>
