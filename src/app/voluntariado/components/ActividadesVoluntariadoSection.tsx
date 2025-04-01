@@ -14,19 +14,21 @@ export default async function ActividadesVoluntariadoSection() {
       ¿Qué hace un voluntario en Conqui?
     </SectionTitle>
     <Stack
+      mt={5}
       direction={{ xs: 'column', md: 'row' }}
       spacing={2}
       justifyContent='space-around'
       alignItems={{ xs: 'center', md: 'stretch' }}>
       {
         actividades.map((actividad, idx) => (
-          <Box sx={{
-            width: '300px',
-            borderRadius: '15px',
-            zIndex: 3,
-            p: { xs: 1, md: 3 },
-            transform: { md: `rotate(${idx % 2 == 0 ? -9 : 9}deg)` }
-          }}>
+          <Box
+            key={actividad.documentId}
+            sx={{
+              width: '280px',
+              borderRadius: '15px',
+              zIndex: 3,
+              transform: { md: `rotate(${idx % 2 == 0 ? -9 : 9}deg)` }
+            }}>
             <Image
               unoptimized
               src={actividad.foto.url}
