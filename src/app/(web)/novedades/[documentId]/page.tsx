@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import { Metadata, ResolvingMetadata } from "next";
-import { Novedad } from "@/app/app";
+import { Novedad } from "@/app/(web)/app";
 
 type PageParams = Promise<{ documentId: string }>
 
@@ -60,7 +60,7 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
             </div>
           </Box>
           <Container maxWidth='md' sx={{ my: 5, px: { xs: 1 } }}>
-
+            
             <MDXRemote
               source={novedad.contenido}
               components={{

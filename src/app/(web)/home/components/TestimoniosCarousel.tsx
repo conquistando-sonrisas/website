@@ -1,6 +1,6 @@
 'use client'
 
-import { Testimonio } from "@/app/app"
+import { Testimonio } from "@/app/(web)/app"
 import { NavigateBefore, NavigateNext } from "@mui/icons-material"
 import { Box, Grid2, IconButton, Paper, Typography } from "@mui/material"
 import useEmblaCarousel from "embla-carousel-react"

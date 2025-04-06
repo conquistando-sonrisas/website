@@ -1,8 +1,8 @@
 import { Box, Grid2 } from "@mui/material";
 import TestimoniosCarousel from "./TestimoniosCarousel";
-import SectionTitle from "@/app/components/SectionTitle";
+import SectionTitle from "@/app/(web)/components/SectionTitle";
 import { ReactNode } from "react";
-import HighlightText from "@/app/components/HighlightText";
+import HighlightText from "@/app/(web)/components/HighlightText";
 
 
 export default async function TestimoniosSection() {

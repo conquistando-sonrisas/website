@@ -12,7 +12,7 @@ import { ReactNode, SyntheticEvent, useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { TabContext, TabPanel } from "@mui/lab";
 import localFont from 'next/font/local'
-import DonacionForm from "@/app/donar/components/DonacionForm";
+import DonacionForm from "@/app/(donacion)/components/DonacionForm";
 
 
 const mikHaloo = localFont({

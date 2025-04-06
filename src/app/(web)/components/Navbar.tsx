@@ -9,16 +9,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
-export default function Navbar() {
+export default function Navbar({ hideLinks = false }: { hideLinks?: boolean }) {
   const trigger = useScrollTrigger({ threshold: 100, disableHysteresis: true })
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  };
+
   return (
     <>
       <AppBar elevation={trigger ? 2 : 0} component='nav' sx={{ py: 1, backgroundColor: '#eef6fb', color: '#0b2332' }}>
@@ -40,9 +35,11 @@ export default function Navbar() {
         <Drawer
           anchor='right'
           open={openDrawer}
-          PaperProps={{
-            sx: {
-              backgroundColor: '#eef6fb'
+          slotProps={{
+            paper: {
+              sx: {
+                backgroundColor: '#eef6fb'
+              }
             }
           }}
           ModalProps={{
@@ -81,27 +78,41 @@ export default function Navbar() {
         </Drawer >
       </nav >
       <div style={{ minHeight: '98px' }} />
-      <Fade in={trigger} onClick={goToTop}>
-        <IconButton
-          sx={{
-            color: 'whitesmoke',
-            backgroundColor: '#485889',
-            position: 'fixed',
-            bottom: 10,
-            right: 10,
-            zIndex: 100,
-            ':hover': {
-              backgroundColor: '#485889'
-            }
-          }}>
-          <KeyboardArrowUpIcon sx={{ fontSize: 40 }} />
-        </IconButton>
-      </Fade>
+      <GoToTopButton in={trigger} />
     </>
   )
 }
 
-const ConquiImageLink = () => {
+
+export const GoToTopButton = (props: { in: boolean }) => {
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  };
+
+  return (
+    <Fade in={props.in} onClick={goToTop}>
+      <IconButton
+        sx={{
+          color: 'whitesmoke',
+          backgroundColor: '#485889',
+          position: 'fixed',
+          bottom: 10,
+          right: 10,
+          zIndex: 100,
+          ':hover': {
+            backgroundColor: '#485889'
+          }
+        }}>
+        <KeyboardArrowUpIcon sx={{ fontSize: 40 }} />
+      </IconButton>
+    </Fade>
+  )
+}
+
+export const ConquiImageLink = () => {
   return (<Link href='/'>
     <Image
       src='/conqui.svg' alt='Logo de Conquistando Sonrisas' width={75} height={75}

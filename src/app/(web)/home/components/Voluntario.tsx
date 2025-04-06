@@ -1,9 +1,8 @@
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import { Pacifico } from "next/font/google";
 import localFont from 'next/font/local'
-import floresAzules from '../../../../public/flores_azules.png'
-import floresAzulClaro from '../../../../public/flores_azul_claro.png'
-import floresAmarillas from '../../../../public/flores_amarillas.png'
+import floresAzules from '../../../../../public/flores_azules.png'
+import floresAmarillas from '../../../../../public/flores_amarillas.png'
 import Image from "next/image";
 import { ArrowForward } from "@mui/icons-material";
 

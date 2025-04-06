@@ -2,7 +2,6 @@ import { Box, Button, Grid2, Icon, IconButton, Paper, Step, StepContent, Stepper
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ArrowForward } from "@mui/icons-material";
-import { useCallback, useState } from "react";
 import Link from "next/link";
 import ApoyosList from "./ApoyosList";
 

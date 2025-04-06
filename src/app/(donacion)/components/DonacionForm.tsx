@@ -1,13 +1,15 @@
 'use client'
 
+import { Frequency } from "@/app/(web)/app";
 import { Favorite } from "@mui/icons-material";
 import { TabContext, TabPanel } from "@mui/lab";
 import { Box, Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Paper, Stack, styled, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { useCallback, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 
 
 export default function DonacionForm(props: { elevation?: number, width?: number | string }) {
-  const [tabValue, setTabValue] = useState('one-time');
+  const [frequency, setFrequency] = useState<Frequency>('one-time');
   const [oneTimeDonationValue, setOneTimeDonationValue] = useState('100');
   const [monthlyDonationValue, setMonthlyDonationValue] = useState('25');
   const [customAmount, setCustomAmount] = useState('');
@@ -25,14 +27,15 @@ export default function DonacionForm(props: { elevation?: number, width?: number
     setCustomAmount(value);
   }, []);
 
-  let donation = 0;
+  let donationAmount = 0;
   if (customAmount) {
-    donation = parseFloat(customAmount)
-  } else if ((tabValue === 'one-time') && oneTimeDonationValue !== '') {
-    donation = parseFloat(oneTimeDonationValue);
-  } else if ((tabValue === 'monthly') && monthlyDonationValue !== '') {
-    donation = parseFloat(monthlyDonationValue);
+    donationAmount = parseFloat(customAmount)
+  } else if ((frequency === 'one-time') && oneTimeDonationValue !== '') {
+    donationAmount = parseFloat(oneTimeDonationValue);
+  } else if ((frequency === 'monthly') && monthlyDonationValue !== '') {
+    donationAmount = parseFloat(monthlyDonationValue);
   }
+
 
   return (
     <Box
@@ -49,15 +52,15 @@ export default function DonacionForm(props: { elevation?: number, width?: number
         fontSize={26}
         fontWeight={600}
         my={1}
-        color="conquiDarkBlue.main"
+        color="conquiDarkBlue.light"
         alignItems='center'>
         Cada peso cuenta <Favorite sx={{ ml: 1, color: 'inherit', fontSize: 30 }} />
       </Typography>
       <Typography variant="body1">Con tu ayuda, más niños recibirán tratamientos
         y apoyo en su lucha contra el cáncer.</Typography>
       <Stack rowGap={3}>
-        <TabContext value={tabValue}>
-          <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)} variant="fullWidth">
+        <TabContext value={frequency}>
+          <Tabs value={frequency} onChange={(_, newValue) => setFrequency(newValue)} variant="fullWidth">
             <StyledTab label='Una vez' value='one-time' id='tipo-donacion-una-vez' />
             <StyledTab label='Mensual' value='monthly' id='tipo-donacion-mensual' />
           </Tabs>
@@ -117,9 +120,10 @@ export default function DonacionForm(props: { elevation?: number, width?: number
         <Button
           size="large"
           variant="contained"
+          LinkComponent={Link}
+          href={`/checkout?amount=${donationAmount}&frequency=${frequency}`}
           fullWidth
-          onClick={() => console.log({ tabValue, donation, customAmount })}
-          disabled={!donation}
+          disabled={!donationAmount}
           startIcon={<Favorite />}
           sx={{
             backgroundColor: 'conquiYellow.main',

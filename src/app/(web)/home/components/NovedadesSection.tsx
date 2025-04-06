@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import * as React from 'react';
 import NovedadesMasonry from "./NovedadesMasonry";
-import SectionTitle from "@/app/components/SectionTitle";
+import SectionTitle from "@/app/(web)/components/SectionTitle";
 import { ArrowForward } from "@mui/icons-material";
 
 

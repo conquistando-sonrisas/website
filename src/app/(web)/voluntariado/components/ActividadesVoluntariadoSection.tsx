@@ -1,5 +1,5 @@
-import { Actividad } from "@/app/app";
-import SectionTitle from "@/app/components/SectionTitle";
+import { Actividad } from "@/app/(web)/app";
+import SectionTitle from "@/app/(web)/components/SectionTitle";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 

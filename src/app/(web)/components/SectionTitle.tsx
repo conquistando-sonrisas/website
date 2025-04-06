@@ -6,7 +6,7 @@ export default function SectionTitle(props: { children: ReactNode, sx?: SxProps 
     my={2}
     variant="h5"
     fontSize={32}
-    color="conquiDarkBlue.main"
+    color="conquiDarkBlue.light"
     fontWeight={700}
     sx={{
       overflowWrap: 'break-word',

@@ -138,3 +138,12 @@ export interface Actividad {
   publishedAt: string;
   foto: Media;
 }
+
+
+export type WithSearchParams = {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined
+  }>
+}
+
+export type Frequency = 'monthly' | 'one-time'

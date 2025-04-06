@@ -5,8 +5,8 @@ import BecomeAVoluntario from "./home/components/Voluntario";
 import NosotrosSection from "./home/components/NosotrosSection";
 import SectionTitle from "./components/SectionTitle";
 import NovedadesSection from "./home/components/NovedadesSection";
-import { HomeSinglePage } from "./app";
 import TestimoniosSection from "./home/components/TestimoniosSection";
+import { HomeSinglePage } from "./app";
 
 export default async function Home() {
   const inicioReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/home?populate=*`)

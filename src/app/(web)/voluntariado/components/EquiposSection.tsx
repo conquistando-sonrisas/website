@@ -1,7 +1,7 @@
-import HighlightText from "@/app/components/HighlightText";
-import SectionTitle from "@/app/components/SectionTitle";
+import HighlightText from "@/app/(web)/components/HighlightText";
+import SectionTitle from "@/app/(web)/components/SectionTitle";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
-import { Equipo } from "@/app/app";
+import { Equipo } from "@/app/(web)/app";
 import Image from "next/image";
 
 

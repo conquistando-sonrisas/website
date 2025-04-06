@@ -3,7 +3,7 @@
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import Image from "next/image";
 import voluntarios from '../../../../public/voluntarios.jpg'
-import SectionTitle from "@/app/components/SectionTitle";
+import SectionTitle from "@/app/(web)/components/SectionTitle";
 import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
 
