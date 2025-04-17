@@ -2,11 +2,24 @@ import { Box, Button, IconButton, Typography } from "@mui/material";
 import * as React from 'react';
 import NovedadesMasonry from "./NovedadesMasonry";
 import SectionTitle from "@/app/(web)/components/SectionTitle";
-import { ArrowForward } from "@mui/icons-material";
-
+import { ArrowForward, QuizSharp } from "@mui/icons-material";
+import * as qs from 'qs'
+import Link from "next/link";
 
 export default async function NovedadesSection() {
-  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?sort[0]=publishedAt:desc&pagination[page]=1&pagination[pageSize]=6&populate[0]=cover`);
+  const params = qs.stringify({
+    sort: ['publishedAt:desc'],
+    pagination: {
+      page: 1,
+      pageSize: 6
+    },
+    fields: ['titulo', 'tipo', 'publishedAt'],
+    populate: ['cover'],
+  }, {
+    arrayFormat: 'indices',
+    encode: false
+  })
+  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?${params}`);
   const novedades = await novedadesReq.json();
 
   return (
@@ -15,6 +28,8 @@ export default async function NovedadesSection() {
       <Typography>Actualizaciones más recientes en Conqui</Typography>
       <NovedadesMasonry novedades={novedades.data} />
       <Button
+        LinkComponent={Link}
+        href='/novedades'
         endIcon={<ArrowForward />}
         variant="contained"
         sx={{
