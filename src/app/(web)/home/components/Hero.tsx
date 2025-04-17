@@ -45,7 +45,7 @@ const HeroSection = (props: { conquiKidSrc: string }) => {
           textAlign='center'
           fontWeight={600}
           sx={{
-            backgroundColor: '#f1f7fc',
+            backgroundColor: '#fbfdfe',
             color: 'conquiDarkBlue.light',
             position: 'absolute',
             bottom: 30,

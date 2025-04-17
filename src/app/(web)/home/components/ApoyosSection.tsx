@@ -30,6 +30,7 @@ export default async function Apoyos() {
         size={{ xs: 12, md: 7 }}
         component={Paper}
         variant="elevation"
+        sx={{ backgroundColor: '#fbfdfe' }}
         elevation={0}
         py={{ xs: 2 }}
         px={{ md: 4, xs: 2 }}>

@@ -45,7 +45,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       py={5}
       sx={{
         width: '450px',
-        backgroundColor: '#f1f7fc'
+        backgroundColor: '#fbfdfe'
       }}>
       <Typography
         display='flex'

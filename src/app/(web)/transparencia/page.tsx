@@ -50,7 +50,7 @@ export default async function TransparenciaPage() {
         <Box minHeight='500px'>
           {
             sortedImpactos.map((item, itemIdx) => (
-              <Accordion key={item.anio} defaultExpanded={itemIdx == 0}>
+              <Accordion key={item.anio} defaultExpanded={itemIdx == 0} sx={{ backgroundColor: '#fbfdfe' }}>
                 <AccordionSummary
                   expandIcon={<ExpandMore />}
                 >

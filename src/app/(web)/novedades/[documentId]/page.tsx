@@ -26,7 +26,7 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
 
   return (
     <main style={{ minHeight: '100vh' }}>
-      <Box>
+      <Box display='flex' justifyContent={'center'} flexDirection='column'>
         <Box display='flex' justifyContent='center' position='relative'>
           <Image
             src={novedad.cover.url}
@@ -39,23 +39,32 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
               objectPosition: 'center center'
             }} />
         </Box>
-        <Container sx={{ mt: -15, zIndex: 10, position: 'relative' }} maxWidth='lg'>
+        <Container
+          sx={{
+            mt: -15,
+            zIndex: 10,
+            position: 'relative',
+          }}
+          maxWidth='md'
+        >
+
           <Box sx={{
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: '#f1f7fc',
+            backgroundColor: '#fbfdfe',
             bottom: 0,
             left: 0,
             right: 0,
-            py: 3
+            py: 3,
+            textAlign: 'center',
+            px: 1
           }}>
             <div style={{ textAlign: 'center' }}>
               <Typography variant="h1" fontSize='2.2em' px={1} fontWeight={500}>{novedad.titulo}</Typography>
               <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
             </div>
           </Box>
-          <Container maxWidth='md' sx={{ my: 5, px: { xs: 1 } }}>
-
+          <Container maxWidth='md' sx={{ backgroundColor: '#fbfdfe', py: { xs: 1, md: 5 }, px: 2, mb: 4 }} >
             <MDXRemote
               source={novedad.contenido}
               components={{

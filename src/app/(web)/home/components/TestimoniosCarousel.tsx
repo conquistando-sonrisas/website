@@ -56,7 +56,7 @@ const TestimonioSlide = (props: { testimonio: Testimonio }) => {
       alignContent='flex-start'
       className="embla__slide"
       sx={{
-        backgroundColor: 'white',
+        backgroundColor: '#fdfcfc',
         flex: '0 0 90%',
         minWidth: 0,
         userSelect: 'none',

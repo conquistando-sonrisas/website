@@ -26,47 +26,48 @@ export default function NovedadesLayout() {
 
   return (
     <>
-      {swr.novedades.length > 0 ? (
-        <Grid2 container spacing={5}>
-          <Grid2 size={12}>
+      {
+        swr.novedades.length > 0 ? (
+          <Grid2 container spacing={5}>
+            <Grid2 size={12}>
+              {
+                first && <MainNovedadCard key={first.documentId} novedad={first} />
+              }
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              {
+                second && <SecondaryNovedadCard key={second.documentId} novedad={second} />}
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }} >
+              {
+                third && <SecondaryNovedadCard key={third.documentId} novedad={third} />
+              }
+            </Grid2>
             {
-              first && <MainNovedadCard key={first.documentId} novedad={first} />
+              more.length > 0 && more.map(novedad => (
+                <Grid2 key={novedad.documentId} size={{ xs: 12, md: 4 }} >
+                  <NovedadCard novedad={novedad} />
+                </Grid2>
+              ))
             }
+            <Pagination
+              sx={{ my: 4, mx: 'auto' }}
+              count={swr.pagination?.pageCount}
+              showFirstButton
+              showLastButton
+              size='large'
+              page={page}
+              renderItem={(item) => (
+                <PaginationItem
+                  component={Link}
+                  href={`/novedades?page=${item.page}`}
+                  {...item}
+                />
+              )} />
           </Grid2>
-          <Grid2 size={{ xs: 12, md: 6 }}>
-            {
-              second && <SecondaryNovedadCard key={second.documentId} novedad={second} />}
-          </Grid2>
-          <Grid2 size={{ xs: 12, md: 6 }} >
-            {
-              third && <SecondaryNovedadCard key={third.documentId} novedad={third} />
-            }
-          </Grid2>
-          {
-            more.length > 0 && more.map(novedad => (
-              <Grid2 key={novedad.documentId} size={{ xs: 12, md: 4 }} >
-                <NovedadCard novedad={novedad} />
-              </Grid2>
-            ))
-          }
-          <Pagination
-            sx={{ my: 4, mx: 'auto' }}
-            count={swr.pagination?.pageCount}
-            showFirstButton
-            showLastButton
-            size='large'
-            page={page}
-            renderItem={(item) => (
-              <PaginationItem
-                component={Link}
-                href={`/novedades?page=${item.page}`}
-                {...item}
-              />
-            )} />
-        </Grid2>
-      ) : (
-        <Typography>No hay novedades 😔</Typography>
-      )}
+        ) : (
+          <Typography>No hay novedades 😔</Typography>
+        )}
     </>
   )
 }

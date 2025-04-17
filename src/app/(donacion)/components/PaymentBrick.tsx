@@ -43,7 +43,8 @@ const PaymentBrick = (props: PaymentBrickProps) => {
                 style: {
                   customVariables: {
                     formBackgroundColor: '#f1f7fc',
-                    formPadding: '10px'
+                    formPadding: '10px',
+                    textPrimaryColor: '#151633'
                   }
                 }
               },
