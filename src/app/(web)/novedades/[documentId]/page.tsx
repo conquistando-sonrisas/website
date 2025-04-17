@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import { Metadata, ResolvingMetadata } from "next";
 import { Novedad } from "@/app/(web)/app";
+import { NovedadCredits } from "../components/NovedadCards";
 
 type PageParams = Promise<{ documentId: string }>
 
@@ -20,7 +21,8 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
 
   // TODO: handle error when novedad is not published or not found
   const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?populate=*`);
-  const { data: novedad } = await req.json();
+  const data = await req.json();
+  const novedad = data.data as Novedad;
 
   return (
     <main style={{ minHeight: '100vh' }}>
@@ -49,18 +51,11 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
           }}>
             <div style={{ textAlign: 'center' }}>
               <Typography variant="h1" fontSize='2.2em' px={1} fontWeight={500}>{novedad.titulo}</Typography>
-              <Typography mt={1}>{novedad.createdBy.firstname} {novedad.createdBy.lastname} • {
-                new Date(novedad.publishedAt).toLocaleDateString('es-MX', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric'
-                })
-              }
-              </Typography>
+              <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
             </div>
           </Box>
           <Container maxWidth='md' sx={{ my: 5, px: { xs: 1 } }}>
-            
+
             <MDXRemote
               source={novedad.contenido}
               components={{
@@ -85,7 +80,7 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
                       <Typography textAlign='center' display='block' mt={1} variant="caption">{props.title}</Typography>
                     )}
                   </Box>
-                )
+                ),
               }}
             />
           </Container>
@@ -103,7 +98,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { documentId } = await params;
 
-  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?fields[0]=titulo`);
+  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?fields[0]=titulo&fields[1]=resumen`);
   const res = await req.json();
   const novedad = res.data as Novedad;
 
@@ -115,6 +110,7 @@ export async function generateMetadata(
       name: `${novedad.createdBy.firstname} ${novedad.createdBy.lastname}`,
     }],
     openGraph: {
+      description: novedad.resumen,
       images: [...prevImages]
     }
   }

@@ -118,6 +118,7 @@ export interface Novedad {
   contenido: string;
   createdBy: Autor;
   updatedBy: Autor;
+  resumen: string;
 }
 
 
@@ -147,3 +148,10 @@ export type WithSearchParams = {
 }
 
 export type Frequency = 'monthly' | 'one-time'
+
+export type MetaPagination = {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
