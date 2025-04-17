@@ -37,6 +37,7 @@ export default async function Apoyos() {
         <ApoyosList apoyos={apoyos.data} />
       </Grid2>
       <Grid2
+        bgcolor='#fbfdfe'
         size={{ md: 'grow', xs: 12 }}
         display='flex'
         justifyContent='center'
