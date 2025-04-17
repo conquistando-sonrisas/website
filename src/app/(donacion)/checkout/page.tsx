@@ -12,12 +12,15 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
     throw new Error('No amount or no frequency defined');
   }
 
-
+  const _amount = parseFloat(amount as string);
+  const fees = ((_amount + 4.64) / 0.959516) - _amount 
+  
   return (
-    <Box component='main' sx={{ minHeight: '85vh', backgroundColor: 'conquiYellow.light' }}>
+    <Box component='main' sx={{ minHeight: '85vh' }}>
       <Container sx={{ py: 4 }}>
         <PaymentBrick
-          amount={parseFloat(amount as string)}
+          amount={_amount}
+          fees={fees}
           frequency={frequency as Frequency}
         />
       </Container>
