@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Lexend } from "next/font/google";
-import theme from "./theme";
+import theme from "./components/theme";
 import AppThemeProvider from "./components/ThemeProvider";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 

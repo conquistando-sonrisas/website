@@ -40,3 +40,20 @@ declare module '@mui/material/Typography' {
     conquiYellow: true;
   }
 }
+
+declare module '@mui/material/Switch' {
+  interface SwitchPropsColorOverrides {
+    conquiDarkBlue: true;
+    conquiLightBlue: true;
+    conquiYellow: true;
+  }
+}
+
+declare module '@mui/material/SvgIcon' {
+  interface SvgIconPropsColorOverrides {
+    conquiDarkBlue: true;
+    conquiLightBlue: true;
+    conquiYellow: true;
+  }
+}
+
