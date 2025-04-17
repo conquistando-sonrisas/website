@@ -7,7 +7,8 @@ export default function EventosPage() {
   return (
     <main style={{ minHeight: '100vh' }}>
       <Hero
-        title="¡Conoce nuestros próximos eventos!"
+        title="Eventos"
+        desc="Descubre cuales son nuestros próximos eventos y cómo puedes ayudar"
       />
       <Typography textAlign={'center'}>Página en progreso 🛠️</Typography>
     </main>
