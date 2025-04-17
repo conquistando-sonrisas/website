@@ -1,16 +1,17 @@
 'use client'
 
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, IconButton, Stack, Typography } from "@mui/material";
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Masonry from '@mui/lab/Masonry';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from "next/image";
 import Link from "next/link";
+import { Novedad } from "../../app";
 
 const heights = [380, 250, 380, 270, 400, 270];
 
-export default function NovedadesMasonry(props: { novedades: Array<{ titulo: string, documentId: string, publishedAt: string, cover: { formats: { medium: { url: string } } } }> }) {
+export default function NovedadesMasonry(props: { novedades: Array<Novedad> }) {
   return (
     <>
       <Masonry
@@ -41,12 +42,7 @@ export default function NovedadesMasonry(props: { novedades: Array<{ titulo: str
   )
 }
 
-interface Novedad {
-  titulo: string,
-  documentId: string,
-  publishedAt: string,
-  cover: { formats: { medium: { url: string } } }
-}
+
 
 const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
   const { documentId, } = props.novedad;
@@ -79,9 +75,19 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
         alt=""
         style={{ zIndex: 1, userSelect: 'none' }}
       />
-      <div style={{ zIndex: 3, display: 'flex', flexDirection: 'column', position: 'absolute', top: 25, left: 10, right: 10, bottom: 25 }}>
-        <Typography color='white' fontWeight={700} fontSize={24} >{props.novedad.titulo}</Typography>
-        <Typography fontWeight={600} style={{ color: 'whitesmoke' }} variant="caption" textAlign='left'>{
+      <div style={{
+        color: '#f1f7fc',
+        zIndex: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        top: 35,
+        left: 10,
+        right: 10,
+        bottom: 25
+      }}>
+        <Typography color="inherit" fontWeight={700} fontSize={24} >{props.novedad.titulo}</Typography>
+        <Typography color="inherit" fontWeight={600} variant="caption" textAlign='left'>{
           new Date(props.novedad.publishedAt).toLocaleDateString('es-MX', {
             day: 'numeric',
             month: 'long',
@@ -90,7 +96,26 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
         }</Typography>
         <GoToButton documentId={documentId} />
       </div>
-    </Box>
+      <Box
+        component='span'
+        sx={{
+          zIndex: 10,
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          backgroundColor: 'conquiYellow.light',
+          color: 'conquiDarkBlue.light',
+          maxWidth: 'fit-content',
+          py: .1,
+          px: .4,
+          borderRadius: 1,
+          userSelect: 'none'
+        }}>
+        <Typography variant="caption">
+          {props.novedad.tipo}
+        </Typography>
+      </Box>
+    </Box >
   )
 }
 
