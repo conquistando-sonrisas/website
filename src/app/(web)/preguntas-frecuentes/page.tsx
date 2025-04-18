@@ -13,7 +13,7 @@ export default async function PreguntasFrecuentesPage() {
       <SectionTitle>Preguntas Frecuentes</SectionTitle>
       {
         (preguntas as Array<PreguntaFrecuente>).map(frecuente => (
-          <Accordion key={frecuente.documentId}>
+          <Accordion key={frecuente.documentId} sx={{ backgroundColor: '#fbfdfe' }}>
             <AccordionSummary
               expandIcon={<ExpandMore />}
             >

@@ -28,7 +28,7 @@ export default function DonarPage() {
           </Grid2>
           <Grid2
             order={{ xs: 1, md: 2 }}
-            sx={{ backgroundColor: '#f1f7fc' }}
+            sx={{ backgroundColor: '#fbfdfe' }}
             size={{ xs: 12, md: 6 }}
             display='flex'
             justifyContent='center'
