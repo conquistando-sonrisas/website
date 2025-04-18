@@ -28,9 +28,7 @@ export default async function Home() {
         <TestimoniosSection />
       </Box>
 
-      <Container component={Stack} rowGap={5} maxWidth='xl'>
-        <NovedadesSection />
-      </Container>
+      <NovedadesSection />
       <BecomeAVoluntario />
     </main>
   );

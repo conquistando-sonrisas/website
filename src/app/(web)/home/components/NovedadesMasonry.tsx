@@ -22,10 +22,10 @@ export default function NovedadesMasonry(props: { novedades: Array<Novedad> }) {
         defaultColumns={3}
         defaultSpacing={4}
         sx={{
-          maxWidth: 1200,
-          m: 'auto',
+          mx: 'auto',
+          mt: 2,
           display: { xs: 'none', md: 'flex' },
-          flexWrap: { xs: 'wrap' }
+          flexWrap: { xs: 'wrap' },
         }}>
         {props.novedades.map((novedad, index) => (
           <NovedadCard key={novedad.documentId} novedad={novedad} height={heights[index % heights.length]} />
@@ -48,9 +48,9 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
   const { documentId, } = props.novedad;
   return (
     <Box
-      key={documentId}
       {...(props.height && ({ height: props.height }))}
       sx={{
+        width: { md: 'calc(100% / 3)' },
         position: 'relative',
         borderRadius: '10px',
         overflow: 'hidden'
@@ -68,12 +68,15 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
       }}></div>
       <Image
         src={props.novedad.cover.formats.medium.url}
-        loader={({ src }) => src}
         fill
-        objectFit='cover'
-        objectPosition="center"
+        sizes="(max-width: 1200px) 50vw, 33vw"
         alt=""
-        style={{ zIndex: 1, userSelect: 'none' }}
+        style={{
+          objectFit: 'cover',
+          objectPosition: 'center',
+          zIndex: 1,
+          userSelect: 'none'
+        }}
       />
       <div style={{
         color: '#f1f7fc',

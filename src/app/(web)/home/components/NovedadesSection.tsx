@@ -1,8 +1,8 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Container, IconButton, Typography } from "@mui/material";
 import * as React from 'react';
 import NovedadesMasonry from "./NovedadesMasonry";
 import SectionTitle from "@/app/(web)/components/SectionTitle";
-import { ArrowForward, QuizSharp } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import * as qs from 'qs'
 import Link from "next/link";
 
@@ -23,19 +23,22 @@ export default async function NovedadesSection() {
   const novedades = await novedadesReq.json();
 
   return (
-    <Box component='section' display='flex' flexDirection='column'>
-      <SectionTitle>Novedades</SectionTitle>
-      <Typography>Actualizaciones más recientes en Conqui</Typography>
-      <NovedadesMasonry novedades={novedades.data} />
-      <Button
-        LinkComponent={Link}
-        href='/novedades'
-        endIcon={<ArrowForward />}
-        variant="contained"
-        sx={{
-          borderRadius: '25px',
-          mt: { xs: 0, md: '-20px' },
-          alignSelf: 'center'
-        }} color="conquiDarkBlue" size='large'>Ver más</Button>
+    <Box component='section'>
+      <Container>
+        <SectionTitle>Novedades</SectionTitle>
+        <Typography>Actualizaciones más recientes en Conqui</Typography>
+        <NovedadesMasonry novedades={novedades.data} />
+      </Container>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          LinkComponent={Link}
+          href='/novedades'
+          endIcon={<ArrowForward />}
+          variant="contained"
+          sx={{
+            borderRadius: '25px',
+            mt: { xs: 0, md: '-20px' },
+          }} color="conquiDarkBlue" size='large'>Ver más</Button>
+      </Box>
     </Box>)
 }
