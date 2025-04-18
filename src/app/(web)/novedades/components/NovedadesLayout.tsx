@@ -15,6 +15,7 @@ import useSWRImmutable from "swr/immutable";
 
 export default function NovedadesLayout() {
   const params = useSearchParams();
+  // TODO validate page is a number
   const page = parseInt(params.get('page') || '1', 10)
   const swr = useNovedades({ page });
 
