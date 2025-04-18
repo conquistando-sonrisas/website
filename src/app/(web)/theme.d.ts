@@ -5,7 +5,7 @@ declare module '@mui/material/styles' {
     conquiDarkBlue: Palette['primary'];
     conquiLightBlue: Palette['primary'];
     conquiYellow: Palette['primary'];
-    customGray: Palette['primary']; 
+    customGray: Palette['primary'];
   }
 
   interface PaletteOptions {
@@ -57,3 +57,10 @@ declare module '@mui/material/SvgIcon' {
   }
 }
 
+declare module '@mui/material/TextField' {
+  interface TextFieldPropsColorOverrides {
+    conquiDarkBlue: true;
+    conquiLightBlue: true;
+    conquiYellow: true;
+  }
+}
