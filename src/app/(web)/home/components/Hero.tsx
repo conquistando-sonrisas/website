@@ -35,9 +35,7 @@ const HeroSection = (props: { conquiKidSrc: string }) => {
         size={{ xs: 12, md: 7 }} sx={{ position: 'relative', height: 'inherit' }}>
         <Image
           src={props.conquiKidSrc}
-          height={0}
-          width={0}
-          layout="fill"
+          fill
           style={{ objectFit: 'cover' }}
           alt=""
         />

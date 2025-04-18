@@ -18,9 +18,7 @@ export default function NosotrosSection(props: { nosotrosImagenSrc: string, Noso
       position='relative'>
       <Image
         src={props.nosotrosImagenSrc}
-        width={0}
-        height={0}
-        layout='fill'
+        fill
         style={{ objectFit: 'cover', borderRadius: 10, objectPosition: 'center' }}
         alt='grupo de personas' />
     </Grid2>
