@@ -7,10 +7,13 @@ import { ReactNode } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactForm from "./components/ContactoForm";
 import ContactoDetails from "./components/ContactoDetails";
+import { Contacto } from "../app";
 
 
-export default function ContactoPage() {
-
+export default async function ContactoPage() {
+  const contactoReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/contacto?populate=*`);
+  const contactoRes = await contactoReq.json();
+  const contacto = contactoRes.data as Contacto;
 
   return (<main style={{ minHeight: '80vh' }}>
     <Container>
@@ -21,7 +24,7 @@ export default function ContactoPage() {
           <ContactForm />
         </Grid2>
         <Grid2 size={{ xs: 12, md: 6 }}>
-          <ContactoDetails />
+          <ContactoDetails detalles={contacto} />
         </Grid2>
       </Grid2>
     </Container>

@@ -155,3 +155,23 @@ export type MetaPagination = {
   pageCount: number;
   total: number;
 }
+
+
+export interface Contacto {
+  documentId: string;
+  telefono: string;
+  correo: string;
+  direccion: string;
+  coordenadas: {
+    latitud: number;
+    longitud: number;
+  },
+  horarios: Horario[] 
+}
+
+export type Horario = {
+  dia: string;
+  inicio: string | null;
+  termino: string | null;
+  abierto: boolean;
+}

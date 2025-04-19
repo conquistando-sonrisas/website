@@ -5,16 +5,17 @@ import { Box, Button, IconButton, Link, Menu, MenuItem, Stack, Typography } from
 import { ReactNode, useState } from "react";
 import HorariosSection from "./HorariosSection";
 import DireccionSection from "./DireccionSection";
+import { Contacto } from "../../app";
 
 
-export default function ContactoDetails() {
+export default function ContactoDetails({ detalles }: { detalles: Contacto }) {
 
   return (
     <Stack direction='column' rowGap={4}>
-      <ContactoDetail icon='call'>614 197 5785</ContactoDetail>
-      <ContactoDetail icon='mail'><Link href='/' target='_blank' color='conquiDarkBlue'>operaciones@conquistandosonrisas.org</Link></ContactoDetail>
-      <HorariosSection />
-      <DireccionSection />
+      <ContactoDetail icon='call'>{detalles.telefono}</ContactoDetail>
+      <ContactoDetail icon='mail'><Link href={`mailto:${detalles.correo}`} target='_blank' color='conquiDarkBlue'>{detalles.correo}</Link></ContactoDetail>
+      <HorariosSection horarios={detalles.horarios} />
+      <DireccionSection coordenadas={detalles.coordenadas} direccion={detalles.direccion} />
     </Stack>
   )
 }
