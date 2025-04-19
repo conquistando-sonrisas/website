@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { AppBar, Box, Button, Drawer, Fade, IconButton, List, ListItem, ListItemText, Link as MuiLink, Toolbar, useScrollTrigger } from "@mui/material";
 import Image from "next/image";
 import { ReactNode, useCallback, useRef, useState } from "react";
@@ -9,10 +10,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
-export default function Navbar({ hideLinks = false }: { hideLinks?: boolean }) {
+export default function Navbar() {
   const trigger = useScrollTrigger({ threshold: 100, disableHysteresis: true })
   const [openDrawer, setOpenDrawer] = useState(false);
-
 
   return (
     <>
