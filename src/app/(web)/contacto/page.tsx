@@ -20,10 +20,10 @@ export default async function ContactoPage() {
       <SectionTitle>Queremos escucharte</SectionTitle>
       <Typography mb={5}>Si tienes alguna duda escribenos</Typography>
       <Grid2 container spacing={4} mb={{ xs: 5 }}>
-        <Grid2 size={{ xs: 12, md: 6 }}>
+        <Grid2 size={{ xs: 12, md: 5 }}>
           <ContactForm />
         </Grid2>
-        <Grid2 size={{ xs: 12, md: 6 }}>
+        <Grid2 size={{ xs: 12, md: 7 }}>
           <ContactoDetails detalles={contacto} />
         </Grid2>
       </Grid2>

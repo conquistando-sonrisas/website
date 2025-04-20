@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ContactoDetail } from "./ContactoDetails";
 import { ExpandMore } from "@mui/icons-material";
 import { Horario } from "../../app";
+import { format, isToday, nextMonday, parse } from "date-fns";
+import { es } from "date-fns/locale";
 
 
 export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
@@ -17,18 +19,8 @@ export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
   return (
     <Box>
       <ContactoDetail icon='punch_clock'>Horario</ContactoDetail>
-      <Button
-        onClick={handleClick}
-        variant='text'
-        color='success'
-        sx={{ textTransform: 'none', ml: 5 }} endIcon={<ExpandMore />}
-      >
-        <Typography variant="body2" sx={{ color: 'inherit' }}>
-          <span style={{ fontWeight: 600, color: 'inherit' }}>Abierto</span> • cierra a las 4:00 PM
-        </Typography>
-      </Button>
+      <HorarioButton horario={horarios} handleClick={handleClick} />
       <Box display='flex' alignItems='center' >
-
         <Menu
           anchorEl={anchorEl}
           open={open}
@@ -39,9 +31,7 @@ export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
         >
           {
             horarios.map((horario) => (
-              <MenuItem key={horario.dia} onClick={handleClose}>
-                <Typography>{horario.dia} {horario.inicio}{horario.termino}</Typography>
-              </MenuItem>
+              <HorarioItem key={horario.dia} horario={horario} handleClose={handleClose} />
             ))
           }
         </Menu>
@@ -49,24 +39,83 @@ export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
     </Box>
   )
 }
-/* <MenuItem sx={{ bgcolor: 'ButtonShadow', fontWeight: 600 }} onClick={handleClose}>
-  <Typography mr={2} fontWeight='inherit'>Lunes</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>9 AM - 4 PM</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Martes</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>9 AM - 4 PM</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Miercoles</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>9 AM - 4 PM</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Jueves</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>9 AM - 4 PM</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Viernes</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>9 AM - 4 PM</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Sabado</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>Cerrado</span>
-</MenuItem>
-<MenuItem onClick={handleClose}>
-  <Typography mr={2}>Domingo</Typography> <span style={{ marginLeft: 'auto', paddingLeft: '5px' }}>Cerrado</span>
-</MenuItem> */
+
+const HorarioItem = (props: { horario: Horario, handleClose: () => void }) => {
+  const { dia, inicio, termino, abierto } = props.horario;
+  let horas = '';
+  const today = parse(dia, 'eeee', new Date(), { locale: es });
+
+  if (abierto && inicio && termino) {
+    const parsedInicio = parse(inicio, 'H:m:s', today);
+    const parsedTermino = parse(termino, 'H:m:s', today);
+    horas = `${format(parsedInicio, 'h:mm a')} - ${format(parsedTermino, 'h:mm a')}`
+  } else {
+    horas = 'Cerrado';
+  }
+
+  return (
+    <MenuItem
+      onClick={props.handleClose}
+      sx={{
+        justifyContent: 'space-between',
+        columnGap: 4,
+        ...(isToday(today) && {
+          bgcolor: 'ButtonShadow',
+          fontWeight: 600
+        })
+      }}>
+      <Typography fontWeight='inherit'>{format(today, 'cccc', { locale: es })}</Typography>
+      <span>{horas}</span>
+    </MenuItem>
+  )
+}
+
+const HorarioButton = ({ handleClick, horario }: { horario: Horario[], handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => {
+  const idx = new Date().getDay() - 1;
+  const currentHorario = horario[idx];
+  const parsedHorarioDate = parse(currentHorario.dia, 'eeee', new Date(), { locale: es, weekStartsOn: 1 });
+  const nextHorario = horario[(idx + 1) % horario.length];
+  const nextInicio = nextHorario.inicio ? format(parse(nextHorario.inicio, 'H:m:s', new Date()), 'h:mm a') : null;
+
+  let state = '';
+  let color = 'conquiDarkBlue';
+  let message = '';
+  
+  if (currentHorario.abierto && currentHorario.termino) {
+    const parsedTermino = parse(currentHorario.termino, 'H:m:s', parsedHorarioDate);
+    const now = new Date();
+    const isOpen = now.getTime() < parsedTermino.getTime();
+
+    state = isOpen ? 'Abierto' : 'Cerrado';
+    color = isOpen ? '#2e7d32' : '#d32f2f';
+
+    message = isOpen
+      ? `cierra a las ${format(parsedTermino, 'h:mm a')}`
+      : nextHorario.abierto
+        ? `abre ${nextHorario.dia} a las ${nextInicio}`
+        : 'abre lunes a las 9:00 AM';
+
+  } else {
+    state = 'Cerrado';
+    message = nextHorario.abierto
+      ? `abre ${nextHorario.dia} a las ${nextInicio}`
+      : 'abre lunes a las 9:00 AM';
+    color = '#d32f2f';
+  }
+
+  return (
+    <Button
+      onClick={handleClick}
+      variant='text'
+      sx={{ textTransform: 'none', ml: 5, color: '#151633' }} endIcon={<ExpandMore />}
+    >
+      <span style={{ fontWeight: 600, marginRight: '8px', color }}>
+        {state}
+      </span>
+      •
+      <span style={{ marginLeft: '8px' }}>
+        {message}
+      </span>
+    </Button>
+  )
+}
