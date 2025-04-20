@@ -50,7 +50,6 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
     <Box
       {...(props.height && ({ height: props.height }))}
       sx={{
-        width: { md: 'calc(100% / 3)' },
         position: 'relative',
         borderRadius: '10px',
         overflow: 'hidden'
