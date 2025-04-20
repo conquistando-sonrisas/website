@@ -71,8 +71,8 @@ const HorarioItem = (props: { horario: Horario, handleClose: () => void }) => {
 }
 
 const HorarioButton = ({ handleClick, horario }: { horario: Horario[], handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => {
-  const idx = new Date().getDay() - 1;
-  const currentHorario = horario[idx];
+  const idx = horario.length - new Date().getDay() - 1;
+  const currentHorario = horario[idx % horario.length];
   const parsedHorarioDate = parse(currentHorario.dia, 'eeee', new Date(), { locale: es, weekStartsOn: 1 });
   const nextHorario = horario[(idx + 1) % horario.length];
   const nextInicio = nextHorario.inicio ? format(parse(nextHorario.inicio, 'H:m:s', new Date()), 'h:mm a') : null;
@@ -80,7 +80,7 @@ const HorarioButton = ({ handleClick, horario }: { horario: Horario[], handleCli
   let state = '';
   let color = 'conquiDarkBlue';
   let message = '';
-  
+
   if (currentHorario.abierto && currentHorario.termino) {
     const parsedTermino = parse(currentHorario.termino, 'H:m:s', parsedHorarioDate);
     const now = new Date();
