@@ -15,7 +15,7 @@ export default async function ContactoPage() {
   const contactoRes = await contactoReq.json();
   const contacto = contactoRes.data as Contacto;
 
-  return (<main style={{ minHeight: '80vh' }}>
+  return (<main style={{ minHeight: '83vh' }}>
     <Container>
       <SectionTitle>Queremos escucharte</SectionTitle>
       <Typography mb={5}>Si tienes alguna duda escribenos</Typography>

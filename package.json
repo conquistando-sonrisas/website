@@ -12,6 +12,7 @@
     "@emotion/cache": "^11.13.5",
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
+    "@hookform/resolvers": "^5.0.1",
     "@mercadopago/sdk-react": "^1.0.1",
     "@mui/icons-material": "^6.1.10",
     "@mui/lab": "^6.0.0-beta.18",
@@ -27,8 +28,10 @@
     "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.55.0",
     "react-leaflet": "^5.0.0-rc.2",
-    "swr": "^2.3.3"
+    "swr": "^2.3.3",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.17",
