@@ -2,12 +2,12 @@ import { Box, Container, Typography } from "@mui/material";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import { Metadata, ResolvingMetadata } from "next";
-import { Novedad } from "@/app/(web)/app";
+import { Novedad, WithDocumentIdPathParam } from "@/app/(web)/app";
 import { NovedadCredits } from "../components/NovedadCards";
 
-type PageParams = Promise<{ documentId: string }>
 
-export default async function NovedadPage({ params }: { params: PageParams }) {
+
+export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
   const { documentId } = await params;
 
   // TODO: Throw error if documentId is not present
@@ -102,7 +102,7 @@ export default async function NovedadPage({ params }: { params: PageParams }) {
 
 // TODO: handle errors
 export async function generateMetadata(
-  { params }: { params: PageParams },
+  { params }: WithDocumentIdPathParam,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { documentId } = await params;

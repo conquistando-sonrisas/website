@@ -2,7 +2,7 @@
 
 import { CircularProgress, Grid2, Pagination, PaginationItem, Typography } from "@mui/material";
 import { MainNovedadCard, NovedadCard, SecondaryNovedadCard } from "./NovedadCards";
-import { MetaPagination, Novedad } from "../../app";
+import { StrapiPagination, Novedad } from "../../app";
 import Link from "next/link";
 import useSWR from "swr";
 import qs from 'qs'
@@ -89,7 +89,7 @@ const useNovedades = ({ page = 1, pageSize = 6 }: { page?: number, pageSize?: nu
 
   const { data, error, isLoading } = useSWRImmutable(`/novedades?${queryParams}`, fetcher)
   const [novedades, setNovedades] = useState<Novedad[]>([])
-  const [pagination, setPagination] = useState<MetaPagination | null>(null)
+  const [pagination, setPagination] = useState<StrapiPagination | null>(null)
 
   useEffect(() => {
     if (!data) return;

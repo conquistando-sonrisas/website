@@ -141,6 +141,11 @@ export interface Actividad {
 }
 
 
+export type WithDocumentIdPathParam = {
+  params: Promise<{ documentId: string }>
+}
+
+
 export type WithSearchParams = {
   searchParams: Promise<{
     [key: string]: string | string[] | undefined
@@ -149,7 +154,7 @@ export type WithSearchParams = {
 
 export type Frequency = 'monthly' | 'one-time'
 
-export type MetaPagination = {
+export type StrapiPagination = {
   page: number;
   pageSize: number;
   pageCount: number;
@@ -166,7 +171,7 @@ export interface Contacto {
     latitud: number;
     longitud: number;
   },
-  horarios: Horario[] 
+  horarios: Horario[]
 }
 
 export type Horario = {
@@ -174,4 +179,41 @@ export type Horario = {
   inicio: string | null;
   termino: string | null;
   abierto: boolean;
+}
+
+
+
+export interface Evento {
+  documentId: string;
+  nombre: string;
+  fechaInicio: string | null;
+  ubicacion: string | null;
+  descripcion: string;
+  horaInicio: string | null;
+  contenido: string;
+  publishedAt: string;
+  cover: Media;
+  album: Album | null;
+}
+
+
+
+export interface Album {
+  documentId: string;
+  nombre: string;
+  fotos: Media[]
+}
+
+
+export interface StrapiPaginatedResponse<T> {
+  data: T[];
+  meta: {
+    pagination: StrapiPagination;
+  }
+}
+
+
+export interface StrapiSingleResponse<T> {
+  data: T,
+  meta: {}
 }
