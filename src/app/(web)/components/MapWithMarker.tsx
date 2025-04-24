@@ -22,10 +22,9 @@ export default function MapWithMarker({ latitud, longitud, popupMessage }: { lat
   return (
     <MapContainer center={[latitud, longitud] as LatLngTuple} zoom={14} scrollWheelZoom={false} style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
       />
-      <Marker position={[latitud, longitud] as LatLngTuple}>
+      <Marker position={[latitud, longitud] as LatLngTuple} title={popupMessage}>
         <Popup>{popupMessage}</Popup>
       </Marker>
     </MapContainer>
