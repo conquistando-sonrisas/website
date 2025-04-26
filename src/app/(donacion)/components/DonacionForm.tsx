@@ -108,11 +108,11 @@ export default function DonacionForm(props: { elevation?: number, width?: number
           </TabPanel>
         </TabContext>
         <FormControl variant="outlined">
-          <InputLabel color="conquiDarkBlue" htmlFor='custom-amount'>Otro monto</InputLabel>
+          <InputLabel htmlFor='custom-amount'>Otro monto</InputLabel>
           <OutlinedInput
             inputMode='numeric'
             type='number'
-            color="conquiDarkBlue"
+
             onChange={(e) => handleCustomAmountChange(e.target.value)}
             label='Otro monto'
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -168,7 +168,6 @@ const CantidadDonacionGroup = (props: CantidadDonacionGroupProps) => {
     <ToggleButtonGroup
       size="large"
       exclusive
-      color='conquiDarkBlue'
       disabled={props.disabled}
       value={props.value}
       onChange={(_, newValue) => props.onChange(newValue)}

@@ -5,7 +5,7 @@ import { createCardToken, initMercadoPago, Payment, StatusScreen } from '@mercad
 import { IAdditionalCardFormData, IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
 import { avatarClasses, Backdrop, Box, CircularProgress, ClickAwayListener, Container, Grid2, IconButton, Switch, Tooltip, Typography } from "@mui/material";
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutlined';
 import { usePaymentBrick } from "@mercadopago/sdk-react/esm/bricks/payment";
@@ -18,7 +18,6 @@ type PaymentBrickProps = {
   fees: number,
 }
 
-initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PUBLIC_KEY)
 
 const PaymentBrick = (props: PaymentBrickProps) => {
   const router = useRouter();
@@ -26,10 +25,9 @@ const PaymentBrick = (props: PaymentBrickProps) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [paymentId, setPaymentId] = useState('');
+  const [threeDsInfo, setThreeDsInfo] = useState<{ externalResourceURL: string, creq: string } | null>(null);
 
   const handleSubmit = useCallback(async (data: IPaymentFormData, additional?: IAdditionalCardFormData | null) => {
-    // additional?.cardholderName
-    console.log(data, additional)
     try {
       setLoading(true)
       const res = await fetch(`${process.env.NEXT_PUBLIC_CONQUI_API}/donaciones`, {
@@ -45,13 +43,17 @@ const PaymentBrick = (props: PaymentBrickProps) => {
       const body = await res.json()
 
       setPaymentId(body.paymentId);
-
+      setThreeDsInfo(body.threeDsInfo)
     } catch (err) {
       console.error('error', err)
       setErrorMessage((err as Error).message);
     } finally {
       setLoading(false)
     }
+  }, [])
+
+  useEffect(() => {
+    initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PUBLIC_KEY)
   }, [])
 
   return (
@@ -70,7 +72,12 @@ const PaymentBrick = (props: PaymentBrickProps) => {
           <Box maxWidth='500px' mx='auto'>
             <StatusScreen
               initialization={{
-                paymentId
+                paymentId,
+                ...(threeDsInfo !== null && {
+                  additionalInfo: {
+                    ...threeDsInfo
+                  }
+                })
               }}
               onError={console.error}
             />
