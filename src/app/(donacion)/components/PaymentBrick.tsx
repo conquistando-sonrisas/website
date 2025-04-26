@@ -1,14 +1,15 @@
 'use client'
 
 import { Frequency } from "@/app/(web)/app"
-import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
-import { IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
-import { Box, ClickAwayListener, Grid2, IconButton, Switch, Tooltip, Typography } from "@mui/material";
+import { createCardToken, initMercadoPago, Payment, StatusScreen } from '@mercadopago/sdk-react';
+import { IAdditionalCardFormData, IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
+import { avatarClasses, Backdrop, Box, CircularProgress, ClickAwayListener, Container, Grid2, IconButton, Switch, Tooltip, Typography } from "@mui/material";
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { useCallback, useState } from "react";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutlined';
 import { usePaymentBrick } from "@mercadopago/sdk-react/esm/bricks/payment";
+import { useRouter } from "next/navigation";
 
 
 type PaymentBrickProps = {
@@ -20,50 +21,96 @@ type PaymentBrickProps = {
 initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PUBLIC_KEY)
 
 const PaymentBrick = (props: PaymentBrickProps) => {
-  const handleSubmit = async (formData: IPaymentFormData) => {
-    await fetch(`${process.env.NEXT_PUBLIC_CONQUI_API}/donacion`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-  }
+  const router = useRouter();
+
+  const [errorMessage, setErrorMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [paymentId, setPaymentId] = useState('');
+
+  const handleSubmit = useCallback(async (data: IPaymentFormData, additional?: IAdditionalCardFormData | null) => {
+    // additional?.cardholderName
+    console.log(data, additional)
+    try {
+      setLoading(true)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CONQUI_API}/donaciones`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data.formData,
+          frequency: props.frequency
+        })
+      })
+      const body = await res.json()
+
+      setPaymentId(body.paymentId);
+
+    } catch (err) {
+      console.error('error', err)
+      setErrorMessage((err as Error).message);
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   return (
     <>
-      <Grid2 container spacing={2}>
-        <Grid2 size={{ xs: 12, md: 7 }} order={{ xs: 2, md: 1 }} >
-          <Payment
-            initialization={{
-              amount: props.amount + props.fees,
-            }}
-            customization={{
-              visual: {
-                style: {
-                  customVariables: {
-                    formBackgroundColor: '#f1f7fc',
-                    formPadding: '10px',
-                    textPrimaryColor: '#151633'
+      <Backdrop
+        sx={theme => ({
+          color: 'whitesmoke',
+          zIndex: theme.zIndex.drawer + 1
+        })}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+      {
+        paymentId ? (
+          <Box maxWidth='500px' mx='auto'>
+            <StatusScreen
+              initialization={{
+                paymentId
+              }}
+              onError={console.error}
+            />
+          </Box>
+
+        ) : (
+          <Grid2 container spacing={2}>
+            <Grid2 size={{ xs: 12, md: 7 }} order={{ xs: 2, md: 1 }} >
+              <Payment
+                initialization={{
+                  amount: props.amount + props.fees
+                }}
+                customization={{
+                  visual: {
+                    style: {
+                      customVariables: {
+                        formBackgroundColor: '#f1f7fc',
+                        formPadding: '10px',
+                        textPrimaryColor: '#151633'
+                      }
+                    }
+                  },
+                  paymentMethods: {
+                    maxInstallments: 1,
+                    minInstallments: 1,
+                    creditCard: 'all',
+                    debitCard: 'all',
+                    mercadoPago: 'all'
                   }
-                }
-              },
-              paymentMethods: {
-                maxInstallments: 1,
-                minInstallments: 1,
-                creditCard: 'all',
-                debitCard: 'all',
-                mercadoPago: 'all'
-              }
-            }}
-            onSubmit={handleSubmit}
-            onError={console.log}
-          />
-        </Grid2>
-        <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 2 }}>
-          <DonacionSummary amount={props.amount} fees={props.fees} frequency={props.frequency} />
-        </Grid2>
-      </Grid2>
+                }}
+                onSubmit={handleSubmit}
+                onError={console.error}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 2 }}>
+              <DonacionSummary amount={props.amount} fees={props.fees} frequency={props.frequency} />
+            </Grid2>
+          </Grid2>
+        )
+      }
     </>
   )
 }

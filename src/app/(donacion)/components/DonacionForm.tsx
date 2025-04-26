@@ -11,13 +11,13 @@ import { useCallback, useEffect, useState } from "react";
 export default function DonacionForm(props: { elevation?: number, width?: number | string }) {
   const [frequency, setFrequency] = useState<Frequency>('one-time');
   const [oneTimeDonationValue, setOneTimeDonationValue] = useState('100');
-  const [monthlyDonationValue, setMonthlyDonationValue] = useState('25');
+  const [monthlyDonationValue, setMonthlyDonationValue] = useState('120');
   const [customAmount, setCustomAmount] = useState('');
 
   const handleCustomAmountChange = useCallback((value: string) => {
     if (!value) {
       setOneTimeDonationValue('100');
-      setMonthlyDonationValue('25');
+      setMonthlyDonationValue('120');
       setCustomAmount('')
       return;
     }
@@ -77,41 +77,42 @@ export default function DonacionForm(props: { elevation?: number, width?: number
                 value: '250',
                 label: '$250'
               }, {
+                value: '400',
+                label: '$400'
+              }, {
                 value: '500',
                 label: '$500'
-              }, {
-                value: '1000',
-                label: '$1,000'
               }]}
             />
           </TabPanel>
-          <TabPanel value='monthly' sx={{ p: 0, m: 0 }}>
+          <TabPanel color="conquiDarkBlue" value='monthly' sx={{ p: 0, m: 0 }}>
             <CantidadDonacionGroup
               name='monthly'
               disabled={!!customAmount}
               onChange={(newValue) => setMonthlyDonationValue(newValue)}
               value={monthlyDonationValue}
               toggleButtons={[{
-                value: '25',
-                label: '$25'
+                value: '120',
+                label: '$120'
               }, {
-                value: '50',
-                label: '$50'
+                value: '250',
+                label: '$250'
               }, {
-                value: '80',
-                label: '$80'
+                value: '350',
+                label: '$350'
               }, {
-                value: '100',
-                label: '$100'
+                value: '500',
+                label: '$500'
               }]}
             />
           </TabPanel>
         </TabContext>
         <FormControl variant="outlined">
-          <InputLabel htmlFor='custom-amount'>Otro monto</InputLabel>
+          <InputLabel color="conquiDarkBlue" htmlFor='custom-amount'>Otro monto</InputLabel>
           <OutlinedInput
             inputMode='numeric'
             type='number'
+            color="conquiDarkBlue"
             onChange={(e) => handleCustomAmountChange(e.target.value)}
             label='Otro monto'
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -146,7 +147,7 @@ type StyledTabProp = {
   id: string
 }
 const StyledTab = styled((props: StyledTabProp) => (
-  <Tab disableRipple  {...props} />
+  <Tab disableRipple color="conquiDarkBlue"  {...props} />
 ))(({ theme }) => ({
   textTransform: 'none',
 }))
@@ -167,7 +168,7 @@ const CantidadDonacionGroup = (props: CantidadDonacionGroupProps) => {
     <ToggleButtonGroup
       size="large"
       exclusive
-      color='primary'
+      color='conquiDarkBlue'
       disabled={props.disabled}
       value={props.value}
       onChange={(_, newValue) => props.onChange(newValue)}
