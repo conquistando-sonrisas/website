@@ -64,3 +64,12 @@ declare module '@mui/material/TextField' {
     conquiYellow: true;
   }
 }
+
+declare module '@mui/material/Tabs' {
+  interface TabsPropsIndicadorColorOverrides {
+    conquiDarkBlue: true;
+    conquiLightBlue: true;
+    conquiYellow: true;
+  }
+
+}

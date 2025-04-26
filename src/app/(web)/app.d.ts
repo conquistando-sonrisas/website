@@ -217,3 +217,10 @@ export interface StrapiSingleResponse<T> {
   data: T,
   meta: {}
 }
+
+
+export interface AvisoPrivacidad {
+  documentId: string;
+  contenido: string;
+  publishedAt: string;
+}
