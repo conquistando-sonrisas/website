@@ -2,6 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, L
 import Hero from "../components/Hero";
 import { ImpactoApoyo, ImpactoGeneral } from "../app";
 import { ExpandMore } from "@mui/icons-material";
+import SectionTitle from "../components/SectionTitle";
 
 
 
@@ -47,6 +48,13 @@ export default async function TransparenciaPage() {
         desc="Conoce el impacto que ha tenido Conqui en estos años 😊"
       />
       <Container sx={{ my: 6 }}>
+        <SectionTitle>Solicita información de transparencia</SectionTitle>
+        <Typography mb={2}>
+          Si tienes alguna duda acerca de nuestros informes anuales o requieres más información puedes contactarnos.
+          Si deseas conocer sobre la informaciòn financiera de Conquistando Sonrisas A.C,
+          favor de mandar un correo a: <Link href={`mailto:${'procuracion@conquistandosonrisas.org'}`} target='_blank' color='conquiDarkBlue'>{'procuracion@conquistandosonrisas.org'} </Link>
+          con tus datos de contacto.
+        </Typography>
         <Box minHeight='500px'>
           {
             sortedImpactos.map((item, itemIdx) => (
