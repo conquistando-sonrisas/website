@@ -64,8 +64,8 @@ export default function Footer() {
                 label: 'Aviso de privacidad',
                 href: '/aviso-privacidad'
               }, {
-                label: 'Términos y condiciones',
-                href: '/terminos-condiciones'
+                label: 'Donaciones',
+                href: '/donaciones-legal'
               },
             ]}
           />
