@@ -1,9 +1,9 @@
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import { ContactoDetail } from "./ContactoDetails";
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, TerminalOutlined } from "@mui/icons-material";
 import { Horario } from "../../app";
-import { format, isToday, nextMonday, parse } from "date-fns";
+import { format, getISODay, isToday, nextMonday, parse } from "date-fns";
 import { es } from "date-fns/locale";
 
 
@@ -19,15 +19,12 @@ export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
   return (
     <Box>
       <ContactoDetail icon='punch_clock'>Horario</ContactoDetail>
-      <HorarioButton horario={horarios} handleClick={handleClick} />
+      <HorarioButton horarios={horarios} handleClick={handleClick} />
       <Box display='flex' alignItems='center' >
         <Menu
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          sx={{
-            minWidth: '500px',
-          }}
         >
           {
             horarios.map((horario) => (
@@ -70,39 +67,9 @@ const HorarioItem = (props: { horario: Horario, handleClose: () => void }) => {
   )
 }
 
-const HorarioButton = ({ handleClick, horario }: { horario: Horario[], handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => {
-  const idx = horario.length - new Date().getDay() - 1;
-  const currentHorario = horario[idx % horario.length];
-  const parsedHorarioDate = parse(currentHorario.dia, 'eeee', new Date(), { locale: es, weekStartsOn: 1 });
-  const nextHorario = horario[(idx + 1) % horario.length];
-  const nextInicio = nextHorario.inicio ? format(parse(nextHorario.inicio, 'H:m:s', new Date()), 'h:mm a') : null;
-
-  let state = '';
-  let color = 'conquiDarkBlue';
-  let message = '';
-
-  if (currentHorario.abierto && currentHorario.termino) {
-    const parsedTermino = parse(currentHorario.termino, 'H:m:s', parsedHorarioDate);
-    const now = new Date();
-    const isOpen = now.getTime() < parsedTermino.getTime();
-
-    state = isOpen ? 'Abierto' : 'Cerrado';
-    color = isOpen ? '#2e7d32' : '#d32f2f';
-
-    message = isOpen
-      ? `cierra a las ${format(parsedTermino, 'h:mm a')}`
-      : nextHorario.abierto
-        ? `abre ${nextHorario.dia} a las ${nextInicio}`
-        : 'abre lunes a las 9:00 AM';
-
-  } else {
-    state = 'Cerrado';
-    message = nextHorario.abierto
-      ? `abre ${nextHorario.dia} a las ${nextInicio}`
-      : 'abre lunes a las 9:00 AM';
-    color = '#d32f2f';
-  }
-
+const HorarioButton = ({ handleClick, horarios }: { horarios: Horario[], handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => {
+  const { state, message } = getStateAndMessage(horarios);
+  const color = state === 'Abierto' ? '#2e7d32' : '#d32f2f';
   return (
     <Button
       onClick={handleClick}
@@ -118,4 +85,48 @@ const HorarioButton = ({ handleClick, horario }: { horario: Horario[], handleCli
       </span>
     </Button>
   )
+}
+
+
+const getStateAndMessage = (horarios: Horario[]): { state: string, message: string } => {
+  const now = new Date();
+  const idx = getISODay(now);
+  const currentHorario = idx > 0 ? horarios[idx - 1] : horarios[0];
+  const nextHorario = idx < horarios.length - 1 ? horarios[idx] : horarios[horarios.length - 1];
+  const nextInicio = nextHorario.inicio ? parse(nextHorario.inicio, 'H:m:s', now) : null;
+
+  const nextOpenMessage = nextInicio ? `abre "${nextHorario.dia}" a las ${format(nextInicio, 'h:mm a')}` : 'abre lunes a las 9:00 AM';
+  let state = '';
+  let message = '';
+
+  if (!currentHorario.abierto) {
+    state = 'Cerrado';
+    message = nextOpenMessage;
+    return { state, message };
+  }
+
+  const { inicio, termino } = currentHorario;
+
+  if (!inicio || !termino) {
+    throw new Error('El dia de hoy no tiene definido horas de inicio o termino');
+  }
+
+  const parsedInicio = parse(inicio, 'H:m:s', now);
+  const parsedTermino = parse(termino, 'H:m:s', now);
+
+  if (now < parsedInicio) {
+    state = 'Cerrado';
+    message = `abre a las ${format(parsedInicio, 'h:mm a')}`;
+  } else if (now > parsedTermino) {
+    state = 'Cerrado';
+    message = nextOpenMessage;
+  } else {
+    state = 'Abierto';
+    message = `cierra a las ${format(parsedInicio, 'h:mm a')}`;
+  }
+
+  return {
+    state,
+    message
+  }
 }
