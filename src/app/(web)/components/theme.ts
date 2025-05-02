@@ -7,6 +7,8 @@ const theme = createTheme({
       main: '#88C0E4',
       light: '#9fcce9',
       dark: '#5f869f',
+      "100": '#eef6fb',
+      "50": '#fbfdfe',
       contrastText: getContrastRatio('#88C0E4', '#000') > 4.5 ? '#000' : 'fff'
     },
     conquiDarkBlue: {
@@ -26,7 +28,7 @@ const theme = createTheme({
       light: '#8e93a4',
       dark: '#5b6071',
       contrastText: '#0b2332'
-    }
+    },
   },
   typography: {
     fontFamily: ['Lexend', 'sans-serif'].join(','),
