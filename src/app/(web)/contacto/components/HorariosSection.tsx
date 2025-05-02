@@ -95,7 +95,7 @@ const getStateAndMessage = (horarios: Horario[]): { state: string, message: stri
   const nextHorario = idx < horarios.length - 1 ? horarios[idx] : horarios[horarios.length - 1];
   const nextInicio = nextHorario.inicio ? parse(nextHorario.inicio, 'H:m:s', now) : null;
 
-  const nextOpenMessage = nextInicio ? `abre "${nextHorario.dia}" a las ${format(nextInicio, 'h:mm a')}` : 'abre lunes a las 9:00 AM';
+  const nextOpenMessage = nextInicio ? `abre ${nextHorario.dia} a las ${format(nextInicio, 'h:mm a')}` : 'abre lunes a las 9:00 AM';
   let state = '';
   let message = '';
 
@@ -122,7 +122,7 @@ const getStateAndMessage = (horarios: Horario[]): { state: string, message: stri
     message = nextOpenMessage;
   } else {
     state = 'Abierto';
-    message = `cierra a las ${format(parsedInicio, 'h:mm a')}`;
+    message = `cierra a las ${format(parsedTermino, 'h:mm a')}`;
   }
 
   return {
