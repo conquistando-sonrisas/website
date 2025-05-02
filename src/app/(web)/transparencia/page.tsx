@@ -45,7 +45,7 @@ export default async function TransparenciaPage() {
     <main>
       <Hero
         title="Transparencia"
-        desc="Conoce el impacto que ha tenido Conqui en estos años 😊"
+        desc="Conoce el impacto que hemos tenido 😊"
       />
       <Container sx={{ my: 6 }}>
         <SectionTitle>Solicita información de transparencia</SectionTitle>

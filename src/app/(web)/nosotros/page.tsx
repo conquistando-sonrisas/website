@@ -24,9 +24,11 @@ export default async function Nosotros() {
                     </Typography>
                 </Box>
             </Container>
-            <Box sx={{ backgroundColor: 'conquiDarkBlue.main', height: { md: '900px', xs: '1500px' }, position: 'relative' }}>
+            <Box sx={{ backgroundColor: 'conquiDarkBlue.main', height: { md: '1100px', xs: '1500px' }, position: 'relative' }}>
                 <Image src='/Asset-14.png' height={900} width={800} alt='' style={{ objectFit: 'fill', objectPosition: 'bottom', position: 'absolute', left: 0, bottom: 0 }} />
-                <Image src='/flores_azul_claro.png' height={400} width={175} alt='' style={{ objectFit: 'fill', position: 'absolute', bottom: 0, right: 0 }} />
+                <Box display={{ xs: 'none', md: 'block' }}>
+                    <Image src='/flores_azul_claro.png' height={400} width={175} alt='' style={{ objectFit: 'fill', position: 'absolute', bottom: 0, right: 0 }} />
+                </Box>
                 <Container sx={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
                     <Grid2 container zIndex={10} p={3} spacing={3} >
                         <Grid2 size={{ xs: 12, md: 6 }}>
