@@ -166,20 +166,17 @@ const NavBarLink = (props: NavBarLinkProps) => {
   return (<MuiLink
     component={Link}
     href={props.href}
-    underline="none"
     fontWeight={600}
     variant="body1"
-    pb={1}
-    px={2}
     textAlign='center'
     sx={{
+      textDecoration: 'none',
       position: 'relative',
       color: '#0f2f43',
       mx: .5,
       py: 1,
       px: 2,
       ':hover': {
-        borderRadius: '25px',
         color: '#4051d4'
       },
     }}>
