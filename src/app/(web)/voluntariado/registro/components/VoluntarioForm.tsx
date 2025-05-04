@@ -56,6 +56,10 @@ export const VoluntarioForm = () => {
       })
       reset();
       setShowSuccessMessage(true);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     } catch (err) {
       setErrorMessage((err as Error).message);
     } finally {
