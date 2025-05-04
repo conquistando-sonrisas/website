@@ -1,7 +1,8 @@
 import { Box, Container, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 
-export default function Hero(props: { title: string, desc?: string }) {
+export default function Hero(props: { title: string, desc?: string, callToAction?: ReactNode }) {
 
   return (
     <Box height={{xs: '50vh', md: '45vh'}} sx={{
@@ -16,6 +17,7 @@ export default function Hero(props: { title: string, desc?: string }) {
         {props.desc && (
           <Typography zIndex={2} fontSize={{ xs: '1.2em', md: '1.5em' }}>{props.desc}</Typography>
         )}
+        {props.callToAction}
       </Container>
     </Box>
   )

@@ -5,6 +5,7 @@ import floresAzules from '../../../../../public/flores_azules.png'
 import floresAmarillas from '../../../../../public/flores_amarillas.png'
 import Image from "next/image";
 import { ArrowForward } from "@mui/icons-material";
+import Link from "next/link";
 
 const mikHaloo = localFont({
   src: '../../Mikhaloo.ttf',
@@ -28,7 +29,19 @@ export default function BecomeAVoluntario() {
         <span className={mikHaloo.className} style={{ fontSize: '2.5em' }}>
           voluntario
         </span>
-        <Button endIcon={<ArrowForward />} color="conquiDarkBlue" size="large" variant="contained" sx={{ width: 'fit-content', alignSelf: 'center', mt: 2, borderRadius: '25px' }}>Registro</Button>
+        <Button
+          endIcon={<ArrowForward />}
+          color="conquiDarkBlue"
+          size="large"
+          variant="contained"
+          LinkComponent={Link}
+          href='/voluntariado/registro'
+          sx={{
+            width: 'fit-content',
+            alignSelf: 'center',
+            mt: 2,
+            borderRadius: '25px'
+          }}>Registro</Button>
       </Grid2>
       <Grid2 size='grow' display={{ xs: 'none', md: 'flex' }}>
         <Image src={floresAmarillas} height={175} width={400} alt='' style={{ alignSelf: 'flex-end' }} />

@@ -4,6 +4,8 @@ import EquiposSection from "./components/EquiposSection";
 import SectionTitle from "../components/SectionTitle";
 import Image from "next/image";
 import ActividadesVoluntariadoSection from "./components/ActividadesVoluntariadoSection";
+import Link from "next/link";
+import { ArrowForward } from "@mui/icons-material";
 
 
 
@@ -13,6 +15,19 @@ export default async function VoluntariadoPage() {
       <Hero
         title="¿Quieres ser voluntario?"
         desc="¡No te pierdas esta oportunidad de hacer una diferencia! Únete a nosotros y ayúdanos a conquistar sonrisas para estos pequeños héroes."
+        callToAction={<Button
+          LinkComponent={Link}
+          href='/voluntariado/registro'
+          variant="contained"
+          color="conquiDarkBlue"
+          size='large'
+          endIcon={<ArrowForward />}
+          sx={{
+            mt: 1,
+            borderRadius: '25px',
+            maxWidth: 'fit-content',
+          }}>Registro</Button>
+        }
       />
       <Container>
         <Grid2 container height='400px' minHeight='fit-content' sx={{ my: 3 }} spacing={2}>
@@ -50,7 +65,15 @@ export default async function VoluntariadoPage() {
         <SectionTitle>
           ¡Sé parte de Conqui!
         </SectionTitle>
-        <Button variant="contained" color="conquiDarkBlue" sx={{ borderRadius: 10, maxWidth: 'fit-content' }}> Enviar mensaje</Button>
+        <Button
+          LinkComponent={Link}
+          href='/voluntariado/registro'
+          variant="contained"
+          color="conquiDarkBlue"
+          sx={{
+            borderRadius: 10,
+            maxWidth: 'fit-content'
+          }}> Registro</Button>
       </Container>
 
     </main>
