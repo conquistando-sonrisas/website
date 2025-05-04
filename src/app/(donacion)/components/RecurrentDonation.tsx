@@ -20,13 +20,7 @@ initMercadoPago(process.env.NEXT_PUBLIC_DONACION_RECURRENTE_PUBLIC_KEY)
 export default function RecurrentDonation(props: { amount: number, fees: number }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [suscriptionRes, setSuscriptionRes] = useState<MonthlyResponseType | null>({
-    amount: 120,
-    nextPayment: new Date('2025-05-01T16:50:27.000-04:00'),
-    reason: 'Donación mensual',
-    status: 'authorized',
-    suscriptionId: '1230hasdgfoia'
-  });
+  const [suscriptionRes, setSuscriptionRes] = useState<MonthlyResponseType | null>();
 
   const handleSubmit = useCallback(async (data: IPaymentFormData) => {
     try {
@@ -171,7 +165,7 @@ const RecurrentDonationStatus = (props: { suscriptionRes: MonthlyResponseType })
           Icon={<TodayIcon sx={{ fontSize: 30, color: 'conquiLightBlue.dark' }} />}
           description={`${dateFormatter(
             nextPayment,
-            { hour: '2-digit', day: 'numeric', month: 'long', minute: '2-digit', year: 'numeric' })
+            { day: 'numeric', month: 'long', year: 'numeric' })
             }`}
         />
         <Button
