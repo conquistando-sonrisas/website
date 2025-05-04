@@ -82,7 +82,7 @@ export default function OneTimeDonation(props: { amount: number, fees: number })
               />
             </Grid2 >
             <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 2 }}>
-              <DonacionSummary amount={props.amount} fees={props.fees} frequency='one-time' />
+              <DonacionSummary amount={props.amount} fees={props.fees} frequency='oneTime' />
             </Grid2>
           </Grid2 >
         )

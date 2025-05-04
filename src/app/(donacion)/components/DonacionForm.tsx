@@ -3,38 +3,71 @@
 import { Frequency } from "@/app/(web)/app";
 import { Favorite } from "@mui/icons-material";
 import { TabContext, TabPanel } from "@mui/lab";
-import { Box, Button, FormControl, InputAdornment, InputLabel, OutlinedInput, Paper, Stack, styled, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { Box, Button, Paper, Stack, styled, Tab, Tabs, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { use, useCallback, useState } from "react";
+import { NumericFormat } from 'react-number-format'
 
+const donationDefaultValues = {
+  monthly: '250',
+  oneTime: '250',
+  custom: ''
+}
 
 export default function DonacionForm(props: { elevation?: number, width?: number | string }) {
-  const [frequency, setFrequency] = useState<Frequency>('one-time');
-  const [oneTimeDonationValue, setOneTimeDonationValue] = useState('100');
-  const [monthlyDonationValue, setMonthlyDonationValue] = useState('120');
-  const [customAmount, setCustomAmount] = useState('');
+  const [frequency, setFrequency] = useState<Frequency>('oneTime');
+  const [donation, setDonation] = useState(donationDefaultValues)
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
   const handleCustomAmountChange = useCallback((value: string) => {
+    setErrorMessage('')
     if (!value) {
-      setOneTimeDonationValue('100');
-      setMonthlyDonationValue('120');
-      setCustomAmount('')
+      setDonation(donationDefaultValues)
       return;
     }
 
-    setMonthlyDonationValue('');
-    setOneTimeDonationValue('');
-    setCustomAmount(value);
+    setDonation({
+      monthly: '',
+      oneTime: '',
+      custom: value
+    })
   }, []);
 
-  let donationAmount = 0;
-  if (customAmount) {
-    donationAmount = parseFloat(customAmount)
-  } else if ((frequency === 'one-time') && oneTimeDonationValue !== '') {
-    donationAmount = parseFloat(oneTimeDonationValue);
-  } else if ((frequency === 'monthly') && monthlyDonationValue !== '') {
-    donationAmount = parseFloat(monthlyDonationValue);
-  }
+  const handleFrequencyChange = useCallback((frequency: Frequency, value: string) => {
+    setErrorMessage('')
+    setDonation(pre => ({ ...pre, [frequency]: value }))
+    setFrequency(frequency)
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    const { custom, monthly, oneTime } = donation;
+    let donationAmount = 0;
+    if (custom) {
+      donationAmount = parseFloat(custom)
+    } else if ((frequency === 'oneTime') && oneTime !== '') {
+      donationAmount = parseFloat(oneTime);
+    } else if ((frequency === 'monthly') && monthly !== '') {
+      donationAmount = parseFloat(monthly);
+    }
+
+    if (donationAmount < 98) {
+      setErrorMessage('Ingresa un monto mayor o igual a 98 pesos, por favor')
+      return;
+    }
+
+    if (donationAmount > 195_000) {
+      setErrorMessage('Ingresa un valor menor o igual a 195,000 pesos, por favor')
+      return;
+    }
+
+    if (!donationAmount) {
+      setErrorMessage('Ingresa o selecciona un monto válido para donar, por favor')
+      return;
+    }
+
+    router.push(`/checkout?amount=${donationAmount}&frequency=${frequency}`)
+  }, [donation, frequency]);
 
 
   return (
@@ -45,7 +78,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       py={5}
       sx={{
         width: '450px',
-        backgroundColor: '#fbfdfe'
+        backgroundColor: 'conquiLightBlue.50'
       }}>
       <Typography
         display='flex'
@@ -61,70 +94,45 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       <Stack rowGap={3}>
         <TabContext value={frequency}>
           <Tabs value={frequency} onChange={(_, newValue) => setFrequency(newValue)} variant="fullWidth">
-            <StyledTab label='Una vez' value='one-time' id='tipo-donacion-una-vez' />
+            <StyledTab label='Una vez' value='oneTime' id='tipo-donacion-una-vez' />
             <StyledTab label='Mensual' value='monthly' id='tipo-donacion-mensual' />
           </Tabs>
-          <TabPanel value='one-time' sx={{ p: 0, m: 0 }}>
+          <TabPanel value='oneTime' sx={{ p: 0, m: 0 }}>
             <CantidadDonacionGroup
-              name='one-time'
-              disabled={!!customAmount}
-              onChange={(newValue) => setOneTimeDonationValue(newValue)}
-              value={oneTimeDonationValue}
-              toggleButtons={[{
-                value: '100',
-                label: '$100'
-              }, {
-                value: '250',
-                label: '$250'
-              }, {
-                value: '400',
-                label: '$400'
-              }, {
-                value: '500',
-                label: '$500'
-              }]}
+              name='oneTime'
+              disabled={!!donation.custom}
+              onChange={(newValue) => handleFrequencyChange('oneTime', newValue)}
+              value={donation.oneTime}
+              donationValues={['100', '250', '400', '500']}
             />
           </TabPanel>
           <TabPanel color="conquiDarkBlue" value='monthly' sx={{ p: 0, m: 0 }}>
             <CantidadDonacionGroup
               name='monthly'
-              disabled={!!customAmount}
-              onChange={(newValue) => setMonthlyDonationValue(newValue)}
-              value={monthlyDonationValue}
-              toggleButtons={[{
-                value: '120',
-                label: '$120'
-              }, {
-                value: '250',
-                label: '$250'
-              }, {
-                value: '350',
-                label: '$350'
-              }, {
-                value: '500',
-                label: '$500'
-              }]}
+              disabled={!!donation.custom}
+              onChange={(newValue) => handleFrequencyChange('monthly', newValue)}
+              value={donation.monthly}
+              donationValues={['120', '250', '350', '500']}
             />
           </TabPanel>
         </TabContext>
-        <FormControl variant="outlined">
-          <InputLabel htmlFor='custom-amount'>Otro monto</InputLabel>
-          <OutlinedInput
-            inputMode='numeric'
-            type='number'
-
-            onChange={(e) => handleCustomAmountChange(e.target.value)}
-            label='Otro monto'
-            startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            id='custom-amount' />
-        </FormControl>
+        <NumericFormat
+          error={!!errorMessage}
+          helperText={errorMessage}
+          onValueChange={values => handleCustomAmountChange(values.value)}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString={true}
+          label='Otro monto'
+          allowNegative={false}
+          allowLeadingZeros={false}
+          prefix='$'
+        />
         <Button
           size="large"
           variant="contained"
-          LinkComponent={Link}
-          href={`/checkout?amount=${donationAmount}&frequency=${frequency}`}
+          onClick={handleSubmit}
           fullWidth
-          disabled={!donationAmount}
           startIcon={<Favorite />}
           sx={{
             backgroundColor: 'conquiYellow.main',
@@ -158,10 +166,7 @@ type CantidadDonacionGroupProps = {
   disabled: boolean,
   value: string,
   onChange: (newValue: string) => void,
-  toggleButtons: Array<{
-    value: string,
-    label: string
-  }>
+  donationValues: string[]
 }
 const CantidadDonacionGroup = (props: CantidadDonacionGroupProps) => {
   return (
@@ -174,8 +179,8 @@ const CantidadDonacionGroup = (props: CantidadDonacionGroupProps) => {
       style={{ alignItems: 'stretch', width: '100%' }}
     >
       {
-        props.toggleButtons.map(({ value, label }, idx) => (
-          <ToggleButton key={`${props.name}-${idx}`} disableRipple style={{ flex: 1 }} value={value}>{label}</ToggleButton>
+        props.donationValues.map((value, idx) => (
+          <ToggleButton key={`${props.name}-${idx}`} disableRipple style={{ flex: 1 }} value={value}>${value}</ToggleButton>
         ))
       }
     </ToggleButtonGroup>

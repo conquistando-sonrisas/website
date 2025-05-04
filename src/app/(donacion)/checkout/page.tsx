@@ -16,7 +16,7 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
     </Box>)
   }
 
-  if (typeof frequency === 'string' && (frequency !== 'one-time' && frequency !== 'monthly')) {
+  if (typeof frequency === 'string' && (frequency !== 'oneTime' && frequency !== 'monthly')) {
     return (<Box minHeight='85vh' component={Container} pt={3}>
       <Alert severity='error'>
         <AlertTitle color='inherit'>Error</AlertTitle>

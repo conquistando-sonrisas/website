@@ -152,7 +152,7 @@ export type WithSearchParams = {
   }>
 }
 
-export type Frequency = 'monthly' | 'one-time'
+export type Frequency = 'monthly' | 'oneTime'
 
 export type StrapiPagination = {
   page: number;
