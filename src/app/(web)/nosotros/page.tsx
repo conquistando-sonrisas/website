@@ -30,11 +30,11 @@ export default async function Nosotros() {
                     <Image src='/flores_azul_claro.png' height={400} width={175} alt='' style={{ objectFit: 'fill', position: 'absolute', bottom: 0, right: 0 }} />
                 </Box>
                 <Container sx={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
-                    <Grid2 container zIndex={10} p={3} spacing={3} >
+                    <Grid2 container zIndex={10} p={{ md: 3 }} spacing={3} >
                         <Grid2 size={{ xs: 12, md: 6 }}>
                             <NosotrosCardSection
                                 titleBackgroundColor="conquiYellow.light"
-                                cardBackgroundColor="white"
+                                cardBackgroundColor="conquiLightBlue.100"
                                 title="Misión"
                                 content={nosotros.mision}
                             />
@@ -51,7 +51,7 @@ export default async function Nosotros() {
                             <Grid2 size={{ md: 6, xs: 12 }} >
                                 <NosotrosCardSection
                                     title='valores'
-                                    titleBackgroundColor="white"
+                                    titleBackgroundColor="conquiLightBlue.100"
                                     cardBackgroundColor="conquiLightBlue.main"
                                     isMarkdown={true}
                                     height="fit-content"
@@ -89,11 +89,15 @@ const NosotrosCardSection = (props: { title: string, content: string, cardBackgr
                 p: { md: 7, xs: 3 },
                 display: 'flex',
                 alignItems: 'center',
-                borderRadius: 12,
+                borderRadius: { xs: 8, md: 12 },
             }} >
                 {
                     props.isMarkdown ? (
-                        <MDXRemote source={props.content} />
+                        <MDXRemote
+                            components={{
+                                li: props => <li style={{ marginBottom: '7px' }}>{props.children}</li>
+                            }}
+                            source={props.content} />
                     ) : (
 
                         <Typography textAlign='center'>
