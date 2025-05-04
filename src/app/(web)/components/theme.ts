@@ -3,6 +3,12 @@ import { createTheme, getContrastRatio } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
+    primary: {
+      main: '#24376f',
+      light: '#19264d',
+      dark: '#4f5f8b',
+      contrastText: '#fff'
+    },
     conquiLightBlue: {
       main: '#88C0E4',
       light: '#9fcce9',
@@ -34,7 +40,7 @@ const theme = createTheme({
     fontFamily: ['Lexend', 'sans-serif'].join(','),
     allVariants: {
       color: '#151633'
-    }, 
+    },
   }
 })
 
