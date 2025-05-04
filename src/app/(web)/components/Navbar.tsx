@@ -167,7 +167,6 @@ const NavBarLink = (props: NavBarLinkProps) => {
     component={Link}
     href={props.href}
     fontWeight={600}
-    variant="body1"
     textAlign='center'
     sx={{
       textDecoration: 'none',
