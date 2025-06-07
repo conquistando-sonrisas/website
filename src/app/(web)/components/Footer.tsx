@@ -5,6 +5,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import Link from "next/link";
 import { ReactNode } from "react";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 
 export default function Footer() {
@@ -70,6 +71,7 @@ export default function Footer() {
             ]}
           />
           <Box>
+            {/* TODO: Considerar agregar enlaces a CMS */}
             <Typography fontWeight={600} fontSize='1.2rem' my={.5} color="#eef6fbd9">Social</Typography>
             <Stack direction='row' columnGap={2} >
               <SocialIconLink
@@ -79,6 +81,11 @@ export default function Footer() {
               <SocialIconLink
                 href='https://www.instagram.com/Conquistandosonrisascuu'
                 icon={<InstagramIcon fontSize='large' />
+                }
+              />
+              <SocialIconLink
+                href='https://www.linkedin.com/company/conquistando-sonrisas-a-c/'
+                icon={<LinkedInIcon fontSize='large' />
                 }
               />
               <SocialIconLink
