@@ -127,6 +127,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
           allowNegative={false}
           allowLeadingZeros={false}
           prefix='$'
+          type="tel"
         />
         <Button
           size="large"

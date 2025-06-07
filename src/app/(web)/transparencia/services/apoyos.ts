@@ -49,7 +49,6 @@ const getApoyosByYears = async () => {
   }, {
     encodeValuesOnly: true
   })
-  console.log(params)
   const res = await cmsApi.get(`/impacto-apoyos?${params}`)
   return res.data.data as Array<ImpactoApoyo>
 }
