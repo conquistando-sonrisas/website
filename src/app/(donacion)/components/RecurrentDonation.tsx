@@ -13,6 +13,8 @@ import TodayIcon from '@mui/icons-material/Today';
 import Link from "next/link"
 import { useWindowSize } from '@react-hook/window-size/throttled'
 import ReactConfetti from 'react-confetti'
+import { conquiApi } from "@/app/utlis/swr"
+import { isAxiosError } from "axios"
 
 
 
@@ -25,17 +27,12 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
   const handleSubmit = useCallback(async (data: IPaymentFormData) => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CONQUI_API}/donaciones`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...data.formData,
-          frequency: 'monthly'
-        })
+      const res = await conquiApi.post('/donaciones', {
+        ...data.formData,
+        frequency: 'monthly'
       })
-      const body = await res.json();
+      console.log('RES', res)
+      const body = res.data;
       const suscription: MonthlyResponseType = {
         amount: body.amount,
         nextPayment: new Date(body.nextPayment),
@@ -43,9 +40,14 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
         status: body.status,
         suscriptionId: body.susscriptionId
       }
+
       setSuscriptionRes(suscription)
     } catch (err) {
-      console.error('error', err)
+      if (isAxiosError(err)) {
+        console.log(err)
+        setErrorMessage(err.response?.data.message);
+        return;
+      }
       setErrorMessage((err as Error).message);
     } finally {
       setLoading(false)
@@ -55,7 +57,8 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
   if (errorMessage) {
     return (<Box mx='auto' maxWidth={'400px'} height={'100px'}>
       <Alert severity="error">
-        <AlertTitle color="inherit">{errorMessage}</AlertTitle>
+        <AlertTitle color="inherit">Hubo un error al proesar la donación</AlertTitle>
+        <Typography color='inherit'>{errorMessage}</Typography>
         <Button LinkComponent={Link} href='/' color="inherit" sx={{ textTransform: 'none' }}>Volver a inicio</Button>
       </Alert>
     </Box>
@@ -114,13 +117,6 @@ const DonationDetail = (props: { title: string, description: string, Icon: React
   )
 }
 
-const dateFormatter = (date: Date, opts: Intl.DateTimeFormatOptions) => {
-  return new Intl.DateTimeFormat('es-MX', {
-    timeZone: 'America/New_York',
-    ...opts
-  })
-    .format(date)
-}
 
 type MonthlyResponseType = {
   suscriptionId: string;
@@ -132,20 +128,18 @@ type MonthlyResponseType = {
 
 
 const RecurrentDonationStatus = (props: { suscriptionRes: MonthlyResponseType }) => {
-  const { amount, reason, nextPayment } = props.suscriptionRes;
+  const { amount, reason } = props.suscriptionRes;
   const [width, height] = useWindowSize();
   return (
     <Box
       mx='auto'
-      sx={{
-        backgroundColor: 'conquiLightBlue.100'
-      }}
+      bgcolor={'conquiLightBlue.100'}
       px={3}
       py={5}
       borderRadius={5}
       width={'500px'}
     >
-      <Typography mb={3} textAlign='center' variant="h1" fontSize={24} fontWeight={600}>¡Gracias por tu donación!</Typography>
+      <Typography mb={3} textAlign='center' variant="h1" fontSize={24} fontWeight={600}>¡Gracias por tu donación recurrente!</Typography>
       <Stack
         divider={<Divider />}
         rowGap={1}
@@ -163,10 +157,7 @@ const RecurrentDonationStatus = (props: { suscriptionRes: MonthlyResponseType })
         <DonationDetail
           title="Operación"
           Icon={<TodayIcon sx={{ fontSize: 30, color: 'conquiLightBlue.dark' }} />}
-          description={`${dateFormatter(
-            nextPayment,
-            { day: 'numeric', month: 'long', year: 'numeric' })
-            }`}
+          description='La transacción se realizará en un par de horas'
         />
         <Button
           LinkComponent={Link}

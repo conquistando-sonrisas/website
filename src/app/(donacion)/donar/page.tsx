@@ -2,7 +2,7 @@ import { Box, Container, Grid2 } from "@mui/material";
 import DonacionForm from "../components/DonacionForm";
 import Image from "next/image";
 import DonacionesIcon from '../../../../public/IconoDonaciones.png'
-
+import ImagenDonacion from '../../../../public/Asset_17.webp'
 
 
 export default function DonarPage() {
@@ -18,7 +18,7 @@ export default function DonarPage() {
           >
             <Image
               unoptimized
-              src='https://static-content-lccc.s3.us-east-1.amazonaws.com/Asset_17_d941fc204a.jpg'
+              src={ImagenDonacion}
               fill
               style={{
                 objectFit: 'cover'

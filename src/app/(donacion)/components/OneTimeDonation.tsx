@@ -2,14 +2,15 @@
 
 import { initMercadoPago, Payment, StatusScreen } from "@mercadopago/sdk-react";
 import { IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type";
-import { Alert, AlertTitle, Backdrop, Box, Button, CircularProgress, Grid2 } from "@mui/material";
+import { Alert, AlertTitle, Backdrop, Box, Button, CircularProgress, Grid2, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 import DonacionSummary from "./DonacionSummary";
 import { paymentBrickCustomization } from "./MercadoPagoPayment";
 import Link from "next/link";
 import { useWindowSize } from "@react-hook/window-size/throttled";
 import ReactConfetti from "react-confetti";
-
+import { conquiApi } from '@/app/utlis/swr'
+import { isAxiosError } from "axios";
 
 
 initMercadoPago(process.env.NEXT_PUBLIC_DONACION_UNICA_PUBLIC_KEY)
@@ -22,23 +23,19 @@ export default function OneTimeDonation(props: { amount: number, fees: number })
   const handleSubmit = useCallback(async (data: IPaymentFormData) => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CONQUI_API}/donaciones`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...data.formData,
-          frequency: 'one-time'
-        })
+      const res = await conquiApi.post('/donaciones', {
+        ...data.formData,
+        frequency: 'one-time'
       })
-      const body = await res.json()
 
-      setPaymentId(body.paymentId);
-      setThreeDsInfo(body.threeDsInfo)
+      setPaymentId(res.data.paymentId);
+      setThreeDsInfo(res.data.threeDsInfo);
     } catch (err) {
-      console.error('error', err)
-      setErrorMessage((err as Error).message);
+      if (isAxiosError(err)) {
+        setErrorMessage(err.response?.data.message);
+        return;
+      }
+      setErrorMessage((err as Error).message)
     } finally {
       setLoading(false)
     }
@@ -47,7 +44,10 @@ export default function OneTimeDonation(props: { amount: number, fees: number })
   if (errorMessage) {
     return (<Box mx='auto' maxWidth={'400px'} height={'100px'}>
       <Alert severity="error">
-        <AlertTitle color="inherit">{errorMessage}</AlertTitle>
+        <AlertTitle color="inherit">Hubo un error al procesar la donación</AlertTitle>
+        <Typography>
+          {errorMessage}
+        </Typography>
         <Button LinkComponent={Link} href='/' color="inherit" sx={{ textTransform: 'none' }}>Volver a inicio</Button>
       </Alert>
     </Box>
