@@ -19,7 +19,7 @@ export interface ImpactoSummary {
 
 export default async function Apoyos() {
   const impactoReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/impactos-generales?sort[0]=anio:desc&pagination[page]=1&pagination[pageSize]=1`)
-  const apoyosReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/apoyos?sort[0]=updatedAt:desc&pagination[page]=1&pagination[pageSize]=5`)
+  const apoyosReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/apoyos?sort[0]=publishedAt:asc&pagination[page]=1&pagination[pageSize]=6`)
   const [impactoRes, apoyosRes] = await Promise.all([impactoReq, apoyosReq])
   let [impacto, apoyos] = await Promise.all([impactoRes.json(), apoyosRes.json()])
   impacto = impacto.data[0]
@@ -27,7 +27,7 @@ export default async function Apoyos() {
   return (
     <Grid2 container rowGap={2} columnGap={4} minHeight='300px' height='fit-content'>
       <Grid2
-        size={{ xs: 12, md: 7 }}
+        size={{ xs: 12, md: 8 }}
         component={Paper}
         variant="elevation"
         sx={{ backgroundColor: '#fbfdfe' }}

@@ -80,7 +80,7 @@ export default async function TransparenciaPage() {
                   </Grid2>
                   {
                     impactoAnual.informeAnual !== null && (
-                      <Link href={impactoAnual.informeAnual?.url} target='_blank'>Informe anual</Link>
+                      <Link href={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${impactoAnual.informeAnual?.url}`} target='_blank'>Informe anual</Link>
                     )
                   }
                 </AccordionDetails>

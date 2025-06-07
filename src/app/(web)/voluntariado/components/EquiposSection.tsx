@@ -7,22 +7,20 @@ import Image from "next/image";
 
 
 export default async function EquiposSection() {
-  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/equipos?populate=*&pagination[pageSize]=3`)
+  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/equipos?populate=*&pagination[pageSize]=5`)
   const res = await req.json();
   const equipos = res.data as Array<Equipo>;
 
   return (
     <section>
-      <Grid2 container>
+      <Grid2 container mb={6}>
         <Grid2 size={{ xs: 12, md: 3 }}>
           <SectionTitle sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             Nuestros <br />
             <HighlightText>equipos</HighlightText>
           </SectionTitle>
         </Grid2>
-        <Grid2 size={{ xs: 12, md: 9 }}>
-          <EquiposList equipos={equipos} />
-        </Grid2>
+        <EquiposList equipos={equipos} />
       </Grid2>
     </section>
   )
@@ -31,30 +29,34 @@ export default async function EquiposSection() {
 const EquiposList = (props: { equipos: Array<Equipo> }) => {
 
   return (
-    <Stack spacing={2} direction={{ md: 'row', xs: 'column' }} alignItems={{ xs: 'center', md: 'stretch' }}>
+    <Grid2 container size={{ xs: 12, md: 9 }} spacing={4}>
       {
         props.equipos.map(equipo => (
-          <Box
+          <Grid2
+            size={{ xs: 12, md: 5 }}
             key={equipo.documentId}
             sx={{
               zIndex: 2,
-              width: { xs: '100%', md: '300px' },
               height: 'fit-content',
-              backgroundColor: 'white',
+              backgroundColor: '#fdfcfc',
               p: { xs: 1, md: 3 },
               borderRadius: 5
             }} >
-            <Image
-              src={equipo.logo.url}
-              height={100}
-              width={100}
-              alt=''
-              unoptimized />
+            {
+              equipo.logo && (
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${equipo.logo?.url}`}
+                  height={100}
+                  width={100}
+                  alt=''
+                  unoptimized />
+              )
+            }
             <Typography variant='h5' mb={1}>{equipo.nombre}</Typography>
             <Typography>{equipo.descripcion}</Typography>
-          </Box>
+          </Grid2>
         ))
       }
-    </Stack>
+    </Grid2>
   )
 }

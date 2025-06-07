@@ -11,13 +11,18 @@ export default function EventosList(props: { eventos: Evento[], initialPaginatio
   return (
     <Container sx={{ my: 3 }}>
       {
-        props.eventos.map((evento) => (
-          <EventoListItem key={evento.documentId} evento={evento} />
-        ))
+        props.eventos.length > 0
+          ? props.eventos.map((evento) => (
+            <>
+              <EventoListItem key={evento.documentId} evento={evento} />
+              <Box display='flex' justifyContent='center'>
+                <Pagination sx={{ my: 4 }} count={1} />
+              </Box>
+            </>
+          )) : (
+            <Typography>Por el momento no hay eventos registrados</Typography>
+          )
       }
-      <Box display='flex' justifyContent='center'>
-        <Pagination sx={{ my: 4 }} count={1} />
-      </Box>
     </Container>
   )
 }
@@ -30,7 +35,7 @@ const EventoListItem = ({ evento }: { evento: Evento }) => {
       <Grid2 size={{ xs: 10, md: 4 }} mx='auto' position='relative' height='300px'>
         <Image
           alt=''
-          src={evento.cover.formats.medium.url}
+          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${evento.cover.formats.medium.url}`}
           fill
           style={{
             objectFit: 'cover',

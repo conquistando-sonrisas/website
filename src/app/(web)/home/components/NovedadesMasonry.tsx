@@ -66,7 +66,7 @@ const NovedadCard = (props: { novedad: Novedad, height?: number }) => {
         zIndex: 2,
       }}></div>
       <Image
-        src={props.novedad.cover.formats.medium.url}
+        src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${props.novedad.cover.formats.medium.url}`}
         fill
         sizes="(max-width: 1200px) 50vw, 33vw"
         alt=""

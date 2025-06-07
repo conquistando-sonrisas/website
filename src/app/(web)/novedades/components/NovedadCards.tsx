@@ -14,7 +14,7 @@ export function MainNovedadCard({ novedad }: { novedad: Novedad }) {
         minHeight={{ xs: '200px', md: '500px' }}>
         <Link href={`/novedades/${novedad.documentId}`}>
           <Image
-            src={novedad.cover.url}
+            src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover.url}`}
             alt={novedad.titulo}
             fill
             style={{
@@ -59,7 +59,7 @@ export function SecondaryNovedadCard({ novedad }: { novedad: Novedad }) {
     <Grid2 container component='article' position='relative' >
       <Grid2 size={{ xs: 12, md: 6 }} minHeight={{ xs: '200px', md: '300px' }}>
         <Link href={`/novedades/${novedad.documentId}`}>
-          <Image src={novedad.cover.formats.medium.url} alt='' fill style={{
+          <Image src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover.formats.medium.url}`} alt='' fill style={{
             maxHeight: '300px',
             objectFit: 'cover'
           }} />
@@ -99,7 +99,7 @@ export function NovedadCard({ novedad }: { novedad: Novedad }) {
     <Grid2 container component='article' position='relative' >
       <Grid2 size={{ xs: 12, md: 6 }} minHeight={{ xs: '200px', md: '200px' }}>
         <Link href={`/novedades/${novedad.documentId}`}>
-          <Image src={novedad.cover.formats.medium.url} alt='' fill style={{
+          <Image src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover.formats.medium.url}`} alt='' fill style={{
             maxHeight: '225px',
             objectFit: 'cover'
           }} />

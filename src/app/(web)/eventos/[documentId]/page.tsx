@@ -29,7 +29,7 @@ export default async function EventoPage({ params }: WithDocumentIdPathParam) {
       <Box position='relative' maxWidth='900px' minHeight='470px' mx='auto' mt={3}>
         <Image
           alt=''
-          src={evento.cover.url}
+          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${evento.cover.url}`}
           fill
           style={{
             objectFit: 'cover',

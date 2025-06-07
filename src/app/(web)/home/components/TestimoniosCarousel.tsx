@@ -68,7 +68,7 @@ const TestimonioSlide = (props: { testimonio: Testimonio }) => {
 
       <Grid2 size={{ xs: 12, md: 4 }} height={{ xs: '300px', md: '100%' }} position='relative'>
         <Image
-          src={testimonio.fotografia.formats.medium.url}
+          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${testimonio.fotografia.url}`}
           fill
           style={{ objectFit: 'cover', }}
           alt='' />

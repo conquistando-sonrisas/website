@@ -31,7 +31,7 @@ export default async function ActividadesVoluntariadoSection() {
             }}>
             <Image
               unoptimized
-              src={actividad.foto.url}
+              src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${actividad.foto.url}`}
               alt=''
               height={250}
               width={250}

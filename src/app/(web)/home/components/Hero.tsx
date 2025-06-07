@@ -34,7 +34,8 @@ const HeroSection = (props: { conquiKidSrc: string }) => {
         alignItems="center"
         size={{ xs: 12, md: 7 }} sx={{ position: 'relative', height: 'inherit' }}>
         <Image
-          src={props.conquiKidSrc}
+          unoptimized
+          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${props.conquiKidSrc}`}
           fill
           style={{ objectFit: 'cover' }}
           alt=""

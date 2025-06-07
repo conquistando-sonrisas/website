@@ -17,7 +17,8 @@ export default function NosotrosSection(props: { nosotrosImagenSrc: string, Noso
       rowSpacing={1}
       position='relative'>
       <Image
-        src={props.nosotrosImagenSrc}
+        unoptimized
+        src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${props.nosotrosImagenSrc}`}
         fill
         style={{ objectFit: 'cover', borderRadius: 10, objectPosition: 'center' }}
         alt='grupo de personas' />

@@ -29,7 +29,7 @@ export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
       <Box display='flex' justifyContent={'center'} flexDirection='column'>
         <Box display='flex' justifyContent='center' position='relative'>
           <Image
-            src={novedad.cover.url}
+            src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover?.url}`}
             width={1200}
             height={600}
             alt=''
@@ -72,7 +72,7 @@ export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
                 img: (props) => (
                   <Box component='span' position='relative' display='flex' justifyContent='center' flexDirection='column'>
                     <Image
-                      src={props.src}
+                      src={`${props.src.startsWith('http') ? props.src : `${process.env.NEXT_PUBLIC_STATIC_CONTENT}${props.src}`}`}
                       alt={props.alt || ''}
                       unoptimized
                       width={800}
