@@ -67,7 +67,7 @@ export default function NovedadesLayout() {
               )} />
           </Grid2>
         ) : (
-          <Typography>No hay novedades 😔</Typography>
+          <Typography>En este momento no hay novedades disponibles 😔</Typography>
         )}
     </>
   )

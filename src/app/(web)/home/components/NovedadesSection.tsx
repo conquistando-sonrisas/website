@@ -26,19 +26,27 @@ export default async function NovedadesSection() {
     <Box component='section'>
       <Container>
         <SectionTitle>Novedades</SectionTitle>
-        <Typography>Actualizaciones más recientes en Conqui</Typography>
-        <NovedadesMasonry novedades={novedades.data} />
+        {
+          novedades.data.length === 0 ? (
+            <Typography>Por el momento no hay novedades disponibles</Typography>
+          ) : (
+            <>
+              <Typography>Actualizaciones más recientes en Conqui</Typography>
+              <NovedadesMasonry novedades={novedades.data} />
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  LinkComponent={Link}
+                  href='/novedades'
+                  endIcon={<ArrowForward />}
+                  variant="contained"
+                  sx={{
+                    borderRadius: '25px',
+                    mt: { xs: 0, md: '-20px' },
+                  }} color="conquiDarkBlue" size='large'>Ver más</Button>
+              </Box>
+            </>
+          )
+        }
       </Container>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          LinkComponent={Link}
-          href='/novedades'
-          endIcon={<ArrowForward />}
-          variant="contained"
-          sx={{
-            borderRadius: '25px',
-            mt: { xs: 0, md: '-20px' },
-          }} color="conquiDarkBlue" size='large'>Ver más</Button>
-      </Box>
     </Box>)
 }
