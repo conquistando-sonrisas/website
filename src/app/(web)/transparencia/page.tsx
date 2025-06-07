@@ -1,7 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, Link, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Hero from "../components/Hero";
 import { ImpactoApoyo, ImpactoGeneral } from "../app";
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, TableRowsRounded } from "@mui/icons-material";
 import SectionTitle from "../components/SectionTitle";
 import { getImpactoOfYearsWithApoyos } from "./services/apoyos";
 
@@ -40,31 +40,49 @@ export default async function TransparenciaPage() {
                     <Grid2 size={{ xs: 12, md: 7 }}>
                       {impactoAnual.apoyos.length > 0 && (
                         <Box mb={2}>
-                          <Typography variant="h6">Apoyos</Typography>
-                          {
-                            impactoAnual.apoyos.map((apoyo, idx) => (
-                              <Typography key={idx} lineHeight='2em'>
-                                - {apoyo.apoyo?.nombre}
-                                <Box component='span' fontSize='1.2rem' fontWeight={600} color='conquiDarkBlue.main'> ${Intl.NumberFormat('es-MX', { currency: 'MXN' }).format(apoyo.monto)}</Box>
-                              </Typography>
-                            ))
-                          }
+                          <TableContainer component={Paper} variant='outlined'>
+                            <Table>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Apoyo</TableCell>
+                                  <TableCell align="right">Monto</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {
+                                  impactoAnual.apoyos.map((apoyo, idx) => (
+                                    <TableRow key={`${impactoAnual.documentId}-${apoyo.documentId}`}>
+                                      <TableCell>{apoyo.apoyo.nombre}</TableCell>
+                                      <TableCell align="right">${Intl.NumberFormat('es-MX', { currency: 'MXN' }).format(apoyo.monto)}</TableCell>
+                                    </TableRow>
+                                  ))
+                                }
+                              </TableBody>
+                            </Table>
+
+                          </TableContainer>
                         </Box>
                       )}
+                    </Grid2>
+                    <Grid2 textAlign='center' size={{ xs: 12, md: 5 }}>
                       {
-                        impactoAnual.informeAnual !== null && (
-                          <Link href={impactoAnual.informeAnual?.url} target='_blank'>Informe anual</Link>
+                        (impactoAnual.apoyosOtorgados > 0 && impactoAnual.beneficiados > 0) && (
+                          <>
+                            <Typography>Cantidad de apoyos otorgados</Typography>
+                            <Typography fontWeight={600} fontSize='3rem' color='conquiDarkBlue.main'>{impactoAnual.apoyosOtorgados}</Typography>
+                            <Typography>Impactando a</Typography>
+                            <Typography fontWeight={600} fontSize='3rem' color='conquiDarkBlue.main'>{impactoAnual.beneficiados}</Typography>
+                            <Typography>niños, niñas y adolescentes con <br /> diagnóstico de cáncer del Estado de Chihuahua</Typography>
+                          </>
                         )
                       }
                     </Grid2>
-                    <Grid2 textAlign='center' size={{ xs: 12, md: 5 }}>
-                      <Typography>Cantidad de apoyos otorgados</Typography>
-                      <Typography fontWeight={600} fontSize='3rem' color='conquiDarkBlue.main'>{impactoAnual.apoyosOtorgados}</Typography>
-                      <Typography>Impactando a</Typography>
-                      <Typography fontWeight={600} fontSize='3rem' color='conquiDarkBlue.main'>{impactoAnual.beneficiados}</Typography>
-                      <Typography>niños, niñas y adolescentes con <br /> diagnóstico de cáncer del Estado de Chihuahua</Typography>
-                    </Grid2>
                   </Grid2>
+                  {
+                    impactoAnual.informeAnual !== null && (
+                      <Link href={impactoAnual.informeAnual?.url} target='_blank'>Informe anual</Link>
+                    )
+                  }
                 </AccordionDetails>
               </Accordion>
             ))

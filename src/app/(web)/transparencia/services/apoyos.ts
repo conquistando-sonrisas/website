@@ -17,21 +17,39 @@ export async function getImpactoOfYearsWithApoyos() {
 
 const getImpactoGeneralByYears = async () => {
   const params = qs.stringify({
-    populate: '*'
+    populate: '*',
+    pagination: {
+      page: 1,
+      pageSize: 10,
+    },
+    sort: ['anio:desc']
   })
   const res = await cmsApi.get(`/impactos-generales?${params}`)
   return res.data.data as Array<ImpactoGeneral>;
 }
 
+// get last ten years
 const getApoyosByYears = async () => {
   const params = qs.stringify({
+    filters: {
+      anio: {
+        $gte: new Date().getFullYear() - 10
+      }
+    },
     populate: {
       apoyo: {
         fields: ['documentId', 'nombre']
       }
     },
-    sort: ['anio:desc', 'monto:desc']
+    sort: ['anio:desc', 'monto:desc'],
+    pagination: {
+      page: 1,
+      pageSize: 100,
+    },
+  }, {
+    encodeValuesOnly: true
   })
+  console.log(params)
   const res = await cmsApi.get(`/impacto-apoyos?${params}`)
   return res.data.data as Array<ImpactoApoyo>
 }
