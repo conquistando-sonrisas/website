@@ -1,9 +1,5 @@
 import axios from 'axios'
 
-function fetcher(endpoint: string) {
-  return fetch(`${process.env.NEXT_PUBLIC_CMS_API}${endpoint}`)
-    .then(res => res.json());
-}
 
 const conquiApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_CONQUI_API,
@@ -20,6 +16,12 @@ const cmsApi = axios.create({
     'Content-Type': 'application/json'
   }
 })
+
+
+async function fetcher(endpoint: string) {
+  const res = await cmsApi.get(`${process.env.NEXT_PUBLIC_CMS_API}${endpoint}`);
+  return res.data;
+}
 
 export {
   fetcher,

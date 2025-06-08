@@ -61,7 +61,7 @@ export default function NovedadesLayout() {
               renderItem={(item) => (
                 <PaginationItem
                   component={Link}
-                  href={`/novedades?page=${item.page}`}
+                  href={`/novedades?${item.page === 1 ? '' : `page=${item.page}`}`}
                   {...item}
                 />
               )} />
