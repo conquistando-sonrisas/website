@@ -7,7 +7,7 @@ function fetcher(endpoint: string) {
 
 const conquiApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_CONQUI_API,
-  timeout: 5_000,
+  timeout: 10_000,
   headers: {
     'Content-Type': 'application/json'
   }

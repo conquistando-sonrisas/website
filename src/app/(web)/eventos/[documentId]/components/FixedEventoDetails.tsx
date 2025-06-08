@@ -40,7 +40,7 @@ export default function EventoDetails({ fechaInicio, horaInicio, ubicacion }: { 
         <Place sx={{ fontSize: 32, color: 'conquiDarkBlue.dark' }} />
         <Typography fontWeight={500}>{ubicacion || 'Por definir'}</Typography>
       </Box>
-      <Button size="large" variant="contained" color='conquiDarkBlue' sx={{ textTransform: 'none', mt: 3 }}>Adquiere tu kit!</Button>
+      {/* <Button size="large" variant="contained" color='conquiDarkBlue' sx={{ textTransform: 'none', mt: 3 }}>Adquiere tu kit!</Button> */}
     </Box>
   )
 }

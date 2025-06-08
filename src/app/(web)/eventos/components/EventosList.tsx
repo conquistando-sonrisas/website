@@ -3,6 +3,7 @@ import { Evento, StrapiPagination } from "../../app";
 import Image from "next/image";
 import { grey } from "@mui/material/colors";
 import Link from "next/link";
+import LinkIcon from '@mui/icons-material/Link';
 
 
 export default function EventosList(props: { eventos: Evento[], initialPagination: StrapiPagination }) {
@@ -11,17 +12,19 @@ export default function EventosList(props: { eventos: Evento[], initialPaginatio
   return (
     <Container sx={{ my: 3 }}>
       {
-        props.eventos.length > 0
-          ? props.eventos.map((evento) => (
-            <>
-              <EventoListItem key={evento.documentId} evento={evento} />
-              <Box display='flex' justifyContent='center'>
-                <Pagination sx={{ my: 4 }} count={1} />
-              </Box>
-            </>
-          )) : (
-            <Typography>Por el momento no hay eventos registrados</Typography>
-          )
+        props.eventos.map((evento) => (
+          <EventoListItem key={evento.documentId} evento={evento} />
+        ))
+      }
+      {
+        props.eventos.length > 0 ? (
+          <Box display='flex' justifyContent='center'>
+            <Pagination sx={{ my: 4 }} count={1} />
+          </Box>
+
+        ) : (
+          <Typography>Por el momento no hay eventos registrados</Typography>
+        )
       }
     </Container>
   )
