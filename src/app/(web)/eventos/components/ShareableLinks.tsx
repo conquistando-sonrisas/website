@@ -46,7 +46,7 @@ export default function ShareableLinks() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         open={open}
         onClose={() => setOpen(false)}
-        message='Enlace copiado en el portapapeles'
+        message='Enlace a evento copiado en el portapapeles'
         key={url}
       />
     </Stack>

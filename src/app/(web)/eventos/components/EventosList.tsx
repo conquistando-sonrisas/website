@@ -63,7 +63,9 @@ const EventoListItem = ({ evento }: { evento: Evento }) => {
             }
           }}
         >{evento.nombre}</Typography>
-        <Typography fontWeight={500} color={grey[800]}>{evento.ubicacion}</Typography>
+        {evento.ubicacion && (
+          <Typography fontWeight={500} color={grey[800]}>{evento.ubicacion}</Typography>
+        )}
         <Typography mt={3}>{evento.descripcion}</Typography>
       </Grid2>
     </Grid2>
