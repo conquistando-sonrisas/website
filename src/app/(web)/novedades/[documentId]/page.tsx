@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Metadata, ResolvingMetadata } from "next";
 import { Novedad, WithDocumentIdPathParam } from "@/app/(web)/app";
 import { NovedadCredits } from "../components/NovedadCards";
-
+import qs from 'qs';
 
 
 export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
@@ -61,7 +61,7 @@ export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
           }}>
             <div style={{ textAlign: 'center' }}>
               <Typography variant="h1" fontSize='2.2em' px={1} fontWeight={500}>{novedad.titulo}</Typography>
-              <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
+              <NovedadCredits autor={novedad.autor} publishedAt={novedad.publishedAt} />
             </div>
           </Box>
           <Container maxWidth='md' sx={{ backgroundColor: '#fbfdfe', py: { xs: 1, md: 5 }, px: 2, mb: 4 }} >
@@ -107,21 +107,30 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { documentId } = await params;
 
-  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?fields[0]=titulo&fields[1]=resumen`);
+  const novedadParams = qs.stringify({
+    fields: ['titulo', 'resumen', 'autor'],
+    populate: ['cover']
+  }, { encodeValuesOnly: true })
+  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?${novedadParams}`);
   const res = await req.json();
   const novedad = res.data as Novedad;
-
   const prevImages = (await parent)?.openGraph?.images || []
+  const image = {
+    url: `${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover.formats.small.url}`,
+    width: novedad.cover.formats.small.width,
+    height: novedad.cover.formats.small.height
+  };
 
   return {
     title: novedad.titulo,
     authors: [{
-      name: `${novedad.createdBy.firstname} ${novedad.createdBy.lastname}`,
+      name: novedad.autor,
     }],
     openGraph: {
       description: novedad.resumen,
-      images: [...prevImages]
+      images: [...prevImages, {
+        ...image
+       }]
     }
   }
-
 }

@@ -7,8 +7,10 @@ import HeartIcon from '../../../../../public/heart_conqui_icon.png';
 import { MDXRemote } from "next-mdx-remote/rsc";
 import FixedEventoDetails from "./components/FixedEventoDetails";
 import dynamic from "next/dynamic";
+import { Metadata, ResolvingMetadata } from "next";
 
 const ShareableLinksComponent = dynamic(() => import("../components/ShareableLinks"))
+
 
 export default async function EventoPage({ params }: WithDocumentIdPathParam) {
   const { documentId } = await params;
@@ -98,4 +100,40 @@ export default async function EventoPage({ params }: WithDocumentIdPathParam) {
       </Container>
     </main>
   )
+}
+
+
+export async function generateMetadata(
+  { params }: WithDocumentIdPathParam,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { documentId } = await params;
+  const eventoParams = qs.stringify({
+    fields: ['nombre', 'descripcion'],
+    populate: 'cover'
+  }, {
+    encodeValuesOnly: true
+  })
+  const eventoReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/eventos/${documentId}?${eventoParams}`)
+  const eventosRes = await eventoReq.json() as StrapiSingleResponse<Evento>;
+  const evento = eventosRes.data;
+
+  const prevImages = (await parent)?.openGraph?.images || []
+  const image = {
+    url: `${process.env.NEXT_PUBLIC_STATIC_CONTENT}${evento.cover.formats.small.url}`,
+    width: evento.cover.formats.small.width,
+    height: evento.cover.formats.small.height
+  }
+  return {
+    title: evento.nombre,
+    authors: [{
+      name: 'Conquistando Sonrisas A.C.'
+    }],
+    openGraph: {
+      description: evento.descripcion,
+      images: [...prevImages, {
+        ...image
+      }]
+    }
+  }
 }

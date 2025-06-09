@@ -42,7 +42,7 @@ export function MainNovedadCard({ novedad }: { novedad: Novedad }) {
             {novedad.titulo}
           </ConquiLink>
         </Typography>
-        <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
+        <NovedadCredits autor={novedad.autor} publishedAt={novedad.publishedAt} />
         <Typography mt={2}>
           {novedad.resumen}
         </Typography>
@@ -83,7 +83,7 @@ export function SecondaryNovedadCard({ novedad }: { novedad: Novedad }) {
             {novedad.titulo}
           </ConquiLink>
         </Typography>
-        <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
+        <NovedadCredits autor={novedad.autor} publishedAt={novedad.publishedAt} />
         <Typography mt={1}>{novedad.resumen}</Typography>
         <NovedadTipo tipo={novedad.tipo} />
       </Grid2>
@@ -123,7 +123,7 @@ export function NovedadCard({ novedad }: { novedad: Novedad }) {
             {novedad.titulo}
           </ConquiLink>
         </Typography>
-        <NovedadCredits author={novedad.createdBy} publishedAt={novedad.publishedAt} />
+        <NovedadCredits autor={novedad.autor} publishedAt={novedad.publishedAt} />
         <Typography mt={1} display={{ md: 'none', xs: 'block' }}>{novedad.resumen}</Typography>
         <NovedadTipo tipo={novedad.tipo} />
 
@@ -133,11 +133,11 @@ export function NovedadCard({ novedad }: { novedad: Novedad }) {
 }
 
 
-export function NovedadCredits(props: { author: Novedad['createdBy'], publishedAt: string }) {
-  const { publishedAt, author } = props;
+export function NovedadCredits(props: { autor: string, publishedAt: string }) {
+  const { publishedAt, autor } = props;
   return (
     <>
-      <Typography textAlign='center' mt={1} color={grey[800]}>{author.firstname} {author.lastname} • {
+      <Typography textAlign='center' mt={1} color={grey[800]}>{autor} • {
         new Date(publishedAt).toLocaleDateString('es-MX', {
           day: 'numeric',
           month: 'long',

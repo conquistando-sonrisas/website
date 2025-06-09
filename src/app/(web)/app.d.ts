@@ -39,7 +39,8 @@ export interface HomeSinglePage {
     NosotrosDescripcion: string;
     publishedAt: string;
     ConquiKid: Media;
-    NosotrosImagen: Media
+    NosotrosImagen: Media;
+    openGraphImage: Media;
   }
 }
 
@@ -119,6 +120,7 @@ export interface Novedad {
   createdBy: Autor;
   updatedBy: Autor;
   resumen: string;
+  autor: string;
 }
 
 
