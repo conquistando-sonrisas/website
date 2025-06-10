@@ -97,7 +97,7 @@ export interface ImpactoGeneral {
   anio: number;
   apoyosOtorgados: number;
   beneficiados: number;
-  informeAnual: Media | null;
+  informeAnualURL: string;
   publishedAt: string;
 }
 
