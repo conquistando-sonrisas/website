@@ -19,7 +19,11 @@ export default async function NovedadesSection() {
     arrayFormat: 'indices',
     encode: false
   })
-  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?${params}`);
+  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?${params}`, {
+    next: {
+      revalidate: 86_400 // a day
+    }
+  });
   const novedades = await novedadesReq.json();
 
   return (

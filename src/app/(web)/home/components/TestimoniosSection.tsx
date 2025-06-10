@@ -6,7 +6,11 @@ import HighlightText from "@/app/(web)/components/HighlightText";
 
 
 export default async function TestimoniosSection() {
-  const testimoniosReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/testimonios?pagination[pageSize]=5&pagination[page]=1&populate=fotografia`)
+  const testimoniosReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/testimonios?pagination[pageSize]=5&pagination[page]=1&populate=fotografia`, {
+    next: {
+      revalidate: 86_400 // each day
+    }
+  })
   const testimonios = await testimoniosReq.json();
 
   return (
