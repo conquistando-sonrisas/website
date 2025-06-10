@@ -4,11 +4,14 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
 import ApoyosList from "./ApoyosList";
+import qs from 'qs';
+import { Media } from "../../app";
+
 
 export interface Apoyo {
   nombre: string;
   descripcion: string;
-  icono: string;
+  icon: Media
 }
 
 export interface ImpactoSummary {
@@ -18,8 +21,24 @@ export interface ImpactoSummary {
 }
 
 export default async function Apoyos() {
-  const impactoReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/impactos-generales?sort[0]=anio:desc&pagination[page]=1&pagination[pageSize]=1`)
-  const apoyosReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/apoyos?sort[0]=publishedAt:asc&pagination[page]=1&pagination[pageSize]=6`)
+  const impactosParams = qs.stringify({
+    sort: ['anio:desc'],
+    pagination: {
+      page: 1,
+      pageSize: 1
+    }
+  }, { encodeValuesOnly: true })
+  const impactoReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/impactos-generales?${impactosParams}`)
+
+  const apoyosParams = qs.stringify({
+    sort: ['publishedAt:asc'],
+    pagination: {
+      page: 1,
+      pageSize: 6
+    },
+    populate: ['icon']
+  }, { encodeValuesOnly: true })
+  const apoyosReq = fetch(`${process.env.NEXT_PUBLIC_CMS_API}/apoyos?${apoyosParams}`)
   const [impactoRes, apoyosRes] = await Promise.all([impactoReq, apoyosReq])
   let [impacto, apoyos] = await Promise.all([impactoRes.json(), apoyosRes.json()])
   impacto = impacto.data[0]

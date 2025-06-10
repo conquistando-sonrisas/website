@@ -6,14 +6,15 @@ import { ReactNode, useState } from "react";
 import HorariosSection from "./HorariosSection";
 import DireccionSection from "./DireccionSection";
 import { Contacto } from "../../app";
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
 
 
 export default function ContactoDetails({ detalles }: { detalles: Contacto }) {
-
   return (
     <Stack direction='column' rowGap={4}>
-      <ContactoDetail icon='call'>{detalles.telefono}</ContactoDetail>
-      <ContactoDetail icon='mail'><Link href={`mailto:${detalles.correo}`} target='_blank' color='conquiDarkBlue'>{detalles.correo}</Link></ContactoDetail>
+      <ContactoDetail Icon={<CallIcon />}>{detalles.telefono}</ContactoDetail>
+      <ContactoDetail Icon={<EmailIcon />}><Link href={`mailto:${detalles.correo}`} target='_blank' color='conquiDarkBlue'>{detalles.correo}</Link></ContactoDetail>
       <HorariosSection horarios={detalles.horarios} />
       <DireccionSection coordenadas={detalles.coordenadas} direccion={detalles.direccion} />
     </Stack>
@@ -21,20 +22,12 @@ export default function ContactoDetails({ detalles }: { detalles: Contacto }) {
 }
 
 
-export const ContactoDetail = ({ icon, children }: { icon: string, children: ReactNode }) => {
+export const ContactoDetail = ({ Icon, children }: { Icon: ReactNode, children: ReactNode }) => {
 
   return (
-    <Box display='flex'>
-      <Box
-        component='span'
-        sx={{
-          fontSize: 30,
-          color: 'conquiDarkBlue.dark',
-          userSelect: 'none',
-          mr: 2
-        }}
-        className='material-symbols-outlined'>{icon}</Box>
-      <Typography alignItems={'center'}>{children}</Typography>
+    <Box display='flex' color={'conquiDarkBlue.light'}>
+      {Icon}
+      <Typography ml={1.3} alignItems={'center'}>{children}</Typography>
     </Box>
   )
 }

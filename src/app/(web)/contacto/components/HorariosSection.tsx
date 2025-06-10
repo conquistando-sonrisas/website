@@ -5,6 +5,8 @@ import { ExpandMore, TerminalOutlined } from "@mui/icons-material";
 import { Horario } from "../../app";
 import { format, getISODay, isToday, nextMonday, parse } from "date-fns";
 import { es } from "date-fns/locale";
+import PunchClockIcon from '@mui/icons-material/PunchClock';
+
 
 
 export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
@@ -18,7 +20,7 @@ export default function HorariosSection({ horarios }: { horarios: Horario[] }) {
 
   return (
     <Box>
-      <ContactoDetail icon='punch_clock'>Horario</ContactoDetail>
+      <ContactoDetail Icon={<PunchClockIcon />}>Horario</ContactoDetail>
       <HorarioButton horarios={horarios} handleClick={handleClick} />
       <Box display='flex' alignItems='center' >
         <Menu

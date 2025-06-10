@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Apoyo } from "./ApoyosSection";
 import { Box, IconButton, Typography } from "@mui/material";
 import { NavigateBefore, NavigateNext } from "@mui/icons-material";
+import Image from "next/image";
 
 
 export default function ApoyosList(props: { apoyos: Array<Apoyo> }) {
@@ -34,7 +35,12 @@ export default function ApoyosList(props: { apoyos: Array<Apoyo> }) {
     <Box display='flex' flexDirection='column' height='100%' position='relative'>
       {apoyo && (
         <Box overflow='scroll' flex={1}>
-          <Box component='span' sx={{ fontSize: 100, color: 'conquiDarkBlue.dark', userSelect: 'none' }} className='material-symbols-rounded'>{apoyo.icono}</Box>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${apoyo.icon.url}`}
+            width={100}
+            height={100}
+            alt=''
+          />
           <Typography style={{ lineClamp: 3 }} fontSize={26} color='conquiDarkBlue.dark' height='fit-content' fontWeight={600} mt={1}>{apoyo.nombre}</Typography>
           <Typography height='100px' maxHeight='100px' maxWidth='700px' overflow='scroll'>{apoyo.descripcion}</Typography>
         </Box>
