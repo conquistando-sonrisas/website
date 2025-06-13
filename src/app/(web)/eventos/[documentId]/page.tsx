@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Container, Grid2, IconButton, Link, Stack, Typography } from "@mui/material";
-import { Evento, StrapiSingleResponse, WithDocumentIdPathParam } from "../../app";
+import { Evento, StrapiPaginatedResponse, StrapiSingleResponse, WithDocumentIdPathParam } from "../../app";
 import qs from 'qs';
 import { eventoDateFormatOptions } from "../components/EventosList";
 import Image from "next/image";
@@ -11,6 +11,16 @@ import { Metadata, ResolvingMetadata } from "next";
 
 const ShareableLinksComponent = dynamic(() => import("../components/ShareableLinks"))
 
+
+export const revalidate = 86_400
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  const eventosReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/eventos?fields[0]=nombre`);
+  const eventos = await eventosReq.json() as StrapiPaginatedResponse<Evento>;
+  return eventos.data.map(evento => ({ documentId: evento.documentId }));
+
+}
 
 export default async function EventoPage({ params }: WithDocumentIdPathParam) {
   const { documentId } = await params;
@@ -101,7 +111,6 @@ export default async function EventoPage({ params }: WithDocumentIdPathParam) {
     </main>
   )
 }
-
 
 export async function generateMetadata(
   { params }: WithDocumentIdPathParam,

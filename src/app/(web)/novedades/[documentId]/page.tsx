@@ -2,12 +2,22 @@ import { Box, Container, Typography } from "@mui/material";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import { Metadata, ResolvingMetadata } from "next";
-import { Novedad, WithDocumentIdPathParam } from "@/app/(web)/app";
+import { Novedad, StrapiPaginatedResponse, WithDocumentIdPathParam } from "@/app/(web)/app";
 import { NovedadCredits } from "../components/NovedadCards";
 import qs from 'qs';
 
 
+export const revalidate = 86_400
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?fields[0]=titulo`);
+  const novedades = await novedadesReq.json() as StrapiPaginatedResponse<Novedad>;
+  return novedades.data.map(n => ({ documentId: n.documentId }));
+}
+
 export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
+
   const { documentId } = await params;
 
   // TODO: Throw error if documentId is not present
@@ -111,6 +121,7 @@ export async function generateMetadata(
     fields: ['titulo', 'resumen', 'autor'],
     populate: ['cover']
   }, { encodeValuesOnly: true })
+
   const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?${novedadParams}`);
   const res = await req.json();
   const novedad = res.data as Novedad;
@@ -130,7 +141,7 @@ export async function generateMetadata(
       description: novedad.resumen,
       images: [...prevImages, {
         ...image
-       }]
+      }]
     }
   }
 }
