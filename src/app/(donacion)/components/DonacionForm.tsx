@@ -51,11 +51,16 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       donationAmount = parseFloat(monthly);
     }
 
-    if (donationAmount < 98) {
-      setErrorMessage('Ingresa un monto mayor o igual a 98 pesos, por favor')
+    if (frequency === 'monthly' && donationAmount < 105) {
+      setErrorMessage('Ingresa un monto mayor o igual a 105 pesos, por favor')
       return;
     }
 
+    if (frequency === 'oneTime' && donationAmount < 30) {
+      setErrorMessage('Ingresa un monto mayor o igual a 30 pesos, por favor')
+      return;
+    }
+    
     if (donationAmount > 195_000) {
       setErrorMessage('Ingresa un valor menor o igual a 195,000 pesos, por favor')
       return;
