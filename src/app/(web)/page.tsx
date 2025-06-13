@@ -12,7 +12,7 @@ import { Metadata } from "next";
 
 
 export default async function Home() {
-  const inicioReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/home?populate=*`, { next: { revalidate: 86_400 } })
+  const inicioReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/home?populate=*`)
   const inicio = await inicioReq.json() as HomeSinglePage;
   return (
     <main>

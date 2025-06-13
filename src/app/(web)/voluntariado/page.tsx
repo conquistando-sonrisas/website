@@ -6,7 +6,13 @@ import Image from "next/image";
 import ActividadesVoluntariadoSection from "./components/ActividadesVoluntariadoSection";
 import Link from "next/link";
 import { ArrowForward } from "@mui/icons-material";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: "Voluntariado | Conquistando Sonrisas A.C.",
+  description: "¡No te pierdas esta oportunidad de hacer una diferencia! Únete a nosotros y ayúdanos a conquistar sonrisas para estos pequeños héroes."
+};
 
 
 export default async function VoluntariadoPage() {

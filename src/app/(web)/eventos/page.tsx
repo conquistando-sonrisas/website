@@ -4,7 +4,12 @@ import { Evento, StrapiPaginatedResponse } from "../app";
 import EventosList from "./components/EventosList";
 import qs from 'qs';
 import { Suspense } from "react";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Nosotros | Conquistando Sonrisas A.C.",
+  description: "Descubre cuales son nuestros próximos eventos y cómo puedes ayudar"
+};
 
 export default async function EventosPage() {
 

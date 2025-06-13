@@ -1,10 +1,15 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Grid2, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Hero from "../components/Hero";
-import { ImpactoApoyo, ImpactoGeneral } from "../app";
-import { ExpandMore, TableRowsRounded } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import SectionTitle from "../components/SectionTitle";
 import { getImpactoOfYearsWithApoyos } from "./services/apoyos";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: "Transparencia | Conquistando Sonrisas A.C.",
+  description: "Conoce el impacto que hemos tenido"
+};
 
 
 export default async function TransparenciaPage() {

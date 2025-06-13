@@ -4,6 +4,13 @@ import SectionTitle from "../components/SectionTitle";
 import Image from "next/image";
 import { NosotrosPage } from "../app";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Nosotros | Conquistando Sonrisas A.C.",
+};
+
 
 export default async function Nosotros() {
     const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/nosotros`);
