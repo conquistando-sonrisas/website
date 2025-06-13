@@ -5,8 +5,6 @@ import { Evento, StrapiPagination } from "../../app";
 import Image from "next/image";
 import { grey } from "@mui/material/colors";
 import Link from "next/link";
-import LinkIcon from '@mui/icons-material/Link';
-import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
 import qs from 'qs'
 import { fetcher } from "@/app/utlis/swr";
@@ -86,7 +84,7 @@ const EventoListItem = ({ evento }: { evento: Evento }) => {
       <Grid2 size={{ xs: 10, md: 4 }} mx='auto' position='relative' height='300px'>
         <Image
           alt=''
-          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${evento.cover.formats.medium.url}`}
+          src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${evento.cover.formats?.small.url || evento.cover.url}`}
           fill
           style={{
             objectFit: 'cover',
