@@ -7,8 +7,6 @@ import { useCallback, useState } from "react";
 import DonacionSummary from "./DonacionSummary";
 import { paymentBrickCustomization } from "./MercadoPagoPayment";
 import Link from "next/link";
-import { useWindowSize } from "@react-hook/window-size/throttled";
-import ReactConfetti from "react-confetti";
 import { conquiApi } from '@/app/utlis/swr'
 import { isAxiosError } from "axios";
 
@@ -93,8 +91,6 @@ export default function OneTimeDonation(props: { amount: number, fees: number })
 
 
 const OneTimeDonationStatus = ({ paymentId, threeDsInfo }: { paymentId: string, threeDsInfo: { externalResourceURL: string, creq: string } | null }) => {
-  const [width, height] = useWindowSize();
-
   return (
     <Box maxWidth='500px' mx='auto'>
       <StatusScreen
@@ -108,11 +104,6 @@ const OneTimeDonationStatus = ({ paymentId, threeDsInfo }: { paymentId: string, 
         }}
         onError={console.error}
       />
-      {
-        paymentId && threeDsInfo === null && (
-          <ReactConfetti width={width} height={height} />
-        )
-      }
     </Box>
 
   )

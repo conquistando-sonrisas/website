@@ -31,7 +31,6 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
         ...data.formData,
         frequency: 'monthly'
       })
-      console.log('RES', res)
       const body = res.data;
       const suscription: MonthlyResponseType = {
         amount: body.amount,
@@ -44,11 +43,10 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
       setSuscriptionRes(suscription)
     } catch (err) {
       if (isAxiosError(err)) {
-        console.log(err)
         setErrorMessage(err.response?.data.message);
         return;
       }
-      setErrorMessage((err as Error).message);
+      setErrorMessage('Hubo un problema al procesar la donación');
     } finally {
       setLoading(false)
     }
@@ -129,7 +127,6 @@ type MonthlyResponseType = {
 
 const RecurrentDonationStatus = (props: { suscriptionRes: MonthlyResponseType }) => {
   const { amount, reason } = props.suscriptionRes;
-  const [width, height] = useWindowSize();
   return (
     <Box
       mx='auto'
@@ -166,7 +163,6 @@ const RecurrentDonationStatus = (props: { suscriptionRes: MonthlyResponseType })
           color='conquiDarkBlue'
           sx={{ mt: 2, textTransform: 'none' }} >Ir a inicio</Button>
       </Stack>
-      <ReactConfetti width={width} height={height} />
     </Box>
   )
 }
