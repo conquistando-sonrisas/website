@@ -81,7 +81,7 @@ const useNovedades = ({ page = 1, pageSize = 6 }: { page?: number, pageSize?: nu
       pageSize
     },
     fields: ['titulo', 'tipo', 'publishedAt', 'resumen', 'autor'],
-    populate: ['cover', 'createdBy'],
+    populate: ['cover'],
   }, {
     arrayFormat: 'indices',
     encode: false

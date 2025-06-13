@@ -11,7 +11,7 @@ const conquiApi = axios.create({
 
 const cmsApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_CMS_API,
-  timeout: 10_000,
+  timeout: 30_000,
   headers: {
     'Content-Type': 'application/json'
   }
