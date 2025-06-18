@@ -17,7 +17,7 @@ export default async function EventosPage() {
     <main style={{ minHeight: '100vh' }}>
       <Hero
         title="Eventos"
-        desc="Descubre cuales son nuestros próximos eventos y cómo puedes ayudar"
+        desc="Descubre cuáles son nuestros próximos eventos y cómo puedes ayudar"
       />
       <Container sx={{ my: 3 }}>
         <Suspense fallback={<CircularProgress />}>

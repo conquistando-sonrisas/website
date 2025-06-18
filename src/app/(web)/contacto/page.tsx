@@ -18,7 +18,7 @@ export default async function ContactoPage() {
   return (<main style={{ minHeight: '83vh' }}>
     <Container>
       <SectionTitle>Queremos escucharte</SectionTitle>
-      <Typography mb={5}>Si tienes alguna duda escribenos</Typography>
+      <Typography mb={5}>Si tienes alguna duda escríbenos</Typography>
       <Grid2 container spacing={4} mb={{ xs: 5 }}>
         <Grid2 size={{ xs: 12, md: 5 }}>
           <ContactForm />

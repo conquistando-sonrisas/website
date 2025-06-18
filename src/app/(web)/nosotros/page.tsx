@@ -24,7 +24,7 @@ export default async function Nosotros() {
                 desc={nosotros.descripcion} />
             <Container>
 
-                <SectionTitle sx={{ mt: 5, textTransform: 'uppercase' }}>filosofia</SectionTitle>
+                <SectionTitle sx={{ mt: 5, textTransform: 'uppercase' }}>filosofía</SectionTitle>
                 <Box sx={{ backgroundColor: 'conquiLightBlue.main', py: 4, px: { xs: 4, md: 8 }, borderRadius: 12, mt: 3, mb: 6 }}>
                     <Typography textAlign='center' fontSize='1.1rem'>
                         {nosotros.filosofia}
