@@ -15,9 +15,9 @@ export default function FormRegistro() {
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       nombre: '',
-      edad: null,
+      edad: '',
       talla: '',
-      sexo: null,
+      sexo: '',
       correo: '',
       telefono: ''
     },
@@ -51,6 +51,7 @@ export default function FormRegistro() {
             name='nombre'
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <TextField
+                data-cy='text-nombre'
                 value={value}
                 onChange={onChange}
                 error={!!error}
@@ -69,6 +70,7 @@ export default function FormRegistro() {
               name='edad'
               render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <NumericFormat
+                  data-cy='text-edad'
                   error={!!error}
                   helperText={error ? error.message : ''}
                   value={value}
@@ -95,6 +97,7 @@ export default function FormRegistro() {
                     label='Talla'
                     value={value}
                     onChange={onChange}
+                    data-cy='select-talla'
                   >
                     <MenuItem value='infantil'>Infantil</MenuItem>
                     <MenuItem value='xs'>Extra chica (XS)</MenuItem>
@@ -117,12 +120,13 @@ export default function FormRegistro() {
             control={control}
             name='sexo'
             render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <FormControl fullWidth>
+              <FormControl fullWidth error={!!error}>
                 <FormLabel>Sexo</FormLabel>
-                <RadioGroup row={true} value={value} onChange={onChange}>
+                <RadioGroup data-cy='radio-sexo' row={true} value={value} onChange={onChange}>
                   <FormControlLabel value='mujer' control={<Radio />} label='Mujer' />
                   <FormControlLabel value='hombre' control={<Radio />} label='Hombre' />
                 </RadioGroup>
+                <FormHelperText error={!!error}>{error ? error.message : ''}</FormHelperText>
               </FormControl>
             )}
           />
@@ -139,6 +143,7 @@ export default function FormRegistro() {
               name='correo'
               render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <TextField
+                  data-cy='text-correo'
                   value={value}
                   onChange={onChange}
                   error={!!error}
@@ -175,10 +180,10 @@ export default function FormRegistro() {
 
 
 const registroSchema = yup.object({
-  nombre: yup.string().required(),
-  edad: yup.number().required().nullable(),
-  talla: yup.string().required(),
-  sexo: yup.string().required().nullable(),
-  correo: yup.string().email().required(),
-  telefono: yup.string().required()
+  nombre: yup.string().required('Este campo es requerido'),
+  edad: yup.string().required('Este campo es requerido'),
+  talla: yup.string().required('Este campo es requerido'),
+  sexo: yup.string().required('Este campo es requerido'),
+  correo: yup.string().email('Ingresa un correo válido').required('Este campo es requerido'),
+  telefono: yup.string().required('Este campo es requerido')
 })

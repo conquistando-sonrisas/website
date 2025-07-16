@@ -1,7 +1,7 @@
 'use client'
 
 import { Clear, Delete, Remove } from "@mui/icons-material";
-import { Box, Button, Divider, FormControl, FormControlLabel, FormLabel, Grid2, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, Divider, FormControl, FormControlLabel, FormHelperText, FormLabel, Grid2, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from "@mui/material"
 import { Controller, useFieldArray, useForm, useFormContext } from "react-hook-form"
 import { NumericFormat } from "react-number-format";
 import * as yup from 'yup'
@@ -34,7 +34,7 @@ export default function FormRegistroExtra() {
 
   return (
     <Box component='form' id='extra-form' onSubmit={handleSubmit(onSubmit)}>
-      <Typography my={1} fontSize={20} fontWeight={500}>
+      <Typography fontSize={20} fontWeight={500}>
         ¿Te gustaría registrar a algún familiar, amigo u otra persona?
       </Typography>
       {
@@ -42,15 +42,19 @@ export default function FormRegistroExtra() {
         fields.map((item, index) => (
           <Grid2 container key={item.id} rowSpacing={2} mt={3}>
             <Grid2 size={12}>
-              <Button color='error' onClick={() => remove(index)} variant="outlined" sx={{ textTransform: 'none' }} startIcon={<Delete />}>Eliminar #{index + 1}</Button>
+              {
+                fields.length > 0 && index === fields.length - 1 && (
+                  <Button color='error' onClick={() => remove(index)} variant="outlined" sx={{ textTransform: 'none' }} startIcon={<Delete />}>Eliminar #{index + 1}</Button>)
+              }
             </Grid2>
 
             <Grid2 size={12}>
               <Controller
                 control={control}
                 name={`people.${index}.nombre`}
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                render={({ field: { value, onChange, name }, fieldState: { error } }) => (
                   <TextField
+                    name={name}
                     value={value}
                     onChange={onChange}
                     error={!!error}
@@ -67,11 +71,13 @@ export default function FormRegistroExtra() {
                 <Controller
                   control={control}
                   name={`people.${index}.edad`}
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                  render={({ field: { value, onChange, name }, fieldState: { error } }) => (
                     <NumericFormat
                       error={!!error}
+                      name={name}
                       helperText={error ? error.message : ''}
                       value={value}
+                      valueIsNumericString
                       onValueChange={values => onChange(values.value)}
                       allowLeadingZeros={false}
                       label='Edad'
@@ -83,18 +89,18 @@ export default function FormRegistroExtra() {
                   )}
                 />
               </Grid2>
-
               <Grid2 size={{ xs: 12, md: 7 }}>
                 <Controller
                   control={control}
                   name={`people.${index}.talla`}
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <FormControl fullWidth>
+                  render={({ field: { value, onChange, name }, fieldState: { error } }) => (
+                    <FormControl fullWidth error={!!error}>
                       <InputLabel>Talla</InputLabel>
                       <Select
                         label='Talla'
                         value={value}
                         onChange={onChange}
+                        name={name}
                       >
                         <MenuItem value='infantil'>Infantil</MenuItem>
                         <MenuItem value='xs'>Extra chica (XS)</MenuItem>
@@ -102,7 +108,9 @@ export default function FormRegistroExtra() {
                         <MenuItem value='m'>Mediana (M)</MenuItem>
                         <MenuItem value='g'>Grande (G)</MenuItem>
                         <MenuItem value='xg'>Extra grande (XG)</MenuItem>
+
                       </Select>
+                      <FormHelperText error={!!error}>{error ? error.message : ''}</FormHelperText>
                     </FormControl>
                   )}
                 />
@@ -114,17 +122,24 @@ export default function FormRegistroExtra() {
               <Controller
                 control={control}
                 name={`people.${index}.sexo`}
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                  <FormControl fullWidth>
+                render={({ field: { value, onChange, name }, fieldState: { error } }) => (
+                  <FormControl fullWidth error={!!error}>
                     <FormLabel>Sexo</FormLabel>
-                    <RadioGroup row={true} value={value} onChange={onChange}>
+                    <RadioGroup
+                      row={true}
+                      value={value}
+                      onChange={onChange}
+                      name={name}
+                    >
                       <FormControlLabel value='mujer' control={<Radio />} label='Mujer' />
                       <FormControlLabel value='hombre' control={<Radio />} label='Hombre' />
                     </RadioGroup>
+                    <FormHelperText error={!!error}>{error ? error.message : ''}</FormHelperText>
                   </FormControl>
                 )}
               />
             </Grid2>
+
             {fields.length > 0 && index < fields.length - 1 && (
               <Grid2 size={12}>
                 <Divider orientation="horizontal" />
@@ -133,7 +148,16 @@ export default function FormRegistroExtra() {
           </Grid2>
         ))
       }
-      <Button sx={{ textTransform: 'none', mt: 2 }} fullWidth variant='outlined' onClick={() => append({ nombre: '', edad: null, talla: '', sexo: null })}>¡Agregar!</Button>
+      <Button
+        sx={{ textTransform: 'none', mt: 2 }}
+        fullWidth
+        variant='outlined'
+        onClick={() => append({
+          nombre: '',
+          edad: '',
+          talla: '',
+          sexo: ''
+        })}>¡Agregar!</Button>
     </Box>
   )
 }
@@ -141,9 +165,9 @@ export default function FormRegistroExtra() {
 
 const registroExtraSchema = yup.object({
   people: yup.array().of(yup.object({
-    nombre: yup.string().required(),
-    edad: yup.number().required().nullable(),
-    talla: yup.string().required(),
-    sexo: yup.string().required().nullable()
+    nombre: yup.string().required('Este campo es requerido'),
+    edad: yup.string().required('Este campo es requerido'),
+    talla: yup.string().required('Este campo es reuerido'),
+    sexo: yup.string().required('Este campo es requerido')
   }))
 })

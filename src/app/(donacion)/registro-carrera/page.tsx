@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import RegistroMultiStepForm from "./components/RegistroMultiStepForm";
 import SectionTitle from "@/app/(web)/components/SectionTitle";
 
@@ -6,10 +6,10 @@ import SectionTitle from "@/app/(web)/components/SectionTitle";
 export default function RegistroCarreraPage() {
 
   return (
-    <main style={{ minHeight: '85vh', paddingBottom: '10px' }}>
-      <Box my={3} mx={{ xs: 1, sm: 'auto' }} maxWidth='550px'>
+    <Container style={{ minHeight: '85vh', paddingBottom: '10px', paddingLeft: '10px', paddingRight: '10px' }} maxWidth='lg'>
+      <Box my={{ xs: 1, md: 3 }} mx={{ xs: 0, sm: 'auto' }}>
         <RegistroMultiStepForm />
       </Box>
-    </main>
+    </Container>
   )
 }

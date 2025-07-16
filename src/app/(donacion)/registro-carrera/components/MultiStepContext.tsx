@@ -2,9 +2,9 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 
 const MultiStepFormContext = createContext<null | {
   registro: any,
+  activeStep: number,
   addFormData: (id: string, data: any) => void,
   handlePrev: () => void,
-  activeStep: number
 }>(null);
 
 
@@ -12,7 +12,6 @@ export function MultiStepFormProvider(props: { children: ReactNode }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = useCallback(() => {
-    console.log('going to next step')
     setActiveStep(pre => pre == 2 ? 2 : pre + 1)
 
   }, [])
@@ -32,18 +31,26 @@ export function MultiStepFormProvider(props: { children: ReactNode }) {
     },
     'extra-form': {
       people: []
+    },
+    'pago-form': {
+      isFinalStep: false,
     }
   });
 
   const addFormData = useCallback((id: string, data: any) => {
-    console.log('id', id, 'form data', data)
     setRegistro(pre => ({ ...pre, [id]: data }));
 
     handleNext();
   }, [])
 
+
   return (
-    <MultiStepFormContext.Provider value={{ registro, addFormData, handlePrev, activeStep }}>
+    <MultiStepFormContext.Provider value={{
+      registro,
+      addFormData,
+      handlePrev,
+      activeStep,
+    }}>
       {props.children}
     </MultiStepFormContext.Provider>
   )
