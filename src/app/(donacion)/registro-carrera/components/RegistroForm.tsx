@@ -39,6 +39,13 @@ export default function FormRegistro() {
     reset(multi.registro['main-form'])
   }, [])
 
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('scrolling')
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0)
+  }, [])
+
   return (
     <Box component='form' id='main-form' onSubmit={handleSubmit(onSubmit)}>
       <Grid2 container rowSpacing={2}>

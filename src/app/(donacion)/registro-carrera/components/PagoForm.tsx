@@ -2,7 +2,7 @@
 
 import { initMercadoPago, Payment } from "@mercadopago/sdk-react"
 import { Box, Typography } from "@mui/material"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useMultiStepForm } from "./MultiStepContext"
 import { IAdditionalCardFormData, IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
 import axios from "axios"
@@ -36,6 +36,12 @@ export default function FormPago() {
 
   if (!multi) return;
 
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('scrolling')
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0)
+  }, [])
 
   return (
     <Box>

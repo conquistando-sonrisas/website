@@ -32,6 +32,13 @@ export default function FormRegistroExtra() {
     reset(multi.registro['extra-form'])
   }, [])
 
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('scrolling')
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0)
+  }, [])
+
   return (
     <Box component='form' id='extra-form' onSubmit={handleSubmit(onSubmit)}>
       <Typography fontSize={20} fontWeight={500}>

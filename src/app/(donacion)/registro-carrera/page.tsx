@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import RegistroMultiStepForm from "./components/RegistroMultiStepForm";
+import RegistroMultiStepForm from "./components/MultiStepForm";
 import SectionTitle from "@/app/(web)/components/SectionTitle";
 
 

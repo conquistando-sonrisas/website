@@ -12,12 +12,13 @@ export function MultiStepFormProvider(props: { children: ReactNode }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = useCallback(() => {
-    setActiveStep(pre => pre == 2 ? 2 : pre + 1)
+    setActiveStep(pre => pre == 3 ? 3 : pre + 1)
 
   }, [])
 
   const handlePrev = () => {
     setActiveStep(pre => pre == 0 ? 0 : pre - 1)
+
   }
 
   const [registro, setRegistro] = useState({
@@ -34,6 +35,9 @@ export function MultiStepFormProvider(props: { children: ReactNode }) {
     },
     'pago-form': {
       isFinalStep: false,
+    },
+    'terminos-form': {
+      aceptadoTerminos: false
     }
   });
 
