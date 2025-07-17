@@ -10,6 +10,7 @@ import FormPago from "./PagoForm"
 import Image from "next/image"
 import { VolunteerActivism } from "@mui/icons-material"
 import { IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
+import TerminosParticipacionForm from "./TerminosParticipacionForm"
 
 
 
@@ -61,7 +62,7 @@ function MultiStep() {
 
   return (
     <>
-      <Stepper activeStep={multi.activeStep}>
+      <Stepper activeStep={multi.activeStep} alternativeLabel>
         <Step>
           <StepLabel>Registro</StepLabel>
         </Step>
@@ -69,6 +70,9 @@ function MultiStep() {
           <StepLabel
             optional={<Typography variant="caption">Opcional</Typography>}
           >Extra</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel style={{ wordBreak: 'break-word' }}>Términos de participación</StepLabel>
         </Step>
         <Step>
           <StepLabel>Pago</StepLabel>
@@ -87,10 +91,15 @@ function MultiStep() {
         <Button
           type='submit'
           data-cy='button-submit'
-          form={activeStep == 0 ? 'main-form' : activeStep == 1 ? 'extra-form' : ''}
-          disabled={activeStep == 2}
+          form={
+            activeStep == 0 ? 'main-form'
+              : activeStep == 1 ? 'extra-form'
+                : activeStep == 2 ? 'terminos-form'
+                  : ''
+          }
+          disabled={activeStep == 3}
           variant="contained">Siguiente</Button>
-      </Box>
+      </Box >
     </>
   )
 }
@@ -104,28 +113,10 @@ function StepContent(props: { step: number }) {
     case 1:
       return <FormRegistroExtra />
     case 2:
+      return <TerminosParticipacionForm />
+    case 3:
       return <FormPago />
     default:
       return null;
   }
 }
-
-
-const registroSchema = yup.object({
-  main: yup.object({
-    nombre: yup.string().required(),
-    edad: yup.string().required().nullable(),
-    talla: yup.string().required(),
-    sexo: yup.string().required().nullable(),
-    correo: yup.string().email().required(),
-    telefono: yup.string().required()
-  }),
-  people: yup.array().of(
-    yup.object({
-      nombre: yup.string().required(),
-      edad: yup.string().required(),
-      talla: yup.string().required(),
-      sexo: yup.string().nullable().required(),
-    })
-  )
-})
