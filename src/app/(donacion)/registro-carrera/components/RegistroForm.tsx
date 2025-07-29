@@ -12,9 +12,10 @@ import { useMultiStepForm } from "./MultiStepContext";
 
 
 export default function FormRegistro() {
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, formState } = useForm({
     defaultValues: {
       nombre: '',
+      apellido: '',
       edad: '',
       talla: '',
       sexo: '',
@@ -52,22 +53,42 @@ export default function FormRegistro() {
         <Grid2 size={12}>
           <Typography fontSize={20} fontWeight={500}>Básico</Typography>
         </Grid2>
-        <Grid2 size={12}>
-          <Controller
-            control={control}
-            name='nombre'
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextField
-                data-cy='text-nombre'
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error ? error.message : ''}
-                label='Nombre'
-                fullWidth
-              />
-            )}
-          />
+        <Grid2 container size={12} columnSpacing={{ md: 2 }} >
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <Controller
+              control={control}
+              name='nombre'
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
+                <TextField
+                  data-cy='text-nombre'
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error ? error.message : ''}
+                  label='Nombre'
+                  fullWidth
+                />
+              )}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <Controller
+              control={control}
+              name='apellido'
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
+                <TextField
+                  data-cy='text-apellido'
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error ? error.message : ''}
+                  label='Apellido'
+                  fullWidth
+                />
+              )}
+            />
+          </Grid2>
+
         </Grid2>
 
         <Grid2 container size={12} columnSpacing={{ md: 2 }}>
@@ -188,6 +209,7 @@ export default function FormRegistro() {
 
 const registroSchema = yup.object({
   nombre: yup.string().required('Este campo es requerido'),
+  apellido: yup.string().required('Este campo es requerido'),
   edad: yup.string().required('Este campo es requerido'),
   talla: yup.string().required('Este campo es requerido'),
   sexo: yup.string().required('Este campo es requerido'),

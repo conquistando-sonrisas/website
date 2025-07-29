@@ -1,18 +1,18 @@
 'use client'
 
 import { initMercadoPago, Payment } from "@mercadopago/sdk-react"
-import { Box, Typography } from "@mui/material"
-import { useCallback, useEffect } from "react"
+import { Alert, AlertTitle, Backdrop, Box, CircularProgress, Typography } from "@mui/material"
+import { useCallback, useEffect, useState } from "react"
 import { useMultiStepForm } from "./MultiStepContext"
 import { IAdditionalCardFormData, IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
 import axios from "axios"
 import { calculateFees, roundToTwo } from "@/app/utlis/payment"
+import { DonacionResponse, OneTimeDonationStatus } from "../../components/OneTimeDonation"
+import { useDonacionProcessor } from "../../hooks/useDonacionProcessor"
 
-initMercadoPago(process.env.NEXT_PUBLIC_REGISTRO_CARRERA_PUBLIC_KEY)
 
 export default function FormPago() {
   const multi = useMultiStepForm();
-
   const participantes = [multi?.registro['main-form'], ...multi?.registro['extra-form'].people]
   const grossAmount = participantes.length * 350;
   const fees = calculateFees(grossAmount);
@@ -21,27 +21,21 @@ export default function FormPago() {
   const handleSubmit = useCallback(async (param: IPaymentFormData, extra?: IAdditionalCardFormData | null) => {
     if (!multi) return;
 
-    try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_CARRERA_API}/participantes`, {
-        main: multi.registro['main-form'],
-        extra: multi.registro['extra-form'].people,
-        payment: param.formData
-      });
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
+    await multi.processDonacion({
+      main: multi.registro['main-form'],
+      extra: multi.registro['extra-form'].people,
+      payment: param.formData
+    })
+
   }, [multi])
-
-
-  if (!multi) return;
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('scrolling')
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 0)
   }, [])
+
+
 
   return (
     <Box>
@@ -62,6 +56,8 @@ export default function FormPago() {
           },
           payer: {
             email: multi?.registro['main-form'].correo,
+            firstName: multi?.registro['main-form'].nombre,
+            lastName: multi?.registro['main-form'].apellido
           }
         }}
         locale='es-MX'

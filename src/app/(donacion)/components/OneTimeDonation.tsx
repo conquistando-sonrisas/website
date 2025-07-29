@@ -15,6 +15,7 @@ initMercadoPago(process.env.NEXT_PUBLIC_DONACION_UNICA_PUBLIC_KEY)
 export default function OneTimeDonation(props: { amount: number, fees: number }) {
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  // TODO: Refactor with DonacionResponse
   const [paymentId, setPaymentId] = useState('');
   const [threeDsInfo, setThreeDsInfo] = useState<{ externalResourceURL: string, creq: string } | null>(null);
 
@@ -90,10 +91,11 @@ export default function OneTimeDonation(props: { amount: number, fees: number })
 }
 
 
-const OneTimeDonationStatus = ({ paymentId, threeDsInfo }: { paymentId: string, threeDsInfo: { externalResourceURL: string, creq: string } | null }) => {
+export const OneTimeDonationStatus = ({ paymentId, threeDsInfo, }: { paymentId: string, threeDsInfo: { externalResourceURL: string, creq: string } | null,  }) => {
   return (
-    <Box maxWidth='500px' mx='auto'>
+    <Box maxWidth='500px' mx='auto' minWidth='500px'>
       <StatusScreen
+        locale="es-MX"
         initialization={{
           paymentId,
           ...(threeDsInfo !== null && {
@@ -107,4 +109,12 @@ const OneTimeDonationStatus = ({ paymentId, threeDsInfo }: { paymentId: string, 
     </Box>
 
   )
+}
+
+export interface DonacionResponse {
+  paymentId: string;
+  threeDsInfo: {
+    externalResourceURL: string,
+    creq: string
+  } | null
 }

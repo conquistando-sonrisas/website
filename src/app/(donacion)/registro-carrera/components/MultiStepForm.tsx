@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Box, Button, Grid2, Paper, Step, StepLabel, Stepper, Typography } from "@mui/material"
+import { Alert, AlertTitle, Backdrop, Box, Button, CircularProgress, Grid2, Paper, Step, StepLabel, Stepper, Typography } from "@mui/material"
 import FormRegistro from "./RegistroForm"
 import { ReactNode, useCallback, useContext, useState } from "react"
 import FormRegistroExtra from "./RegistroExtraForm"
@@ -11,42 +11,20 @@ import Image from "next/image"
 import { VolunteerActivism } from "@mui/icons-material"
 import { IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
 import TerminosParticipacionForm from "./TerminosParticipacionForm"
+import { DonacionResponse, OneTimeDonationStatus } from "../../components/OneTimeDonation"
+import DonacionStatusScreen from "../../components/DonacionStatusScreen"
+import { initMercadoPago } from "@mercadopago/sdk-react"
 
 
-
+initMercadoPago(process.env.NEXT_PUBLIC_REGISTRO_CARRERA_PUBLIC_KEY)
 export default function RegistroMultiStepForm() {
 
   return (
     <Grid2 container size={12} columnSpacing={2} rowSpacing={2}>
-      <Grid2 size={{ xs: 12, md: 6.5 }} order={{ xs: 1, md: 2 }}>
-        <Box component={Paper} px={{ xs: 1, md: 2 }} py={3} bgcolor='conquiLightBlue.50'>
-          <Typography fontSize={24} fontWeight={500} my={2} textAlign='center'>Registro Carrera 5K</Typography>
-          <MultiStepFormProvider>
-            <MultiStep />
-          </MultiStepFormProvider>
-        </Box>
-      </Grid2>
-      <Grid2
-        size={{ xs: 12, md: 5.5 }}
-        order={{ xs: 2, md: 1 }}
-        justifyContent='center'
-        position='relative'
-        minHeight='500px'
-        maxHeight='650px'
-      >
-        <Image
-          unoptimized
-          src={'https://cms.conquistandosonrisas.org/uploads/POSTER_Mesa_de_trabajo_1_1_6cc013345c.webp'}
-          alt=""
-          layout='fill'
-          sizes="(min-width: 768px ) 100vw"
-          style={{
-            borderRadius: '5px',
-            objectFit: 'contain',
-            objectPosition: 'center top'
-          }}
-        />
-      </Grid2>
+      <MultiStepFormProvider>
+        <MultiStep />
+      </MultiStepFormProvider>
+
     </Grid2>
   )
 }
@@ -60,46 +38,101 @@ function MultiStep() {
 
   const { activeStep, handlePrev } = multi;
 
+  if (multi.errorMessage) {
+    return (<Alert severity="error">
+      <AlertTitle color="inherit">Hubo un error al procesar registro</AlertTitle>
+      {multi.errorMessage}
+    </Alert>)
+  }
+
   return (
     <>
-      <Stepper activeStep={multi.activeStep} alternativeLabel>
-        <Step>
-          <StepLabel>Registro</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel
-            optional={<Typography variant="caption">Opcional</Typography>}
-          >Extra</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel style={{ wordBreak: 'break-word' }}>Términos de participación</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Pago</StepLabel>
-        </Step>
-      </Stepper>
+      <Backdrop
+        sx={theme => ({
+          color: 'whitesmoke',
+          zIndex: theme.zIndex.drawer + 1
+        })}
+        open={multi.loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
 
-      <Box minHeight='450px' height='max-content' pt={2} pb={3}>
-        <StepContent step={multi.activeStep} />
-      </Box>
+      {
+        multi.donacionResponse ? (
+          <OneTimeDonationStatus
+            paymentId={multi.donacionResponse.paymentId}
+            threeDsInfo={multi.donacionResponse.threeDsInfo}
+          />
+        ) : (
+          <>
+            <Grid2 size={{ xs: 12, md: 6.5 }} order={{ xs: 1, md: 2 }}>
+              <Box component={Paper} px={{ xs: 1, md: 2 }} py={3} bgcolor='conquiLightBlue.50'>
+                <Typography fontSize={24} fontWeight={500} my={2} textAlign='center'>Registro Carrera 5K</Typography>
+                <Stepper activeStep={multi.activeStep} alternativeLabel>
+                  <Step>
+                    <StepLabel>Registro</StepLabel>
+                  </Step>
+                  <Step>
+                    <StepLabel
+                      optional={<Typography variant="caption">Opcional</Typography>}
+                    >Extra</StepLabel>
+                  </Step>
+                  <Step>
+                    <StepLabel style={{ wordBreak: 'break-word' }}>Términos de participación</StepLabel>
+                  </Step>
+                  <Step>
+                    <StepLabel>Pago</StepLabel>
+                  </Step>
+                </Stepper>
 
-      <Box display='flex' justifyContent='space-between' mt={1}>
-        <Button
-          disabled={activeStep == 0}
-          variant='outlined'
-          onClick={handlePrev}>Atrás</Button>
-        <Button
-          type='submit'
-          data-cy='button-submit'
-          form={
-            activeStep == 0 ? 'main-form'
-              : activeStep == 1 ? 'extra-form'
-                : activeStep == 2 ? 'terminos-form'
-                  : ''
-          }
-          disabled={activeStep == 3}
-          variant="contained">Siguiente</Button>
-      </Box >
+                <Box minHeight='450px' height='max-content' pt={2} pb={3}>
+                  <StepContent step={multi.activeStep} />
+                </Box>
+
+                <Box display='flex' justifyContent='space-between' mt={1}>
+                  <Button
+                    disabled={activeStep == 0}
+                    variant='outlined'
+                    onClick={handlePrev}>Atrás</Button>
+                  <Button
+                    type='submit'
+                    data-cy='button-submit'
+                    form={
+                      activeStep == 0 ? 'main-form'
+                        : activeStep == 1 ? 'extra-form'
+                          : activeStep == 2 ? 'terminos-form'
+                            : ''
+                    }
+                    disabled={activeStep == 3}
+                    variant="contained">Siguiente</Button>
+                </Box >
+              </Box>
+            </Grid2>
+
+            <Grid2
+              size={{ xs: 12, md: 5.5 }}
+              order={{ xs: 2, md: 1 }}
+              justifyContent='center'
+              position='relative'
+              maxHeight='650px'
+            >
+              <Image
+                unoptimized
+                src={'https://cms.conquistandosonrisas.org/uploads/POSTER_Mesa_de_trabajo_1_1_6cc013345c.webp'}
+                alt=""
+                layout='fill'
+                sizes="(min-width: 768px ) 100vw"
+                style={{
+                  borderRadius: '5px',
+                  objectFit: 'contain',
+                  objectPosition: 'center top',
+                  minHeight: '600px'
+                }}
+              />
+            </Grid2>
+          </>
+        )
+      }
     </>
   )
 }
