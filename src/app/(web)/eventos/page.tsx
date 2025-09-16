@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nosotros | Conquistando Sonrisas A.C.",
+  title: "Eventos | Conquistando Sonrisas A.C.",
   description: "Descubre cuales son nuestros próximos eventos y cómo puedes ayudar"
 };
 

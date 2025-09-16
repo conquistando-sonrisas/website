@@ -13,7 +13,7 @@ const ShareableLinksComponent = dynamic(() => import("../components/ShareableLin
 
 
 export const revalidate = 86_400
-export const dynamicParams = false
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const eventosReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/eventos?fields[0]=nombre`);
