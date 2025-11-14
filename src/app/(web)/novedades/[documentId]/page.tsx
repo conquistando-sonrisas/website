@@ -1,0 +1,147 @@
+import { Box, Container, Typography } from "@mui/material";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Image from "next/image";
+import { Metadata, ResolvingMetadata } from "next";
+import { Novedad, StrapiPaginatedResponse, WithDocumentIdPathParam } from "@/app/(web)/app";
+import { NovedadCredits } from "../components/NovedadCards";
+import qs from 'qs';
+
+
+export const revalidate = 86_400
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  const novedadesReq = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades?fields[0]=titulo`);
+  const novedades = await novedadesReq.json() as StrapiPaginatedResponse<Novedad>;
+  return novedades.data.map(n => ({ documentId: n.documentId }));
+}
+
+export default async function NovedadPage({ params }: WithDocumentIdPathParam) {
+
+  const { documentId } = await params;
+
+  // TODO: Throw error if documentId is not present
+  if (!documentId) {
+    return (
+      <main>
+        not found
+      </main>
+    )
+  }
+
+  // TODO: handle error when novedad is not published or not found
+  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?populate=*`);
+  const data = await req.json();
+  const novedad = data.data as Novedad;
+
+  return (
+    <main style={{ minHeight: '100vh' }}>
+      <Box display='flex' justifyContent={'center'} flexDirection='column'>
+        <Box display='flex' justifyContent='center' position='relative'>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover?.url}`}
+            width={1200}
+            height={600}
+            alt=''
+            unoptimized
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center center'
+            }} />
+        </Box>
+        <Container
+          sx={{
+            mt: -15,
+            zIndex: 10,
+            position: 'relative',
+          }}
+          maxWidth='md'
+        >
+
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: '#fbfdfe',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            py: 3,
+            textAlign: 'center',
+            px: 1
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <Typography variant="h1" fontSize='2.2em' px={1} fontWeight={500}>{novedad.titulo}</Typography>
+              <NovedadCredits autor={novedad.autor} publishedAt={novedad.publishedAt} />
+            </div>
+          </Box>
+          <Container maxWidth='md' sx={{ backgroundColor: '#fbfdfe', py: { xs: 1, md: 5 }, px: 2, mb: 4 }} >
+            <MDXRemote
+              source={novedad.contenido}
+              components={{
+                p: (props) => (<Typography {...props} mb={2}>{props.children}</Typography>),
+                img: (props) => (
+                  <Box component='span' position='relative' display='flex' justifyContent='center' flexDirection='column'>
+                    <Image
+                      src={`${props.src.startsWith('http') ? props.src : `${process.env.NEXT_PUBLIC_STATIC_CONTENT}${props.src}`}`}
+                      alt={props.alt || ''}
+                      unoptimized
+                      width={800}
+                      height={450}
+                      style={{
+                        display: 'block',
+                        objectFit: 'contain',
+                        width: 'auto',
+                        height: '100%',
+                        maxHeight: '450px'
+                      }}
+                    />
+                    {props.title && (
+                      <Typography textAlign='center' display='block' mt={1} variant="caption">{props.title}</Typography>
+                    )}
+                  </Box>
+                ),
+              }}
+            />
+          </Container>
+        </Container>
+      </Box>
+    </main>
+  )
+}
+
+
+// TODO: handle errors
+export async function generateMetadata(
+  { params }: WithDocumentIdPathParam,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { documentId } = await params;
+
+  const novedadParams = qs.stringify({
+    fields: ['titulo', 'resumen', 'autor'],
+    populate: ['cover']
+  }, { encodeValuesOnly: true })
+
+  const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_API}/novedades/${documentId}?${novedadParams}`);
+  const res = await req.json();
+  const novedad = res.data as Novedad;
+  const prevImages = (await parent)?.openGraph?.images || []
+  const image = {
+    url: `${process.env.NEXT_PUBLIC_STATIC_CONTENT}${novedad.cover.formats.small.url}`,
+    width: novedad.cover.formats.small.width,
+    height: novedad.cover.formats.small.height
+  };
+
+  return {
+    title: novedad.titulo,
+    authors: [{
+      name: novedad.autor,
+    }],
+    openGraph: {
+      description: novedad.resumen,
+      images: [...prevImages, {
+        ...image
+      }]
+    }
+  }
+}
