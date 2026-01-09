@@ -1,7 +1,7 @@
-import { Alert, AlertTitle, Box, Button, Container } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Container, Typography } from '@mui/material';
 import { Frequency, WithSearchParams } from '@/app/(web)/app';
 import { MercadoPagoPayment } from '../components/MercadoPagoPayment';
-
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 
 export default async function CheckoutDonacion(props: WithSearchParams) {
@@ -40,7 +40,12 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
   return (
     <Box component='main' sx={{ minHeight: '85vh' }}>
       <Container sx={{ py: 4 }}>
-        <MercadoPagoPayment amount={_amount} fees={fees} frequency={frequency as Frequency} />
+        <Box borderRadius={1} bgcolor={'#f1f7fc'} p={3} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+          <ConstructionIcon sx={{ fontSize: 60, color: 'primary.main', my: 3 }} />
+          <Typography fontSize={24} textAlign={'center'} mb={3}>
+            Por el momento, las donaciones no están disponibles. Estamos trabajando para habilitarlas nuevamente lo más pronto posible.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   )
