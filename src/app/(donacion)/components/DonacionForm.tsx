@@ -10,12 +10,12 @@ import { NumericFormat } from 'react-number-format'
 
 const donationDefaultValues = {
   monthly: '250',
-  oneTime: '250',
+  'one-time': '300',
   custom: ''
 }
 
 export default function DonacionForm(props: { elevation?: number, width?: number | string }) {
-  const [frequency, setFrequency] = useState<Frequency>('oneTime');
+  const [frequency, setFrequency] = useState<Frequency>('one-time');
   const [donation, setDonation] = useState(donationDefaultValues)
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
 
     setDonation({
       monthly: '',
-      oneTime: '',
+      'one-time': '',
       custom: value
     })
   }, []);
@@ -41,11 +41,11 @@ export default function DonacionForm(props: { elevation?: number, width?: number
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const { custom, monthly, oneTime } = donation;
+    const { custom, monthly, "one-time": oneTime } = donation;
     let donationAmount = 0;
     if (custom) {
       donationAmount = parseFloat(custom)
-    } else if ((frequency === 'oneTime') && oneTime !== '') {
+    } else if ((frequency === 'one-time') && oneTime !== '') {
       donationAmount = parseFloat(oneTime);
     } else if ((frequency === 'monthly') && monthly !== '') {
       donationAmount = parseFloat(monthly);
@@ -56,7 +56,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       return;
     }
 
-    if (frequency === 'oneTime' && donationAmount < 30) {
+    if (frequency === 'one-time' && donationAmount < 30) {
       setErrorMessage('Ingresa un monto mayor o igual a 30 pesos, por favor')
       return;
     }
@@ -71,7 +71,7 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       return;
     }
 
-    router.push(`/checkout?amount=${donationAmount}&frequency=${frequency}`)
+    router.push(`/donar/checkout?frequency=${frequency}&amount=${donationAmount}`)
   }, [donation, frequency]);
 
 
@@ -99,16 +99,16 @@ export default function DonacionForm(props: { elevation?: number, width?: number
       <Stack rowGap={3}>
         <TabContext value={frequency}>
           <Tabs value={frequency} onChange={(_, newValue) => setFrequency(newValue)} variant="fullWidth">
-            <StyledTab label='Una vez' value='oneTime' id='tipo-donacion-una-vez' />
+            <StyledTab label='Una vez' value='one-time' id='tipo-donacion-una-vez' />
             <StyledTab label='Mensual' value='monthly' id='tipo-donacion-mensual' />
           </Tabs>
-          <TabPanel value='oneTime' sx={{ p: 0, m: 0 }}>
+          <TabPanel value='one-time' sx={{ p: 0, m: 0 }}>
             <CantidadDonacionGroup
-              name='oneTime'
+              name='one-time'
               disabled={!!donation.custom}
-              onChange={(newValue) => handleFrequencyChange('oneTime', newValue)}
-              value={donation.oneTime}
-              donationValues={['100', '250', '400', '500']}
+              onChange={(newValue) => handleFrequencyChange('one-time', newValue)}
+              value={donation['one-time']}
+              donationValues={['100', '300', '500', '1000']}
             />
           </TabPanel>
           <TabPanel color="conquiDarkBlue" value='monthly' sx={{ p: 0, m: 0 }}>
