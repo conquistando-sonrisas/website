@@ -1,7 +1,6 @@
-import { Alert, AlertTitle, Box, Button, Container, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Container } from '@mui/material';
 import { Frequency, WithSearchParams } from '@/app/(web)/app';
-import { MercadoPagoPayment } from '../components/MercadoPagoPayment';
-import ConstructionIcon from '@mui/icons-material/Construction';
+import MultistepDonacionForm from '../../components/MultistepDonacionForm';
 
 
 export default async function CheckoutDonacion(props: WithSearchParams) {
@@ -16,7 +15,7 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
     </Box>)
   }
 
-  if (typeof frequency === 'string' && (frequency !== 'oneTime' && frequency !== 'monthly')) {
+  if (typeof frequency === 'string' && (frequency !== 'one-time' && frequency !== 'monthly')) {
     return (<Box minHeight='85vh' component={Container} pt={3}>
       <Alert severity='error'>
         <AlertTitle color='inherit'>Error</AlertTitle>
@@ -39,13 +38,12 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
 
   return (
     <Box component='main' sx={{ minHeight: '85vh' }}>
-      <Container sx={{ py: 4 }}>
-        <Box borderRadius={1} bgcolor={'#f1f7fc'} p={3} display={'flex'} alignItems={'center'} flexDirection={'column'}>
-          <ConstructionIcon sx={{ fontSize: 60, color: 'primary.main', my: 3 }} />
-          <Typography fontSize={24} textAlign={'center'} mb={3}>
-            Por el momento, las donaciones no están disponibles. Estamos trabajando para habilitarlas nuevamente lo más pronto posible.
-          </Typography>
-        </Box>
+      <Container sx={{ py: 4, justifyContent: 'center' }} >
+        <MultistepDonacionForm
+          fees={fees}
+          amount={_amount}
+          frequency={frequency.toString() as Frequency}
+        />
       </Container>
     </Box>
   )
