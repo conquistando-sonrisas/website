@@ -1,12 +1,31 @@
 'use client'
 
 import { PhoneNumberTextField } from "@/app/(web)/components/PhoneNumberTextField"
-import { Autocomplete, Checkbox, Collapse, FormControlLabel, Grid2, TextField } from "@mui/material"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Autocomplete, Box, Checkbox, Collapse, FormControlLabel, Grid2, TextField } from "@mui/material"
+import { useCallback, useEffect } from "react"
 import { Controller, FormProvider, useForm, useFormContext, useWatch } from "react-hook-form"
+import { boolean, object, string } from "yup"
+import { useStepper } from "./StepperFormContext"
+import { useDonacionContext } from "./DonacionContext"
 
+export type DonadorFormType = {
+  nombre: string,
+  apellido: string,
+  correo: string,
+  telefono: string,
+  requiresFactura: boolean,
+  rfc: string,
+  domicilio: string,
+  regimenFiscal: { codigo: string, regimen: string } | null;
+  usoCfdi: { codigo: string, uso: string } | null
+}
 
 export default function DonadorForm() {
-  const methods = useForm({
+  const stepper = useStepper();
+  const donacionMethods = useDonacionContext();
+
+  const methods = useForm<DonadorFormType>({
     defaultValues: {
       nombre: '',
       apellido: '',
@@ -17,16 +36,47 @@ export default function DonadorForm() {
       domicilio: '',
       regimenFiscal: null,
       usoCfdi: null
-    }
+    },
+    resolver: yupResolver(donadorSchema)
   })
+
+  if (!stepper) {
+    throw new Error('Use Stepper Context Provider');
+  }
+
+  if (!donacionMethods) {
+    throw new Error('Use Donacion Context Provider');
+  }
 
   const { control } = methods;
 
   const requiresFactura = useWatch({ name: 'requiresFactura', control })
 
+  const toContext = useCallback((data: DonadorFormType) => {
+    donacionMethods.saveDonador(data)
+    stepper.handleNext()
+  }, [])
+
+  useEffect(() => {
+    if (!donacionMethods) return;
+
+    const { donador } = donacionMethods;
+    if (!donador) return;
+
+    methods.reset(donador)
+  }, [])
+
   return (
-    <Grid2 container columnSpacing={2} rowSpacing={2.5} my={3}>
-      <FormProvider {...methods}>
+    <FormProvider {...methods}>
+      <Grid2
+        id='formulario-donador'
+        component='form'
+        onSubmit={methods.handleSubmit(toContext)}
+        container
+        columnSpacing={2}
+        rowSpacing={2.5}
+        my={3}
+      >
         <Grid2 size={{ xs: 6 }}>
           <Controller
             control={control}
@@ -82,7 +132,7 @@ export default function DonadorForm() {
             render={({ field, fieldState }) => (
               <PhoneNumberTextField
                 onChange={field.onChange}
-                value={field.value}
+                value={field.value || ''}
                 error={fieldState.error}
                 label="Teléfono"
                 helperText="Opcional"
@@ -110,8 +160,8 @@ export default function DonadorForm() {
         <Collapse in={requiresFactura} sx={{ width: '100%' }}>
           <FacturacionForm />
         </Collapse>
-      </FormProvider>
-    </Grid2>
+      </Grid2>
+    </FormProvider>
   )
 }
 
@@ -132,7 +182,7 @@ const FacturacionForm = () => {
     }]
   }]
 
-  const selectedRegimen = useWatch({ name: 'regimen', control })
+  const selectedRegimen = useWatch({ name: 'regimenFiscal', control })
   const usosCfdi = regimenesFiscales.find(regimen => {
     if (!selectedRegimen) return false;
     return regimen.codigo === selectedRegimen.codigo
@@ -144,6 +194,7 @@ const FacturacionForm = () => {
         <Controller
           control={control}
           name='rfc'
+          defaultValue={''}
           render={({ field, fieldState }) => (
             <TextField
               value={field.value}
@@ -176,7 +227,7 @@ const FacturacionForm = () => {
       <Grid2 size={{ xs: 6 }}>
         <Controller
           control={control}
-          name='regimen'
+          name='regimenFiscal'
           defaultValue={null}
           render={({ field, fieldState }) => (
             <Autocomplete
@@ -196,6 +247,8 @@ const FacturacionForm = () => {
                 <TextField
                   {...params}
                   label='Régimen fiscal'
+                  error={!!fieldState.error}
+                  helperText={fieldState.error ? fieldState.error.message : ''}
                   fullWidth />
               )}
             />
@@ -220,6 +273,8 @@ const FacturacionForm = () => {
                   {...params}
                   label='Uso de CFDI'
                   fullWidth
+                  error={!!fieldState.error}
+                  helperText={fieldState.error ? fieldState.error.message : ''}
                 />
               )}
             />
@@ -230,3 +285,33 @@ const FacturacionForm = () => {
     </Grid2>
   )
 }
+
+const donadorSchema = object({
+  nombre: string().required('Ingresa tu nombre, por favor'),
+  apellido: string().required('Ingresa tus apellidos, por favor'),
+  correo: string().email('Ingresa un correo válido, por favor').required('Ingresa tu correo, por favor'),
+  telefono: string().optional().default('').defined(),
+  requiresFactura: boolean().default(false).defined(),
+  rfc: string().default('').defined().when('requiresFactura', {
+    is: true,
+    then: schema => schema.required('Ingresa un valor válido, por favor')
+  }),
+  domicilio: string().default('').defined().when('requiresFactura', {
+    is: true,
+    then: schema => schema.required('Ingresa un valor válido, por favor')
+  }),
+  regimenFiscal: object({
+    codigo: string().default('').defined(),
+    regimen: string().default('').defined()
+  }).nullable().when('requiresFactura', {
+    is: true,
+    then: schema => schema.required('Selecciona un opción, por favor')
+  }),
+  usoCfdi: object({
+    codigo: string().default('').defined(),
+    uso: string().default('').defined()
+  }).nullable().when('requiresFactura', {
+    is: true,
+    then: schema => schema.required('Selecciona un opción, por favor')
+  })
+})

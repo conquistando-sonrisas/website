@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from "react";
+import { DonadorFormType } from "./DonadorForm";
 
 
 type DonacionContextValue = {
@@ -6,6 +7,8 @@ type DonacionContextValue = {
   acceptedFees: boolean;
   handleAcceptingFees: (accepted: boolean) => void;
   handleOnPaymentFormReady: (isReady: boolean) => void;
+  saveDonador: (donador: DonadorFormType) => void;
+  donador: DonadorFormType | null
 }
 
 export const DonacionContext = createContext<DonacionContextValue | null>(null)
@@ -23,6 +26,7 @@ export const DonacionProvider = ({ value, children }: { value: DonacionContextVa
 export const useDonacion = () => {
   const [isPaymentFormReady, setPaymentFormReady] = useState(false);
   const [acceptedFees, setAcceptedFees] = useState(false);
+  const [donador, setDonador] = useState<DonadorFormType | null>(null)
 
   const handleOnPaymentFormReady = useCallback((isReady: boolean) => {
     setPaymentFormReady(isReady);
@@ -32,11 +36,17 @@ export const useDonacion = () => {
     setAcceptedFees(accepted)
   }, []);
 
+  const saveDonador = useCallback((donador: DonadorFormType) => {
+    setDonador(donador)
+  }, [])
+
   return {
     isPaymentFormReady,
     acceptedFees,
     handleAcceptingFees,
-    handleOnPaymentFormReady
+    handleOnPaymentFormReady,
+    donador,
+    saveDonador
   }
 }
 
