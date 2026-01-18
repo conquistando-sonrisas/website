@@ -11,11 +11,13 @@ type PhoneNumberTextFieldProps = {
   value: string,
   onChange: (value: string) => void,
   error?: FieldError,
+  fullWidth?: boolean,
+  helperText?: string
 }
-export const PhoneNumberTextField = ({ label, value, onChange, error }: PhoneNumberTextFieldProps) => {
+export const PhoneNumberTextField = ({ label, value, onChange, error, fullWidth, helperText = '' }: PhoneNumberTextFieldProps) => {
 
   return (
-    <FormControl variant="outlined" error={!!error}>
+    <FormControl fullWidth={fullWidth} variant="outlined" error={!!error}>
       <InputLabel htmlFor='phone-number-text-input'>{label}</InputLabel>
       <OutlinedInput
         id='phone-number-text-input'
@@ -26,7 +28,7 @@ export const PhoneNumberTextField = ({ label, value, onChange, error }: PhoneNum
         onChange={(e) => onChange(e.target.value)}
         inputComponent={PhoneMask as any}
       />
-      <FormHelperText>{error ? error.message : ''}</FormHelperText>
+      <FormHelperText>{error ? error.message : helperText}</FormHelperText>
     </FormControl>
   )
 }
