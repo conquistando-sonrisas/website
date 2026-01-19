@@ -34,7 +34,8 @@ export default async function CheckoutDonacion(props: WithSearchParams) {
   }
 
   // se toma 2.89% de tarifas con base en documentacion de Mercado Libre Solidario https://www.mercadolibre.com.mx/ayuda/4942
-  const fees = (_amount / 0.966476) - _amount;
+  // y se redonde a dos decimas despues del punto
+  const fees = Math.round((((_amount / 0.966476) - _amount) + Number.EPSILON) * 100) / 100;
 
   return (
     <Box component='main' sx={{ minHeight: '85vh' }}>
