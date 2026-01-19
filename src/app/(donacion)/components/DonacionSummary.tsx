@@ -5,14 +5,14 @@ import { Box, Divider, Typography } from "@mui/material";
 import { useDonacionContext } from "./DonacionContext";
 
 
-const DonacionSummary = ({ amount, fees, frequency }: { amount: number, frequency: Frequency, fees: number }) => {
+const DonacionSummary = ({ frequency }: { frequency: Frequency }) => {
   const donacionMethods = useDonacionContext();
 
   if (!donacionMethods) {
     throw new Error('Use Donacion Context Provider')
   }
 
-  const { acceptedFees } = donacionMethods;
+  const { acceptedFees, amount, fees } = donacionMethods;
 
   return (
     <Box sx={{ backgroundColor: '#f1f7fc', p: 2, borderRadius: 2, maxWidth: '400px' }}>
@@ -36,13 +36,13 @@ const DonacionSummary = ({ amount, fees, frequency }: { amount: number, frequenc
       <Box display={'flex'}>
         <Typography variant="body2">Cargos de transferencia</Typography>
         <Typography ml='auto'>{
-          Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', }).format(acceptedFees ? fees : 0)
+          Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', }).format(fees)
         }</Typography>
       </Box>
       <Divider sx={{ my: 1.5 }} />
       <Box display={'flex'}>
         <Typography fontWeight={600}>Total</Typography>
-        <Typography fontWeight={600}ml='auto'>{
+        <Typography fontWeight={600} ml='auto'>{
           Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', }).format(acceptedFees ? fees + amount : amount)
         }</Typography>
       </Box>

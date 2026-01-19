@@ -2,22 +2,37 @@
 
 import { Frequency } from "@/app/(web)/app";
 import { IPaymentBrickCustomization } from "@mercadopago/sdk-react/esm/bricks/payment/type";
-import dynamic from "next/dynamic"
 import RecurrentDonation from "./RecurrentDonation";
 import OneTimeDonation from "./OneTimeDonation";
 import { Box } from "@mui/material";
+import { memo } from "react";
+import { useDonacionContext } from "./DonacionContext";
 import { CoverFees } from "./CoverFees";
 
+const MemoizedOneTimeDonation = memo(({ amount, handleOnReady }: { amount: number, handleOnReady: (ready: boolean) => void }) => {
+  return <OneTimeDonation amount={amount} handleOnReady={handleOnReady} />
+})
 
 
-export const MercadoPagoPayment = ({ frequency, amount, fees }: { frequency: Frequency, amount: number, fees: number }) => {
+export const MercadoPagoPayment = ({ frequency }: { frequency: Frequency }) => {
+  const methods = useDonacionContext();
+
+  if (!methods) {
+    throw new Error('Use Donacion Context Provider');
+  }
+
+  const { amount, handleOnPaymentFormReady } = methods;
+
   const DonationPayment = frequency === 'monthly'
-    ? <RecurrentDonation amount={amount} fees={fees} />
-    : <OneTimeDonation amount={amount} fees={fees} />;
+    ? <RecurrentDonation amount={amount} />
+    : <MemoizedOneTimeDonation amount={amount} handleOnReady={handleOnPaymentFormReady} />;
 
   return (
-    <Box>
+    <Box
+      minHeight={'350px'}
+    >
       {DonationPayment}
+      <CoverFees />
     </Box>
   )
 }

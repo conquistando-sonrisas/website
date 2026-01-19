@@ -1,21 +1,23 @@
 'use client'
 
-import { Box, Button, Grid2, Paper, Step, StepLabel, Stepper } from "@mui/material";
+import { Alert, Box, Button, Grid2, Paper, Snackbar, Step, StepLabel, Stepper } from "@mui/material";
 import { MercadoPagoPayment } from "./MercadoPagoPayment";
 import DonacionSummary from "./DonacionSummary";
 import { Frequency } from "@/app/(web)/app";
 import DonadorForm from "./DonadorForm";
 import { DonacionProvider, useDonacion, useDonacionContext } from "./DonacionContext";
 import { StepperProvider, useStepper } from "./StepperFormContext";
+import { Favorite } from "@mui/icons-material";
+import { useState } from "react";
 
 
 export default function MultistepDonacionForm({ amount, fees, frequency }: { frequency: Frequency, amount: number, fees: number }) {
-  const donacionMethods = useDonacion();
+  const donacionMethods = useDonacion({ amount, fees });
 
   return (
     <StepperProvider totalSteps={2}>
       <DonacionProvider value={{ ...donacionMethods }}>
-        <MultistepContent amount={amount} fees={fees} frequency={frequency} />
+        <MultistepContent amount={amount} frequency={frequency} />
       </DonacionProvider>
     </StepperProvider>
 
@@ -24,9 +26,10 @@ export default function MultistepDonacionForm({ amount, fees, frequency }: { fre
 
 
 
-const MultistepContent = ({ amount, fees, frequency }: { frequency: Frequency, amount: number, fees: number }) => {
+const MultistepContent = ({ amount, frequency }: { frequency: Frequency, amount: number }) => {
   const stepper = useStepper();
   const donacionMethods = useDonacionContext();
+  const [errorMessageOnSubmit, setErrorMessageOnSubmit] = useState('')
 
   if (!stepper) {
     throw new Error('Use Stepper Context Provider');
@@ -37,6 +40,16 @@ const MultistepContent = ({ amount, fees, frequency }: { frequency: Frequency, a
   }
 
   const { activeStep, handlePrev } = stepper;
+
+  const handleOnDonacionClick = async () => {
+    const cardFormData = await (window as any)?.paymentBrickController.getFormData()
+    if (!cardFormData.formData) {
+      setErrorMessageOnSubmit('Ingresa los datos del medio de pago, por favor')
+      return;
+    }
+
+    console.log('card form data', cardFormData)
+  }
 
   return (
     <Grid2 container rowSpacing={2} justifyContent='space-evenly' maxWidth={{ xs: '400px', md: '100%' }}>
@@ -61,10 +74,17 @@ const MultistepContent = ({ amount, fees, frequency }: { frequency: Frequency, a
             <StepLabel>Método de pago</StepLabel>
           </Step>
         </Stepper>
+        <Snackbar
+          open={!!errorMessageOnSubmit}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          onClose={() => setErrorMessageOnSubmit('')}>
+          <Alert severity="error">
+            {errorMessageOnSubmit}
+          </Alert>
+        </Snackbar>
         <DonacionStepContent
           step={activeStep}
-          amount={amount}
-          fees={fees}
           frequency={frequency}
         />
         <Box display={'flex'} justifyContent={'space-between'}>
@@ -82,7 +102,8 @@ const MultistepContent = ({ amount, fees, frequency }: { frequency: Frequency, a
               <Button
                 disabled={!donacionMethods.isPaymentFormReady}
                 variant="contained"
-                size="large"
+                onClick={handleOnDonacionClick}
+                endIcon={<Favorite />}
                 sx={{
                   textTransform: 'none',
                 }}>
@@ -103,23 +124,22 @@ const MultistepContent = ({ amount, fees, frequency }: { frequency: Frequency, a
       </Grid2>
       <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 2 }}>
         <DonacionSummary
-          amount={amount}
-          fees={fees}
           frequency={frequency}
         />
       </Grid2>
+
     </Grid2>
   )
 }
 
 
-const DonacionStepContent = ({ step, amount, fees, frequency }: { step: number, amount: number, fees: number, frequency: Frequency }) => {
+const DonacionStepContent = ({ step, frequency }: { step: number, frequency: Frequency }) => {
 
   switch (step) {
     case 0:
       return <DonadorForm />
     case 1:
-      return <MercadoPagoPayment amount={amount} fees={fees} frequency={frequency} />
+      return <MercadoPagoPayment frequency={frequency} />
     default:
       return null;
   }
