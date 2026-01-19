@@ -75,7 +75,8 @@ export default function DonadorForm() {
         container
         columnSpacing={2}
         rowSpacing={2.5}
-        my={3}
+        mt={2}
+        height={'334px'}
       >
         <Grid2 size={{ xs: 6 }}>
           <Controller
@@ -147,9 +148,11 @@ export default function DonadorForm() {
           <Controller
             control={control}
             name='requiresFactura'
+            defaultValue={false}
             render={({ field, fieldState }) => (
               <FormControlLabel
                 value={field.value}
+                checked={!!field.value}
                 onChange={field.onChange}
                 control={<Checkbox />}
                 label='¿Necesitas factura?'
