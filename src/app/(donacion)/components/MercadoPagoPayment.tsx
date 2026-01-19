@@ -5,12 +5,18 @@ import { IPaymentBrickCustomization } from "@mercadopago/sdk-react/esm/bricks/pa
 import RecurrentDonation from "./RecurrentDonation";
 import OneTimeDonation from "./OneTimeDonation";
 import { Box } from "@mui/material";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useDonacionContext } from "./DonacionContext";
 import { CoverFees } from "./CoverFees";
+import { Payment } from "@mercadopago/sdk-react";
 
-const MemoizedOneTimeDonation = memo(({ amount, handleOnReady }: { amount: number, handleOnReady: (ready: boolean) => void }) => {
-  return <OneTimeDonation amount={amount} handleOnReady={handleOnReady} />
+const MemoizedOneTimeDonation = memo(({ amount, handleOnReady, donadorEmail }: { donadorEmail: string, amount: number, handleOnReady: (ready: boolean) => void }) => {
+  return <OneTimeDonation amount={amount} handleOnReady={handleOnReady}  donadorEmail={donadorEmail} />
+})
+
+const MemoizedRecurrentDonation = memo(({ amount, handleOnReady, donadorEmail }: { donadorEmail: string, amount: number, handleOnReady: (ready: boolean) => void }) => {
+  return <RecurrentDonation amount={amount} handleOnReady={handleOnReady}  donadorEmail={donadorEmail} />
+
 })
 
 
@@ -21,17 +27,29 @@ export const MercadoPagoPayment = ({ frequency }: { frequency: Frequency }) => {
     throw new Error('Use Donacion Context Provider');
   }
 
-  const { amount, handleOnPaymentFormReady } = methods;
+  const { amount, handleOnPaymentFormReady, donador } = methods;
+
+  if (!donador) {
+    throw new Error('Fill donador form');
+  }
 
   const DonationPayment = frequency === 'monthly'
-    ? <RecurrentDonation amount={amount} />
-    : <MemoizedOneTimeDonation amount={amount} handleOnReady={handleOnPaymentFormReady} />;
+    ? <MemoizedRecurrentDonation
+      amount={amount}
+      handleOnReady={handleOnPaymentFormReady} 
+      donadorEmail={donador.correo}
+      />
+    : <MemoizedOneTimeDonation
+      amount={amount}
+      handleOnReady={handleOnPaymentFormReady}
+      donadorEmail={donador.correo}
+    />;
 
   return (
-    <Box
-      minHeight={'350px'}
-    >
-      {DonationPayment}
+    <Box>
+      <Box minHeight={'256px'}>
+        {DonationPayment}
+      </Box>
       <CoverFees />
     </Box>
   )
@@ -42,6 +60,7 @@ export const paymentBrickCustomization: IPaymentBrickCustomization = {
   visual: {
     hidePaymentButton: true,
     hideFormTitle: true,
+
     texts: {
       formSubmit: 'Donar'
     } as any,

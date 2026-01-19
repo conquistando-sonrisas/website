@@ -76,9 +76,9 @@ export default function DonadorForm() {
         columnSpacing={2}
         rowSpacing={2.5}
         mt={2}
-        height={'334px'}
+        minHeight={'334px'}
       >
-        <Grid2 size={{ xs: 6 }}>
+        <Grid2 size={{ xs: 6 }} >
           <Controller
             control={control}
             name='nombre'
@@ -276,6 +276,7 @@ const FacturacionForm = () => {
                   {...params}
                   label='Uso de CFDI'
                   fullWidth
+                  sx={{ mb: 2 }}
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
                 />

@@ -10,7 +10,7 @@ import { conquiApi } from '@/app/utlis/swr'
 import { isAxiosError } from "axios";
 
 
-export default function OneTimeDonation(props: { amount: number, handleOnReady: (ready: boolean) => void }) {
+export default function OneTimeDonation(props: { donadorEmail: string, amount: number, handleOnReady: (ready: boolean) => void }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
@@ -50,10 +50,6 @@ export default function OneTimeDonation(props: { amount: number, handleOnReady: 
     )
   }
 
-  useEffect(() => {
-    return () => props.handleOnReady(false)
-  }, [])
-
   return (
     <>
       <Backdrop
@@ -75,6 +71,9 @@ export default function OneTimeDonation(props: { amount: number, handleOnReady: 
           <Payment
             initialization={{
               amount: props.amount,
+              payer: {
+                email: props.donadorEmail,
+              }
             }}
             onSubmit={handleSubmit}
             customization={paymentBrickCustomization}

@@ -5,21 +5,17 @@ import { ReactNode, useCallback, useEffect, useState } from "react"
 import DonacionSummary from "./DonacionSummary"
 import { Alert, AlertTitle, Backdrop, Box, Button, CircularProgress, Divider, Grid2, Icon, Stack, TextField, Typography } from "@mui/material"
 import { IPaymentFormData } from "@mercadopago/sdk-react/esm/bricks/payment/type"
-import { paymentBrickCustomization } from "./MercadoPagoPayment"
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { grey } from "@mui/material/colors"
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import TodayIcon from '@mui/icons-material/Today';
 import Link from "next/link"
-import { useWindowSize } from '@react-hook/window-size/throttled'
-import ReactConfetti from 'react-confetti'
 import { conquiApi } from "@/app/utlis/swr"
 import { isAxiosError } from "axios"
+import { paymentBrickCustomization } from "./MercadoPagoPayment"
 
-
-
-initMercadoPago(process.env.NEXT_PUBLIC_DONACION_RECURRENTE_PUBLIC_KEY)
-export default function RecurrentDonation(props: { amount: number, fees: number }) {
+initMercadoPago(process.env.NEXT_PUBLIC_DONACION_RECURRENTE_PUBLIC_KEY);
+export default function RecurrentDonation({ amount, handleOnReady, donadorEmail }: {donadorEmail: string, amount: number, handleOnReady: (ready: boolean) => void }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [suscriptionRes, setSuscriptionRes] = useState<MonthlyResponseType | null>();
@@ -63,6 +59,11 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
     )
   }
 
+  useEffect(() => {
+    return () => handleOnReady(false)
+  }, [])
+
+
   return (
     <>
       <Backdrop
@@ -74,30 +75,23 @@ export default function RecurrentDonation(props: { amount: number, fees: number 
       >
         <CircularProgress color='inherit' />
       </Backdrop>
-      <Grid2 container spacing={2}>
-        {
-          suscriptionRes ? (
-            <RecurrentDonationStatus suscriptionRes={suscriptionRes} />
-          ) : (
-            <>
-              <Grid2 size={{ xs: 12, md: 7 }} order={{ xs: 2, md: 1 }}>
-                <Box>
-                  <Payment
-                    initialization={{
-                      amount: props.amount + props.fees,
-                    }}
-                    customization={paymentBrickCustomization}
-                    onSubmit={handleSubmit}
-                  />
-                </Box>
-              </Grid2>
-              <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 1, md: 2 }}>
-                <DonacionSummary amount={props.amount} fees={props.fees} frequency='monthly' />
-              </Grid2>
-            </>
-          )
-        }
-      </Grid2 >
+      {
+        suscriptionRes ? (
+          <RecurrentDonationStatus suscriptionRes={suscriptionRes} />
+        ) : (
+          <Payment
+            initialization={{
+              amount: amount,
+              payer: {
+                email: donadorEmail
+              }
+            }}
+            onSubmit={handleSubmit}
+            customization={paymentBrickCustomization}
+            onReady={() => handleOnReady(true)}
+          />
+        )
+      }
     </>
   )
 }

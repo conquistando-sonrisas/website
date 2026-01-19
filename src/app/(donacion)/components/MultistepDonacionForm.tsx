@@ -49,6 +49,7 @@ const MultistepContent = ({ amount, frequency }: { frequency: Frequency, amount:
     }
 
     console.log('card form data', cardFormData)
+    console.log(donacionMethods)
   }
 
   return (

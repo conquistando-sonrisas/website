@@ -28,7 +28,7 @@ export const DonacionProvider = ({ value, children }: { value: DonacionContextVa
 
 export const useDonacion = ({ amount, fees }: { amount: number, fees: number }) => {
   const [isPaymentFormReady, setPaymentFormReady] = useState(false);
-  const [acceptedFees, setAcceptedFees] = useState(false);
+  const [acceptedFees, setAcceptedFees] = useState(true);
   const [donador, setDonador] = useState<DonadorFormType | null>(null)
   const { update } = usePaymentBrick();
 
