@@ -9,27 +9,25 @@ import { usePaymentBrick } from "@mercadopago/sdk-react";
 
 export const CoverFees = () => {
   const donacionMethods = useDonacionContext();
-  const { update } = usePaymentBrick();
 
   if (!donacionMethods) {
     throw new Error('Use Donacion Context Provider');
   }
 
-  const { handleAcceptingFees, acceptedFees } = donacionMethods;
+  const { handleAcceptingFees, acceptedFees, isPaymentFormReady } = donacionMethods;
 
   const handleCheck = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     handleAcceptingFees(e.currentTarget.checked);
-    update({ amount: 100 })
   }, []);
 
   return (
-    <Fade in={donacionMethods.isPaymentFormReady} timeout={{
+    <Fade in={isPaymentFormReady} timeout={{
       enter: 800
     }}>
       <Box
         bgcolor={'conquiYellow.light'}
         color={'conquiDarkBlue.light'}
-        my={{ xs: 1, md: 2 }}
+        mb={2}
         mx={{ md: 4 }}
         p={1}
         borderRadius={2}>
